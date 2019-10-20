@@ -14,12 +14,29 @@ const registerUser = (request, response) => {
     bcrypt.hash(plainTextPass, saltRounds, function(err, hash) {
         pool.query('INSERT INTO users (username, hash) VALUES ($1, $2)', [username, hash], (error, results) => {
             if(error){
-                response.status(400).send('Failed to add Task');
+                response.status(400).send('User could not be registered');
                 throw error;
             }
-            response.status(201).send('Task added');
-        })
+            response.status(201).send('User registered');
+        });
     });
+};
 
-
-}
+const checkUser = (request, response) => {
+    const {id, plainTextPass} = request.body;
+    let hash;
+    pool.query('SELECT hash FROM users WHERE user_id = $1', [id], (error, results) => {
+        if(error){
+            response.status(404).send('User could not be found');
+            throw error;
+        }
+        hash = results.rows;
+    });
+    bcrypt.compare(plainTextPass, hash, function(err, res) {
+        if (res) {
+            response.status(200).send('User authenticated');
+        } else {
+            response.status(422).send('User authentication failed')
+        }
+    });
+};
