@@ -6,7 +6,7 @@ const saltRounds = 10;
 
 const pool = new Pool({
     connectionString: connectionString,
-    ssl: true,
+    ssl: false,
 });
 
 const registerUser = (request, response) => {
@@ -23,8 +23,10 @@ const registerUser = (request, response) => {
 };
 
 const checkUser = (request, response) => {
-    const {id, plainTextPass} = request.body;
+    const id = request.params.id;
+    const plainTextPass = request.params.plainTextPass;
     let hash;
+    response.status(200).send('User authenticated');
     pool.query('SELECT hash FROM users WHERE user_id = $1', [id], (error, results) => {
         if(error){
             response.status(404).send('User could not be found');
@@ -39,4 +41,9 @@ const checkUser = (request, response) => {
             response.status(422).send('User authentication failed')
         }
     });
+};
+
+module.exports = {
+    registerUser,
+    checkUser,
 };
