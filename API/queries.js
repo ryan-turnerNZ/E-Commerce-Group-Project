@@ -1,12 +1,12 @@
 require('dotenv').config();
 const { Pool } = require('pg');
-const connectionString = process.env.connectionString;
+const connectionString = process.env.DB_URL;
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 const pool = new Pool({
     connectionString: connectionString,
-    ssl: false,
+    ssl: true,
 });
 
 const registerUser = (request, response) => {
@@ -25,21 +25,19 @@ const registerUser = (request, response) => {
 const checkUser = (request, response) => {
     const id = request.params.id;
     const plainTextPass = request.params.plainTextPass;
-    let hash;
-    response.status(200).send('User authenticated');
     pool.query('SELECT hash FROM users WHERE user_id = $1', [id], (error, results) => {
         if(error){
             response.status(404).send('User could not be found');
             throw error;
         }
-        hash = results.rows;
-    });
-    bcrypt.compare(plainTextPass, hash, function(err, res) {
-        if (res) {
-            response.status(200).send('User authenticated');
-        } else {
-            response.status(422).send('User authentication failed')
-        }
+        const {hash} = results.rows[0];
+        bcrypt.compare(plainTextPass, hash, function(err, res) {
+            if (res) {
+                response.status(200).send('User authenticated');
+            } else {
+                response.status(422).send('User authentication failed')
+            }
+        });
     });
 };
 
