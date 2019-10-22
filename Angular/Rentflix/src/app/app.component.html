@@ -3,11 +3,10 @@
     <div class="collapse navbar-collapse"
          id="navcol-1">
       <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item" role="presentation"><a class="nav-link active" href="app-home">Home</a></li>
-        <li class="nav-item" role="presentation"><a class="nav-link" href="./app/pages/catalog/catalog.component.html">Catalog</a></li>
-        <li class="nav-item" role="presentation"><a class="nav-link" href="shopping-cart.html">Shopping Cart</a></li>
-        <li class="nav-item" role="presentation"><a class="nav-link" href="contact-us.html">Contact Us</a></li>
-        <li class="nav-item" role="presentation"><a class="nav-link" href="login.html">Login</a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link active" href="/">Home</a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link" href="/catalog">Catalog</a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link" href="/cart">Shopping Cart</a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link" href="/login">Login</a></li>
       </ul>
     </div>
   </div>
@@ -15,7 +14,9 @@
 <!--
 Router here
 -->
-<router-outlet></router-outlet>
+<router-outlet>
+  <nav></nav>
+</router-outlet>
 <!--
 
 -->
