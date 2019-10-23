@@ -11,6 +11,10 @@ import { PaymentComponent } from './pages/payment/payment.component';
 import { ProductComponent } from './pages/product/product.component';
 import { CatalogComponent } from './pages/catalog/catalog.component';
 
+import {ReactiveFormsModule, FormsModule} from '@angular/forms';
+
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +28,10 @@ import { CatalogComponent } from './pages/catalog/catalog.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

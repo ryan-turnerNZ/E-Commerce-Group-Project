@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="341300a5-63e2-405a-acdf-0b11257fb0fb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/services/login_service/login-service.service.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/services/login_service/login-service.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/app.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/login/login.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/services/login_service/login-service.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/services/login_service/login-service.service.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -49,6 +49,11 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Ryan\Desktop\UNI\3rdYear\NWEN304\rentFlix\Angular\Rentflix\src\app\services\login_service" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -80,7 +85,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571706596076</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Starting to create login validation">
+      <created>1571829763750</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1571829763750</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -88,6 +100,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Check User and Register User now tested and working" />
-    <option name="LAST_COMMIT_MESSAGE" value="Check User and Register User now tested and working" />
+    <MESSAGE value="Starting to create login validation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Starting to create login validation" />
   </component>
 </project>
