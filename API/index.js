@@ -17,7 +17,7 @@ app.get('/', function (req, res) {
     res.send('Rent FLix API');
 });
 
-app.get('/authenticateUser/:id/:plainTextPass', db.checkUser);
+app.get('/authenticateUser/:username/:plainTextPass', db.checkUser);
 app.post('/user', db.registerUser);
 
 app.listen(port, function () {

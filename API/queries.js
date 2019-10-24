@@ -23,13 +23,14 @@ const registerUser = (request, response) => {
 };
 
 const checkUser = (request, response) => {
-    const id = request.params.id;
+    const username = request.params.username;
     const plainTextPass = request.params.plainTextPass;
-    pool.query('SELECT hash FROM users WHERE user_id = $1', [id], (error, results) => {
+    pool.query('SELECT id, hash FROM users WHERE username = $1', [username], (error, results) => {
         if(error){
             response.status(404).send('User could not be found');
             throw error;
         }
+        console.log(results.rows[0]);
         const {hash} = results.rows[0];
         bcrypt.compare(plainTextPass, hash, function(err, res) {
             if (res) {
