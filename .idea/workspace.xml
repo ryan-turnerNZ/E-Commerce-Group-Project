@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="341300a5-63e2-405a-acdf-0b11257fb0fb" name="Default Changelist" comment="Renamed Login Service">
+    <list default="true" id="341300a5-63e2-405a-acdf-0b11257fb0fb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/app-routing.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/login/login.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/services/login-service/login.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/services/login-service/login.service.ts" afterDir="false" />
     </list>
@@ -72,7 +73,7 @@
       <updated>1571703532743</updated>
       <workItem from="1571703533836" duration="4847000" />
       <workItem from="1571886370350" duration="4732000" />
-      <workItem from="1571971806030" duration="2794000" />
+      <workItem from="1571971806030" duration="3541000" />
     </task>
     <task id="LOCAL-00001" summary="Check User and Register User now tested and working">
       <created>1571706596076</created>
@@ -88,7 +89,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571829763750</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Connection to api works for success. Error catching crashes currently">
+      <created>1571974753036</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1571974753036</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -111,6 +119,7 @@
     <MESSAGE value="Check User and Register User now tested and working" />
     <MESSAGE value="Starting to create login validation" />
     <MESSAGE value="Renamed Login Service" />
-    <option name="LAST_COMMIT_MESSAGE" value="Renamed Login Service" />
+    <MESSAGE value="Connection to api works for success. Error catching crashes currently" />
+    <option name="LAST_COMMIT_MESSAGE" value="Connection to api works for success. Error catching crashes currently" />
   </component>
 </project>

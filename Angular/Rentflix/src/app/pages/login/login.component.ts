@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {LoginService} from '../../services/login-service/login.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private loginService: LoginService) {
+  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private router: Router) {
     this.loginForm = formBuilder.group({
       username: '',
       password: '',
@@ -24,9 +25,9 @@ export class LoginComponent implements OnInit {
   onLogin(value: {username: string, password: string}) {
     this.loginService.getAuthentication(value.username, value.password).then(res => {
       res.subscribe(data => {
-        console.log(data);
         if (data > 0) {
-          console.log('Logging in');
+          this.loginService.setLoggedInUser((data as number));
+          this.router.navigate(['/home']);
         } else {
           console.log('Invalid Login');
         }
