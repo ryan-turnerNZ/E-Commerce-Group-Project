@@ -4,15 +4,13 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService{
+export class LoginService {
 
   constructor(private http: HttpClient) {
 
   }
 
-  async authenticateLogin(username, password) {
-    this.http.get('https://dashboard.heroku.com/apps/rent-flix/username/password').subscribe(data => {
-      console.log(data);
-    });
+  async getAuthentication(username, password) {
+    return this.http.get('http://rent-flix-api.herokuapp.com/authenticateuser/' + username + '/' + password);
   }
 }

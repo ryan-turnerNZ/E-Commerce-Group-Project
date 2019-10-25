@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {LoginService} from '../../services/login-service/login.service';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,15 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(value: {username: string, password: string}) {
-    console.log(value);
+    this.loginService.getAuthentication(value.username, value.password).then(res => {
+      res.subscribe(data => {
+        console.log(data);
+        if (data > 0) {
+          console.log('Logging in');
+        } else {
+          console.log('Invalid Login');
+        }
+      });
+    });
   }
 }
