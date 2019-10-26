@@ -1,29 +1,53 @@
-import { Component, OnInit } from '@angular/core';
-import { TMDBService } from '../../services/tmdb-service/tmdb.service';
-
+import { Component, OnInit } from "@angular/core";
+import { TMDBService } from "../../services/tmdb-service/tmdb.service";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit {
   newReleases: any[];
+  popular: any[];
 
-  constructor(private TMDBService: TMDBService,) { }
+  constructor(private TMDBService: TMDBService) {}
 
   ngOnInit() {
     this.TMDBService.discoverNewest();
     this.TMDBService.discoverPopular();
   }
 
+  /* Returns a list of four new releases to display
+   * on the landing page of our site
+   */
   public getNewReleases() {
-    if(this.TMDBService.getNewest()) {
-      this.newReleases = this.TMDBService.getNewest().slice(0,4)
+    if (this.TMDBService.getNewest()) {
+      this.newReleases = this.TMDBService.getNewest().slice(0, 4);
     }
-
     // remove any results that have no poster
-    if (this.newReleases) return this.newReleases.filter(t => t.poster_path != null);
+    if (this.newReleases)
+      return this.newReleases.filter(t => t.poster_path != null);
   }
 
+  /* Returns a list of four popular films to display
+   * on the landing page of our site
+   */
+  public getPopular() {
+    if (this.TMDBService.getPopular()) {
+      this.popular = this.TMDBService.getPopular().slice(0, 4);
+    }
+    // remove any results that have no poster
+    if (this.popular) return this.popular.filter(t => t.poster_path != null);
+  }
+
+  /* Determines an arbitrary price for a given movie,
+   * based on the release date of said movie
+   */
+  public getPrice(date) {
+    var year = date.substring(0, 4);
+    console.log(year);
+    if (year >= 2019) return "$8.99";
+    else if (year <= 2018 && year > 2015) return "$5.99";
+    return "$3.99";
+  }
 }
