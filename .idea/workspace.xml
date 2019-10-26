@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="341300a5-63e2-405a-acdf-0b11257fb0fb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/team4rentflix.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/login/login.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/services/login-service/login.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/services/login-service/login.service.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,7 +12,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/API" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="ProjectConfigurationFiles">
@@ -24,8 +22,10 @@
         <option value="$PROJECT_DIR$/.idea/misc.xml" />
         <option value="$PROJECT_DIR$/.idea/modules.xml" />
         <option value="$PROJECT_DIR$/.idea/vcs.xml" />
-        <option value="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-        <option value="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
+        <option value="$PROJECT_DIR$/.idea/team4rentflix.iml" />
+        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/.idea/misc.xml" />
+        <option value="$PROJECT_DIR$/.idea/modules.xml" />
       </list>
     </option>
   </component>
@@ -34,7 +34,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="editor.config.ad.shown" value="true" />
-    <property name="javascript.nodejs.core.library.configured.version" value="10.15.3" />
+    <property name="javascript.nodejs.core.library.configured.version" value="12.8.1" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
@@ -74,6 +74,7 @@
       <workItem from="1571703533836" duration="4847000" />
       <workItem from="1571886370350" duration="4732000" />
       <workItem from="1571971806030" duration="3541000" />
+      <workItem from="1572044630924" duration="286000" />
     </task>
     <task id="LOCAL-00001" summary="Check User and Register User now tested and working">
       <created>1571706596076</created>
