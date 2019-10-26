@@ -10,19 +10,21 @@ export class ProductComponent implements OnInit {
   private id;
   private activatedRoute;
 
-  constructor(
-    activatedRoute: ActivatedRoute,
-     router:Router) { 
-   
+  constructor(private Activatedroute: ActivatedRoute) {
 
   }
 sub;
-  
+
 
   ngOnInit() {
-    this.activatedRoute.paramMap.subscribe(params => { 
-      this.id = params.get('id'); 
-  });
+    this.sub = this.Activatedroute.paramMap.subscribe(params => {
+      console.log(params);
+      this.id = params.get('id');
+    });
+  }
+
+  OnDestroy() {
+    this.sub.unsubscribe();
   }
 
 }
