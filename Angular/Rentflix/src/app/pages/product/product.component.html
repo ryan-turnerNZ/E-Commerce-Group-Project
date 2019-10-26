@@ -28,23 +28,15 @@
           </div>
         </div>
         <div class="product-info">
-          <div>
-            <ul class="nav nav-tabs" id="myTab">
-              <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" id="reviews-tab" href="#reviews">Reviews</a></li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
-              <div class="active fade show reviews" role="tabpanel" id="reviews">
-
-                <div class="reviews" *ngFor="let reviews of getReview()">
+          <h2 style="margin-bottom: 2rem">Reviews</h2>
+                <div class="reviews" *ngFor="let r of getReview()">
                   <div class="review-item">
                     <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-empty.svg"></div>
-                    <h4>hello</h4><span class="text-muted"><a href="#">John Smith</a>, 20 Jan 2018</span>
-                    <p> {{reviews?.id}}</p>
+                    <h4>hello</h4><span class="text-muted">{{r?.author}}</span>
+                    <p> {{r?.content |slice:0:100}}.......</p>
+                    <p><a href="{{r?.url}}">Read the full review here</a></p>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
         </div>
         <div class="clean-related-items">
           <h3>Related Products</h3>

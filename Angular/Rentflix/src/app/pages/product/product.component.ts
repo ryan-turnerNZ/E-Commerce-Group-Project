@@ -37,10 +37,10 @@ export class ProductComponent implements OnInit {
 
   getReview() {
     if (this.TMDBService.getReviews()) {
-      this.reviews = this.TMDBService.getReviews();
-      console.log('test')
-      console.log(this.reviews);
+      this.reviews = this.TMDBService.getReviews().slice(0,3);
     }
+    if (this.reviews) return this.reviews;
+
   }
 
 }

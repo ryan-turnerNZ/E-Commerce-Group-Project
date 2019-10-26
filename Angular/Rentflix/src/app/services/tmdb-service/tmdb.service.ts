@@ -88,7 +88,7 @@ export class TMDBService {
         response => {
           const responseBody = JSON.parse(response);
           console.log(responseBody);
-          this.reviews = responseBody;
+          this.reviews = responseBody.results;
         },
         err => {
           console.log(err);
