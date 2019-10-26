@@ -8,14 +8,17 @@ export class TMDBService {
   private apiKey = "a3a2f627df576a24a77620f55e7d04e2";
   private apiDiscover = `https://api.themoviedb.org/3/discover/movie`;
   private apiGenres = `https://api.themoviedb.org/3/genre/tv/list?api_key=${this.apiKey}&language=en-US`;
+  private apiDetails  = `https://api.themoviedb.org/3/movie`;
   private newest;
   private popular;
+  private movie;
   private genres;
 
   constructor(private http: HttpClient) {}
 
   public getNewest = () => this.newest;
   public getPopular = () => this.popular;
+  public getMovie = () => this.movie;
   public getGenresList = () => this.genres;
 
   /* Gets the latest movies from TMDB
@@ -56,6 +59,24 @@ export class TMDBService {
           console.log(err);
         }
       );
+  }
+
+  public getMovieFromID(id) {
+    this.http
+    .get(
+      `${this.apiDetails}/${id}?api_key=${this.apiKey}`,
+      { responseType: "text" }
+    )
+    .subscribe(
+      response => {
+        const responseBody = JSON.parse(response);
+        console.log(responseBody);
+        this.movie = responseBody;
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   // public getGenres() {

@@ -15,7 +15,7 @@
       <div class="movie-display-col" *ngFor="let movie of getNewReleases()">
         <div class="clean-product-item">
           <div class="image"><a><img class="img-fluid d-block mx-auto" [routerLink]="['/product', movie.id]" src="{{'https://image.tmdb.org/t/p/w500'+movie.poster_path}}"></a></div>
-          <div class="product-name"><a href="#">{{ movie.title }}</a></div>
+          <div class="product-name" >{{ movie?.title }}</div>
           <div class="about">
             <div class="rating"><img src="../../../assets/img/star.svg"><img src="../../../assets/img/star.svg"><img src="../../../assets/img/star.svg"><img src="../../../assets/img/star-half-empty.svg"><img src="../../../assets/img/star-empty.svg"></div>
             <div class="price">
@@ -35,8 +35,8 @@
     <div class="movie-display-row" style="height: 286px;" >
         <div class="movie-display-col" *ngFor="let movie of getPopular()">
           <div class="clean-product-item">
-            <div class="image"><a href="#"><img class="img-fluid d-block mx-auto" src="{{'https://image.tmdb.org/t/p/w500'+movie.poster_path}}"></a></div>
-            <div class="product-name"><a href="#">{{ movie.title }}</a></div>
+            <div class="image"><img class="img-fluid d-block mx-auto" [routerLink]="['/product', movie.id]" src="{{'https://image.tmdb.org/t/p/w500'+movie.poster_path}}"></div>
+            <div class="product-name"><a href="#">{{ movie?.title }}</a></div>
             <div class="about">
               <div class="rating"><img src="../../../assets/img/star.svg"><img src="../../../assets/img/star.svg"><img src="../../../assets/img/star.svg"><img src="../../../assets/img/star-half-empty.svg"><img src="../../../assets/img/star-empty.svg"></div>
               <div class="price">
