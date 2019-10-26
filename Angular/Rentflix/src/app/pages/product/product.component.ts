@@ -1,18 +1,18 @@
-import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { TMDBService } from "../../services/tmdb-service/tmdb.service";
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { TMDBService } from '../../services/tmdb-service/tmdb.service';
 
 
 @Component({
-  selector: "app-product",
-  templateUrl: "./product.component.html",
-  styleUrls: ["./product.component.scss"]
+  selector: 'app-product',
+  templateUrl: './product.component.html',
+  styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
   private id;
   private activatedRoute;
   private movie;
-  
+  reviews: any[];
 
   constructor(private Activatedroute: ActivatedRoute, private TMDBService: TMDBService) {}
 
@@ -20,10 +20,11 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {
     this.sub = this.Activatedroute.paramMap.subscribe(params => {
-      this.id = params.get("id");
+      this.id = params.get('id');
     });
     this.TMDBService.getMovieFromID(this.id);
-    
+    this.TMDBService.getMovieReviews(this.id);
+
   }
 
   OnDestroy() {
@@ -32,6 +33,14 @@ export class ProductComponent implements OnInit {
 
   getMovie() {
     return this.TMDBService.getMovie();
+  }
+
+  getReview() {
+    if (this.TMDBService.getReviews()) {
+      this.reviews = this.TMDBService.getReviews();
+      console.log('test')
+      console.log(this.reviews);
+    }
   }
 
 }

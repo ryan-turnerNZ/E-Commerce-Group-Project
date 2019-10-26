@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class TMDBService {
-  private apiKey = "a3a2f627df576a24a77620f55e7d04e2";
+  private apiKey = 'a3a2f627df576a24a77620f55e7d04e2';
   private apiDiscover = `https://api.themoviedb.org/3/discover/movie`;
   private apiGenres = `https://api.themoviedb.org/3/genre/tv/list?api_key=${this.apiKey}&language=en-US`;
   private apiDetails  = `https://api.themoviedb.org/3/movie`;
@@ -13,21 +13,21 @@ export class TMDBService {
   private popular;
   private movie;
   private genres;
-
+  private reviews;
   constructor(private http: HttpClient) {}
 
   public getNewest = () => this.newest;
   public getPopular = () => this.popular;
   public getMovie = () => this.movie;
+  public getReviews = () => this.reviews;
   public getGenresList = () => this.genres;
-
   /* Gets the latest movies from TMDB
   to display on the landing page */
-  public discoverNewest(sort_by = "date.asc") {
+  public discoverNewest(sort_by = 'date.asc') {
     this.http
       .get(
         `${this.apiDiscover}?api_key=${this.apiKey}&sort_by=${sort_by}&language=en-US`,
-        { responseType: "text" }
+        { responseType: 'text' }
       )
       .subscribe(
         response => {
@@ -43,11 +43,11 @@ export class TMDBService {
 
   /* Gets the most popular movies from TMDB
   to display on the landing page */
-  public discoverPopular(sort_by = "popularity.desc") {
+  public discoverPopular(sort_by = 'popularity.desc') {
     this.http
       .get(
         `${this.apiDiscover}?api_key=${this.apiKey}&sort_by=${sort_by}&language=en-US`,
-        { responseType: "text" }
+        { responseType: 'text' }
       )
       .subscribe(
         response => {
@@ -65,7 +65,7 @@ export class TMDBService {
     this.http
     .get(
       `${this.apiDetails}/${id}?api_key=${this.apiKey}`,
-      { responseType: "text" }
+      { responseType: 'text' }
     )
     .subscribe(
       response => {
@@ -78,7 +78,23 @@ export class TMDBService {
       }
     );
   }
-
+  public getMovieReviews(id) {
+    this.http
+      .get(
+        `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${this.apiKey}`,
+        { responseType: 'text' }
+      )
+      .subscribe(
+        response => {
+          const responseBody = JSON.parse(response);
+          console.log(responseBody);
+          this.reviews = responseBody;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
   // public getGenres() {
   //   this.http.get(this.apiGenres, { responseType: 'text' })
   //   .subscribe(response => {
