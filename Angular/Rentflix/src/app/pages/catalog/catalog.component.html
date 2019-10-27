@@ -4,7 +4,7 @@
          id="navcol-1">
       <ul class="nav navbar-nav ml-auto">
         <li class="nav-item" role="presentation"><a class="nav-link" href="/">Home</a></li>
-        <li class="nav-item" role="presentation"><a class="nav-link active" href="/catalog">Catalog</a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link active" href="/catalog/page/1">Catalog</a></li>
         <li class="nav-item" role="presentation"><a class="nav-link" href="/cart">Shopping Cart</a></li>
         <!-- add an if statement arount this link for login, exchange with a profile pages/myorders page-->
         <li class="nav-item" role="presentation"><a class="nav-link" href="/login">Login</a></li>
@@ -74,14 +74,14 @@
           <div class="col-md-9">
             <div class="products">
               <div class="row no-gutters">
-                <div class="col-12 col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4" *ngFor="let item of displayResults(this.page)">
                   <div class="clean-product-item">
-                    <div class="image"><a href="#"><img class="img-fluid d-block mx-auto" src="assets/img/tech/image2.jpg"></a></div>
-                    <div class="product-name"><a href="#">Lorem ipsum dolor sit amet</a></div>
+                    <div class="image"><a><img class="img-fluid d-block mx-auto" [routerLink]="['/product', item.id]" src="{{'https://image.tmdb.org/t/p/w500'+item.poster_path}}"></a></div>
+                    <div class="product-name"><a href="#">{{item?.title}}</a></div>
                     <div class="about">
                       <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-half-empty.svg"><img src="assets/img/star-empty.svg"></div>
                       <div class="price">
-                        <h3>$100</h3>
+                        <h3>{{getPrice(item.release_date)}}</h3>
                       </div>
                     </div>
                   </div>
@@ -90,11 +90,19 @@
               </div>
               <nav>
                 <ul class="pagination">
-                  <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                  <ng-container *ngIf="page == 1">
+                    <li class="page-item disabled"><a class="page-link"  aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                  </ng-container>
+                  <ng-container *ngIf="page > 1">
+                    <li class="page-item "><a class="page-link"  [routerLink]="['/catalog/page',page-1]" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                  </ng-container>
+                  <li class="page-item " *ngFor="let page of getPages()"><a class="page-link" [routerLink]="['/catalog/page', page]">{{page}}</a></li>
+                  <ng-container *ngIf="page == maxpage">
+                  <li class="page-item disabled"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                  </ng-container>
+                  <ng-container *ngIf="page < maxpage">
+                    <li class="page-item "><a class="page-link" [routerLink]="['/catalog/page',page+1]" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                  </ng-container>
                 </ul>
               </nav>
             </div>
