@@ -14,13 +14,16 @@ export class TMDBService {
   private movie;
   private genres;
   private reviews;
+  private related;
   constructor(private http: HttpClient) {}
 
   public getNewest = () => this.newest;
   public getPopular = () => this.popular;
   public getMovie = () => this.movie;
   public getReviews = () => this.reviews;
+  public getRelated = () => this.related;
   public getGenresList = () => this.genres;
+
   /* Gets the latest movies from TMDB
   to display on the landing page */
   public discoverNewest(sort_by = 'date.asc') {
@@ -78,6 +81,7 @@ export class TMDBService {
       }
     );
   }
+
   public getMovieReviews(id) {
     this.http
       .get(
@@ -95,6 +99,26 @@ export class TMDBService {
         }
       );
   }
+
+  public getRelatedMovies(id) {
+    this.http
+      .get(
+        `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${this.apiKey}`,
+        { responseType: 'text' }
+      )
+      .subscribe(
+        response => {
+          const responseBody = JSON.parse(response);
+          console.log(responseBody);
+          this.related = responseBody.results;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
+
   // public getGenres() {
   //   this.http.get(this.apiGenres, { responseType: 'text' })
   //   .subscribe(response => {
