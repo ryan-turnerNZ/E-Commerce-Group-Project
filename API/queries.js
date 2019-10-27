@@ -1,13 +1,22 @@
 require('dotenv').config();
 const { Pool } = require('pg');
-const connectionString = process.env.DB_URL;
+const conString = process.env.DB_URL;
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
+
 const pool = new Pool({
-    connectionString: connectionString,
+    connectionString: conString,
     ssl: true,
 });
+
+const privateKey = fs.readFileSync('./private.pem', 'utf8');
+
+const generateLoginToken = (userId, next) => {
+    return jwt.sign({aud: userId}, privateKey, {algorithm: 'HS256'});
+};
 
 const registerUser = (request, response) => {
     const {username, plainTextPass} = request.body;
@@ -34,12 +43,15 @@ const checkUser = (request, response) => {
         const {hash} = results.rows[0];
         bcrypt.compare(plainTextPass, hash, function(err, res) {
             if (res) {
+                const token = generateLoginToken(1);
                 response.status(200).send('User authenticated');
             } else {
                 response.status(422).send('User authentication failed')
             }
         });
     });
+
+    console.log(token)
 };
 
 module.exports = {
