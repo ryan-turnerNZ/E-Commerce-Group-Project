@@ -12,7 +12,7 @@ import {ProductComponent} from './pages/product/product.component';
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
-  {path: 'catalog', component: CatalogComponent},
+  {path: 'catalog/page/:page', component: CatalogComponent},
   {path: 'cart', component: CartComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
