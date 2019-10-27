@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginService {
 
-  private loggedInUser = -1;
+  private userToken = '';
 
   constructor(private http: HttpClient) {
 
@@ -16,11 +16,11 @@ export class LoginService {
     return this.http.get('http://rent-flix-api.herokuapp.com/authenticateuser/' + username + '/' + password);
   }
 
-  setLoggedInUser(userId: number) {
-    this.loggedInUser = userId;
+  setLoggedInUser(token: string) {
+    this.userToken = token;
   }
 
-  getLoggedInUser(): number {
-    return this.loggedInUser;
+  getLoggedInUser(): string {
+    return this.userToken;
   }
 }
