@@ -14,7 +14,8 @@ export class CatalogComponent implements OnInit {
   count = 0;
   max = 20;
   limit = 9;
-  page = 0;
+  page = 0
+  maxpage = 0;
 
   constructor(private TMDBService: TMDBService,private Activatedroute: ActivatedRoute) {}
   sub;
@@ -72,11 +73,12 @@ export class CatalogComponent implements OnInit {
     }
     return temp.slice(results, this.limit + results);
   }
-  private numberOfPages(){
+  private numberOfPages() {
     const page = Math.floor(this.max / this.limit);
-    for(let i = 0; i < page; i ++){
+    for(let i = 0; i < page; i ++) {
       this.pagesarray.push(i + 1);
     }
+    this.maxpage = this.pagesarray[this.pagesarray.length - 1];
   }
   public getPages(){
     return this.pagesarray;
