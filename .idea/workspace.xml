@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="b24fd075-5069-40a7-b3ac-b3ce880dbc12" name="Default Changelist" comment="Integrating JWT">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/API/queries.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Angular/Rentflix/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/services/login-service/login.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/services/login-service/login.service.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,7 +15,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/API" />
     <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="ProjectId" id="1SuoXiUHSuXQz3bQNLjEVdzj2G3" />
@@ -57,7 +60,8 @@
       <workItem from="1571703533836" duration="5601000" />
       <workItem from="1572135411697" duration="161000" />
       <workItem from="1572135572777" duration="5838000" />
-      <workItem from="1572422884324" duration="259000" />
+      <workItem from="1572422884324" duration="4647000" />
+      <workItem from="1572427566424" duration="1035000" />
     </task>
     <task id="LOCAL-00001" summary="Check User and Register User now tested and working">
       <created>1571706596076</created>
@@ -84,7 +88,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

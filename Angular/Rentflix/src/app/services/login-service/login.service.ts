@@ -13,7 +13,7 @@ export class LoginService {
   }
 
   async getAuthentication(username, password) {
-    return this.http.get('http://rent-flix-api.herokuapp.com/authenticateuser/' + username + '/' + password);
+    return this.http.get('http://rent-flix-api.herokuapp.com/user/' + username + '/' + password);
   }
 
   setLoggedInUser(token: string) {

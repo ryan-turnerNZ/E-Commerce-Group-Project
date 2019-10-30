@@ -3,7 +3,6 @@ const { Pool } = require('pg');
 const conString = process.env.DB_URL;
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
@@ -31,17 +30,19 @@ const registerUser = (request, response) => {
 };
 
 const checkUser = (request, response) => {
+    console.log(conString);
     const username = request.params.username;
     const plainTextPass = request.params.plainTextPass;
-    pool.query('SELECT id, hash FROM users WHERE username = $1', [username], (error, results) => {
+    console.log(username);
+    pool.query('SELECT user_id, hash FROM users WHERE username = $1', [username], (error, results) => {
         if(error){
-            response.status(406).json({valid: false});
+            response.status(404).json({valid: false});
+            console.log(error)
         }
-        console.log(results.rows[0]);
-        const {hash} = results.rows[0];
+        const {user_id, hash} = results.rows[0];
         bcrypt.compare(plainTextPass, hash, function(err, res) {
             if (res) {
-                const token = generateLoginToken(1);
+                const token = generateLoginToken(user_id);
                 response.status(200).json({
                     token: token,
                     valid: true
