@@ -18,8 +18,19 @@ app.get('/', function (req, res) {
     res.send('Rent FLix API');
 });
 
-app.get('/authenticateUser/:username/:plainTextPass', db.checkUser);
+app.get('/user/:username/:plainTextPass', db.checkUser);
+app.get('/user/:id', db.getUserDetails);
 app.post('/user', db.registerUser);
+app.put('/user/:id', db.changeUserDetails);
+app.delete('/user/:id', db.deleteAccount);
+
+app.get('/cart/:id', db.getCart);
+app.post('/cart', db.addToCart);
+app.put('/cart/:id', db.updateCartItemAmount);
+app.delete('/cart/:id', db.removeFromCart);
+
+app.get('/orders/:user_id', db.getUserOrders);
+app.post('/orders', db.orderCart);
 
 app.listen(port, function () {
     console.log('Example app listening on port 8080!');

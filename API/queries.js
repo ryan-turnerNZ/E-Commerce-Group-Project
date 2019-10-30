@@ -14,7 +14,7 @@ const pool = new Pool({
 
 const privateKey = fs.readFileSync('./private.pem', 'utf8');
 
-const generateLoginToken = (userId, next) => {
+const generateLoginToken = (userId) => {
     return jwt.sign({aud: userId}, privateKey, {algorithm: 'HS256'});
 };
 
@@ -23,10 +23,9 @@ const registerUser = (request, response) => {
     bcrypt.hash(plainTextPass, saltRounds, function(err, hash) {
         pool.query('INSERT INTO users (username, hash) VALUES ($1, $2)', [username, hash], (error, results) => {
             if(error){
-                response.status(400).send('User could not be registered');
-                throw error;
+                response.status(400).json('User could not be registered');
             }
-            response.status(201).send('User registered');
+            response.status(201).json('User registered');
         });
     });
 };
@@ -36,25 +35,70 @@ const checkUser = (request, response) => {
     const plainTextPass = request.params.plainTextPass;
     pool.query('SELECT id, hash FROM users WHERE username = $1', [username], (error, results) => {
         if(error){
-            response.status(404).send('User could not be found');
-            throw error;
+            response.status(404).json({valid: false});
         }
         console.log(results.rows[0]);
         const {hash} = results.rows[0];
         bcrypt.compare(plainTextPass, hash, function(err, res) {
             if (res) {
                 const token = generateLoginToken(1);
-                response.status(200).send('User authenticated');
+                response.status(200).json({
+                    token: token,
+                    valid: true
+                });
             } else {
-                response.status(422).send('User authentication failed')
+                response.status(422).json({valid: false})
             }
         });
     });
+};
 
-    console.log(token)
+const addToCart = (request, reponse) => {
+
+};
+
+const removeFromCart = (request, reponse) => {
+
+};
+
+const updateCartItemAmount = (request, reponse) => {
+
+};
+
+const orderCart = (request, reponse) => {
+
+};
+
+const getUserOrders =(request, reposne) => {
+
+};
+
+const getUserDetails = (request, reponse) => {
+
+};
+
+const changeUserDetails = (request, reponse) => {
+
+};
+
+const deleteAccount = (request, reponse) => {
+
+};
+
+const getCart = (request, reponse) => {
+
 };
 
 module.exports = {
     registerUser,
     checkUser,
+    deleteAccount,
+    changeUserDetails,
+    getUserDetails,
+    getUserOrders,
+    orderCart,
+    updateCartItemAmount,
+    removeFromCart,
+    addToCart,
+    getCart,
 };
