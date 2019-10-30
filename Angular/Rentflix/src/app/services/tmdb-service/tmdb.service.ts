@@ -9,7 +9,7 @@ export class TMDBService {
   private apiDiscover = `https://api.themoviedb.org/3/discover/movie`;
   private apiGenres = `https://api.themoviedb.org/3/genre/tv/list?api_key=${this.apiKey}&language=en-US`;
   private apiDetails  = `https://api.themoviedb.org/3/movie`;
-  private newest;
+  private topRated;
   private popular;
   private movie;
   private genres;
@@ -17,7 +17,7 @@ export class TMDBService {
   private related;
   constructor(private http: HttpClient) {}
 
-  public getNewest = () => this.newest;
+  public getTopRated = () => this.topRated;
   public getPopular = () => this.popular;
   public getMovie = () => this.movie;
   public getReviews = () => this.reviews;
@@ -26,17 +26,17 @@ export class TMDBService {
 
   /* Gets the latest movies from TMDB
   to display on the landing page */
-  public discoverNewest(sort_by = 'date.asc') {
+  public discoverTopRated() {
     this.http
       .get(
-        `${this.apiDiscover}?api_key=${this.apiKey}&sort_by=${sort_by}&language=en-US`,
+        `${this.apiDetails}/top_rated?api_key=${this.apiKey}`,
         { responseType: 'text' }
       )
       .subscribe(
         response => {
           const responseBody = JSON.parse(response);
           console.log(responseBody);
-          this.newest = responseBody.results;
+          this.topRated = responseBody.results;
         },
         err => {
           console.log(err);

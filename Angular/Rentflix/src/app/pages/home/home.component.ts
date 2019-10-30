@@ -7,26 +7,26 @@ import { TMDBService } from "../../services/tmdb-service/tmdb.service";
   styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit {
-  newReleases: any[];
+  topRated: any[];
   popular: any[];
 
   constructor(private TMDBService: TMDBService) {}
 
   ngOnInit() {
-    this.TMDBService.discoverNewest();
+    this.TMDBService.discoverTopRated();
     this.TMDBService.discoverPopular();
   }
 
   /* Returns a list of four new releases to display
    * on the landing page of our site
    */
-  public getNewReleases() {
-    if (this.TMDBService.getNewest()) {
-      this.newReleases = this.TMDBService.getNewest().slice(0, 4);
+  public getTopRated() {
+    if (this.TMDBService.getTopRated()) {
+      this.topRated = this.TMDBService.getTopRated().slice(0, 4);
     }
     // remove any results that have no poster
-    if (this.newReleases)
-      return this.newReleases.filter(t => t.poster_path != null);
+    if (this.topRated)
+      return this.topRated.filter(t => t.poster_path != null);
   }
 
   /* Returns a list of four popular films to display

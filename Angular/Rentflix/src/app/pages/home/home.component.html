@@ -24,11 +24,11 @@
   <section class="clean-block clean-info dark" style="height: 477px;">
     <div class="container">
       <div class="block-heading">
-        <h2 class="text-info">New Releases</h2>
+        <h2 class="text-info">Trending</h2>
       </div>
     </div>
     <div class="movie-display-row" style="height: 286px;" >
-      <div class="movie-display-col" *ngFor="let movie of getNewReleases()">
+      <div class="movie-display-col" *ngFor="let movie of getPopular()">
         <div class="clean-product-item">
           <div class="image"><a><img class="img-fluid d-block mx-auto" [routerLink]="['/product', movie.id]" src="{{'https://image.tmdb.org/t/p/w500'+movie.poster_path}}"></a></div>
           <div class="product-name" >{{ movie?.title }}</div>
@@ -45,11 +45,11 @@
   <section class="clean-block clean-info dark" style="height: 477px;">
     <div class="container">
       <div class="block-heading">
-        <h2 class="text-info">Popular</h2>
+        <h2 class="text-info">Top Rated</h2>
       </div>
     </div>
     <div class="movie-display-row" style="height: 286px;" >
-        <div class="movie-display-col" *ngFor="let movie of getPopular()">
+        <div class="movie-display-col" *ngFor="let movie of getTopRated()">
           <div class="clean-product-item">
             <div class="image"><img class="img-fluid d-block mx-auto" [routerLink]="['/product', movie.id]" src="{{'https://image.tmdb.org/t/p/w500'+movie.poster_path}}"></div>
             <div class="product-name"><a href="#">{{ movie?.title }}</a></div>
