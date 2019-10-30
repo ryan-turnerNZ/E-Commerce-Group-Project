@@ -35,7 +35,7 @@ const checkUser = (request, response) => {
     const plainTextPass = request.params.plainTextPass;
     pool.query('SELECT id, hash FROM users WHERE username = $1', [username], (error, results) => {
         if(error){
-            response.status(404).json({valid: false});
+            response.status(406).json({valid: false});
         }
         console.log(results.rows[0]);
         const {hash} = results.rows[0];
