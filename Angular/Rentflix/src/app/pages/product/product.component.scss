@@ -8,3 +8,8 @@
     margin-left: 80px;
     margin-top:20px;
 }
+
+.clean-navbar.fixed-top+.page {
+    padding-top: 0em !important;
+}
+

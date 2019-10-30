@@ -54,7 +54,18 @@
             <div class="image"><img class="img-fluid d-block mx-auto" [routerLink]="['/product', movie.id]" src="{{'https://image.tmdb.org/t/p/w500'+movie.poster_path}}"></div>
             <div class="product-name"><a href="#">{{ movie?.title }}</a></div>
             <div class="about">
-              <div class="rating"><img src="../../../assets/img/star.svg"><img src="../../../assets/img/star.svg"><img src="../../../assets/img/star.svg"><img src="../../../assets/img/star-half-empty.svg"><img src="../../../assets/img/star-empty.svg"></div>
+              <div class="rating">
+     
+                  <img [src]="movie.vote_average >= 2 ? '../../../assets/img/star.svg' : movie.vote_average >= 1 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                  <img [src]="movie.vote_average >= 4 ? '../../../assets/img/star.svg' : movie.vote_average >= 3 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                  <img [src]="movie.vote_average >= 6 ? '../../../assets/img/star.svg' : movie.vote_average >= 5 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                  <img [src]="movie.vote_average >= 8 ? '../../../assets/img/star.svg' : movie.vote_average >= 7 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                  <img [src]="movie.vote_average >= 10 ? '../../../assets/img/star.svg' : movie.vote_average >= 9 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+
+
+             
+               
+                </div>
               <div class="price">
                 <h3>{{ getPrice(movie.release_date) }}</h3>
               </div>
