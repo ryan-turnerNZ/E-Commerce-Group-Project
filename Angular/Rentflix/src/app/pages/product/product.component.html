@@ -32,8 +32,8 @@
                 <h3>{{ getMovie()?.title }}</h3>
                 <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-half-empty.svg"><img src="assets/img/star-empty.svg"></div>
                 <div class="price">
-                  <h3>$300.00</h3>
-                </div><button class="btn btn-primary" type="button"><i class="icon-basket"></i>Add to Cart</button>
+                  <h3>{{getPrice(getMovie()?.release_date)}}</h3>
+                </div><button class="btn btn-primary" type="button" (click)="additemToCart()"><i class="icon-basket"></i>Add to Cart</button>
                 <div class="summary">
                   <p>{{ getMovie()?.overview }}</p>
                 </div>

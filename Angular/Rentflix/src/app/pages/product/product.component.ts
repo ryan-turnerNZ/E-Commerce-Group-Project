@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TMDBService } from '../../services/tmdb-service/tmdb.service';
-
+import {CrudServiceService} from '../../services/crud-service/crud-service.service';
+import {LoginService} from '../../services/login-service/login.service';
+import {Movie} from "../../services/crud-service/move";
 
 @Component({
   selector: 'app-product',
@@ -10,12 +12,14 @@ import { TMDBService } from '../../services/tmdb-service/tmdb.service';
 })
 export class ProductComponent implements OnInit {
   private id;
+  private price;
   private activatedRoute;
   private movie;
   reviews: any[];
   related: any[];
 
-  constructor(private Activatedroute: ActivatedRoute, private TMDBService: TMDBService) {}
+  // tslint:disable-next-line:max-line-length
+  constructor(private Activatedroute: ActivatedRoute, private TMDBService: TMDBService, private crudService: CrudServiceService, private loginService: LoginService) {}
 
   sub;
 
@@ -39,9 +43,9 @@ export class ProductComponent implements OnInit {
 
   getReview() {
     if (this.TMDBService.getReviews()) {
-      this.reviews = this.TMDBService.getReviews().slice(0,3);
+      this.reviews = this.TMDBService.getReviews().slice(0, 3);
     }
-    if (this.reviews) return this.reviews;
+    if (this.reviews) { return this.reviews; }
 
  }
 
@@ -53,7 +57,25 @@ export class ProductComponent implements OnInit {
       this.related = this.TMDBService.getRelated().slice(0, 4);
     }
     // remove any results that have no poster
-    if (this.related) return this.related.filter(t => t.poster_path != null);
+    if (this.related) { return this.related.filter(t => t.poster_path != null); }
   }
+  public getPrice(date) {
+    const year = date.substring(0, 4);
+    // console.log(year);
+    if (year >= 2019) { this.price = 8.99; return '$8.99'; } else if (year <= 2018 && year > 2015) {  this.price = 5.99; return '$5.99'; }
+    this.price = 3.99;
+    return '$3.99';
+  }
+  additemToCart() {
+    const movie: Movie = {
+      id: this.id,
+      price: this.price,
+      title: this.TMDBService.getMovie().title,
+      poster_path: this.TMDBService.getMovie().poster_path,
+      overview: this.TMDBService.getMovie().overview
+    };
+    console.log(movie);
+    this.crudService.addItemToOrder(movie);
 
+  }
 }
