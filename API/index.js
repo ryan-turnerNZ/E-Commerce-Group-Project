@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, username, plainTextPass");
     next();
 });
 
@@ -23,7 +23,7 @@ app.get('/', function (req, res) {
     res.send('Rent FLix API');
 });
 
-app.get('/user/:username/:plainTextPass', db.checkUser);
+app.get('/user', db.checkUser);
 app.get('/user/:id', db.getUserDetails);
 app.post('/user', db.registerUser);
 app.put('/user/:id', db.changeUserDetails);

@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b24fd075-5069-40a7-b3ac-b3ce880dbc12" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/API/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/API/queries.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/services/login-service/login.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/services/login-service/login.service.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,7 +11,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/API" />
     <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="ProjectId" id="1SuoXiUHSuXQz3bQNLjEVdzj2G3" />
@@ -60,7 +57,7 @@
       <workItem from="1572135411697" duration="161000" />
       <workItem from="1572135572777" duration="5838000" />
       <workItem from="1572422884324" duration="4647000" />
-      <workItem from="1572427566424" duration="4737000" />
+      <workItem from="1572427566424" duration="5886000" />
     </task>
     <task id="LOCAL-00001" summary="Check User and Register User now tested and working">
       <created>1571706596076</created>
@@ -90,7 +87,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572579922677</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Changing service to use headers rather than url parameters">
+      <created>1572581043447</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1572581043447</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -114,6 +118,7 @@
     <MESSAGE value="Integrating JWT" />
     <MESSAGE value="Fixed merge issue in product.component.html" />
     <MESSAGE value="Starting to integrate user_token table in database" />
-    <option name="LAST_COMMIT_MESSAGE" value="Starting to integrate user_token table in database" />
+    <MESSAGE value="Changing service to use headers rather than url parameters" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changing service to use headers rather than url parameters" />
   </component>
 </project>

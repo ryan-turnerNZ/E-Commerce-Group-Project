@@ -29,26 +29,37 @@ const registerUser = (request, response) => {
     });
 };
 
+const insertUserToken = (user_id, token) => {
+    //pool.query('INSERT INTO user')
+};
+
 const checkUser = (request, response) => {
-    console.log(conString);
-    const username = request.params.username;
-    const plainTextPass = request.params.plainTextPass;
+    console.log(request);
+    const username = request.get('username');
+    const plainTextPass = request.get('plainTextPass');
     console.log(username);
+    console.log(plainTextPass);
     pool.query('SELECT user_id, hash FROM users WHERE username = $1', [username], (error, results) => {
         if(error){
-            response.status(404).json({valid: false});
-            console.log(error)
+            response.status(404).json({
+                valid: false,
+                token: null,
+            });
         }
         const {user_id, hash} = results.rows[0];
         bcrypt.compare(plainTextPass, hash, function(err, res) {
             if (res) {
                 const token = generateLoginToken(user_id);
+                insertUserToken(token);
                 response.status(200).json({
                     token: token,
                     valid: true
                 });
             } else {
-                response.status(422).json({valid: false})
+                response.status(422).json({
+                    valid: false,
+                    token: null,
+                })
             }
         });
     });
