@@ -7,16 +7,17 @@ import {LoginComponent} from './pages/login/login.component';
 import {RegistrationComponent} from './pages/registration/registration.component';
 import {PaymentComponent} from './pages/payment/payment.component';
 import {ProductComponent} from './pages/product/product.component';
+import { AuthGuard } from './guards/auth-guard.service';
 
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'catalog/page/:page', component: CatalogComponent},
-  {path: 'cart', component: CartComponent},
+  {path: 'cart', component: CartComponent , canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
-  {path: 'payment', component: PaymentComponent},
+  {path: 'payment', component: PaymentComponent, canActivate: [AuthGuard]},
   {path: 'product/:id', component: ProductComponent}
 ];
 

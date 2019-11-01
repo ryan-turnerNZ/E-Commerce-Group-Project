@@ -37,4 +37,8 @@ export class LoginService {
   getUserToken(): string {
     return this.userToken;
   }
+
+  isAuthenticated() {
+    return false;
+  }
 }

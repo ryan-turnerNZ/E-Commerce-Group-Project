@@ -10,6 +10,7 @@ import { CartComponent } from './pages/cart/cart.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { ProductComponent } from './pages/product/product.component';
 import { CatalogComponent } from './pages/catalog/catalog.component';
+import { AuthGuard } from './guards/auth-guard.service';
 
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 
@@ -37,7 +38,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     NgbModule,
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
