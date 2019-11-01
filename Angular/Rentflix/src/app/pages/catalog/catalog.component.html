@@ -80,7 +80,13 @@
                     <div class="image"><a><img class="img-fluid d-block mx-auto" [routerLink]="['/product', item.id]" src="{{'https://image.tmdb.org/t/p/w500'+item.poster_path}}"></a></div>
                     <div class="product-name"><a href="#">{{item?.title}}</a></div>
                     <div class="about">
-                      <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-half-empty.svg"><img src="assets/img/star-empty.svg"></div>
+                      <div class="rating">
+                          <img [src]="item.vote_average >= 2 ? '../../../assets/img/star.svg' : item.vote_average >= 1 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                          <img [src]="item.vote_average >= 4 ? '../../../assets/img/star.svg' : item.vote_average >= 3 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                          <img [src]="item.vote_average >= 6 ? '../../../assets/img/star.svg' : item.vote_average >= 5 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                          <img [src]="item.vote_average >= 8 ? '../../../assets/img/star.svg' : item.vote_average >= 7 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                          <img [src]="item.vote_average >= 10 ? '../../../assets/img/star.svg' : item.vote_average >= 9 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                      </div>
                       <div class="price">
                         <h3>{{getPrice(item.release_date)}}</h3>
                       </div>

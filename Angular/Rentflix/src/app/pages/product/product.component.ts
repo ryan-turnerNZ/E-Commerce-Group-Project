@@ -56,4 +56,15 @@ export class ProductComponent implements OnInit {
     if (this.related) return this.related.filter(t => t.poster_path != null);
   }
 
+  /* Determines an arbitrary price for a given movie,
+   * based on the release date of said movie
+   */
+  public getPrice(date) {
+    var year = date.substring(0, 4);
+    console.log(year);
+    if (year >= 2019) return "$8.99";
+    else if (year <= 2018 && year > 2015) return "$5.99";
+    return "$3.99";
+  }
+
 }
