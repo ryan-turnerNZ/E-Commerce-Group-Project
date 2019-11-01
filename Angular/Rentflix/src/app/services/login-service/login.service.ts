@@ -1,9 +1,19 @@
 import {Injectable, OnInit} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json',
+    username: '',
+    plainTextPass: '',
+  })
+};
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class LoginService {
 
   private userToken = '';
@@ -13,7 +23,11 @@ export class LoginService {
   }
 
   async getAuthentication(username, password) {
-    return this.http.get('http://rent-flix-api.herokuapp.com/user/' + username + '/' + password);
+    httpOptions.headers =
+      httpOptions.headers.set('username', username);
+    httpOptions.headers =
+      httpOptions.headers.set('plainTextPass', password);
+    return this.http.get('http://rent-flix-api.herokuapp.com/user', httpOptions);
   }
 
   setUserToken(token: string) {
