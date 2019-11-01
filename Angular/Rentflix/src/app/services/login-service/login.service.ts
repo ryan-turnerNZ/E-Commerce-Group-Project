@@ -16,11 +16,11 @@ export class LoginService {
     return this.http.get('http://rent-flix-api.herokuapp.com/user/' + username + '/' + password);
   }
 
-  setLoggedInUser(token: string) {
+  setUserToken(token: string) {
     this.userToken = token;
   }
 
-  getLoggedInUser(): string {
+  getUserToken(): string {
     return this.userToken;
   }
 }
