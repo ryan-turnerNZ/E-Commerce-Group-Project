@@ -59,6 +59,10 @@ export class ProductComponent implements OnInit {
     // remove any results that have no poster
     if (this.related) { return this.related.filter(t => t.poster_path != null); }
   }
+  
+   /* Determines an arbitrary price for a given movie,
+   * based on the release date of said movie
+   */
   public getPrice(date) {
     const year = date.substring(0, 4);
     // console.log(year);
@@ -77,19 +81,5 @@ export class ProductComponent implements OnInit {
     console.log(movie);
     this.crudService.addItemToOrder(movie);
 
-<<<<<<< HEAD
-  /* Determines an arbitrary price for a given movie,
-   * based on the release date of said movie
-   */
-  public getPrice(date) {
-    var year = date.substring(0, 4);
-    console.log(year);
-    if (year >= 2019) return "$8.99";
-    else if (year <= 2018 && year > 2015) return "$5.99";
-    return "$3.99";
   }
-
-=======
-  }
->>>>>>> fb53d787edf77af7238f1de6f11f4179c9f71995
 }
