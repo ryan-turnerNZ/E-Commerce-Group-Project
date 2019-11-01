@@ -18,6 +18,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { LibraryComponent } from './pages/AccountPages/library/library.component';
+import { AccountComponent } from './pages/AccountPages/account/account.component';
+import { OrdersComponent } from './pages/AccountPages/orders/orders.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     CartComponent,
     PaymentComponent,
     ProductComponent,
-    CatalogComponent
+    CatalogComponent,
+    LibraryComponent,
+    AccountComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,

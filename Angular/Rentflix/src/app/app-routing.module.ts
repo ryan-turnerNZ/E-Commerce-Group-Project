@@ -8,17 +8,24 @@ import {RegistrationComponent} from './pages/registration/registration.component
 import {PaymentComponent} from './pages/payment/payment.component';
 import {ProductComponent} from './pages/product/product.component';
 import { AuthGuard } from './guards/auth-guard.service';
+import {AccountComponent} from './pages/AccountPages/account/account.component';
+import {LibraryComponent} from './pages/AccountPages/library/library.component';
+import {OrdersComponent} from './pages/AccountPages/orders/orders.component';
 
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'catalog/page/:page', component: CatalogComponent},
-  {path: 'cart', component: CartComponent , canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
+  {path: 'product/:id', component: ProductComponent},
+  //authGuard protected links
+  {path: 'cart', component: CartComponent , canActivate: [AuthGuard]},
   {path: 'payment', component: PaymentComponent, canActivate: [AuthGuard]},
-  {path: 'product/:id', component: ProductComponent}
+  {path: 'account/:userToken', component: AccountComponent, canActivate: [AuthGuard]},
+  {path: 'account/library/:userToken', component: AccountComponent, canActivate: [AuthGuard]},
+  {path: 'account/orders/:userToken', component: AccountComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({
