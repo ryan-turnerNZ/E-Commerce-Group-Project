@@ -20,8 +20,12 @@ export class LoginService {
   private userToken = '';
   private auth = false;
   private serverlink = 'http://rent-flix-api.herokuapp.com';
-  constructor(private http: HttpClient) {
+  private timerExpired = false;
+  private timer;
 
+
+  constructor(private http: HttpClient) {
+    this.startTimer();
   }
 
   async getAuthentication(username, password) {
@@ -50,5 +54,25 @@ export class LoginService {
   }
   setAuth(auth) {
     this.auth = auth;
+  }
+
+  startTimer = () => {
+    this.timer = setInterval(() => {
+      if (this.timerExpired === true) {
+        console.log('Logging out');
+      }
+      this.timerExpired = true;
+    }, 600000); // 10 minutes
+  }
+
+  resetTimer = () => {
+    this.timerExpired = false;
+    this.timer = setInterval(() => {
+      if (this.timerExpired === true) {
+        console.log('Logging out');
+      }
+      this.timerExpired = true;
+    }, 600000); // 10 minutes
+
   }
 }

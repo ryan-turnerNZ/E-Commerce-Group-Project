@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {LoginService} from './services/login-service/login.service';
 import {Router} from '@angular/router';
+import {Observable, fromEvent} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,11 @@ import {Router} from '@angular/router';
 })
 export class AppComponent {
   title = 'Rentflix';
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(private loginService: LoginService, private router: Router) {
+    const clicks$ = fromEvent(document, 'click');
+    clicks$.subscribe(x => console.log('Calling my service here'));
+  }
+
 
   loginStatus() {
     return this.loginService.isAuthenticated();
