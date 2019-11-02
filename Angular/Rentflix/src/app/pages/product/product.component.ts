@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TMDBService } from '../../services/tmdb-service/tmdb.service';
-import {CrudServiceService} from '../../services/crud-service/crud-service.service';
 import {LoginService} from '../../services/login-service/login.service';
-import {Movie} from '../../services/crud-service/move';
 
 @Component({
   selector: 'app-product',
@@ -19,7 +17,7 @@ export class ProductComponent implements OnInit {
   related: any[];
 
   // tslint:disable-next-line:max-line-length
-  constructor(private router: Router, private Activatedroute: ActivatedRoute, private TMDBService: TMDBService, private crudService: CrudServiceService, private loginService: LoginService) {}
+  constructor(private router: Router, private Activatedroute: ActivatedRoute, private TMDBService: TMDBService, private loginService: LoginService) {}
 
   sub;
 
@@ -71,20 +69,6 @@ export class ProductComponent implements OnInit {
     return '$3.99';
   }
   additemToCart() {
-    if (this.loginService.isAuthenticated()) {
-      const movie: Movie = {
-        id: this.id,
-        price: this.price,
-        title: this.TMDBService.getMovie().title,
-        poster_path: this.TMDBService.getMovie().poster_path,
-        overview: this.TMDBService.getMovie().overview
-      };
-      console.log(movie);
-      this.crudService.addItemToOrder(movie);
-    } else {
-      this.router.navigate(['/login']);
-    }
-
 
   }
 }
