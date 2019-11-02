@@ -21,11 +21,11 @@ const routes: Routes = [
   {path: 'register', component: RegistrationComponent},
   {path: 'product/:id', component: ProductComponent},
   //authGuard protected links
-  {path: 'cart', component: CartComponent , canActivate: [AuthGuard]},
+  {path: 'account/cart', component: CartComponent , canActivate: [AuthGuard]},
   {path: 'payment', component: PaymentComponent, canActivate: [AuthGuard]},
-  {path: 'account/:userToken', component: AccountComponent, canActivate: [AuthGuard]},
-  {path: 'account/library/:userToken', component: LibraryComponent, /*canActivate: [AuthGuard]*/},
-  {path: 'account/orders/:userToken', component: OrdersComponent, canActivate: [AuthGuard]},
+  {path: 'account/profile', component: AccountComponent, canActivate: [AuthGuard]},
+  {path: 'account/library', component: LibraryComponent, canActivate: [AuthGuard]},
+  {path: 'account/orders', component: OrdersComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

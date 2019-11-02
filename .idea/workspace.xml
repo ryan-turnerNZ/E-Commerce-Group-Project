@@ -3,18 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b24fd075-5069-40a7-b3ac-b3ce880dbc12" name="Default Changelist" comment="Logout now completed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/app-routing.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/component/nav/nav.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/component/nav/nav.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/AccountPages/library/library.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/AccountPages/library/library.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/cart/cart.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/cart/cart.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/catalog/catalog.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/catalog/catalog.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/home/home.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/home/home.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/home/home.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/login/login.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/product/product.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/product/product.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/registration/registration.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/registration/registration.component.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -76,7 +66,7 @@
       <workItem from="1572422884324" duration="4647000" />
       <workItem from="1572427566424" duration="5886000" />
       <workItem from="1572656499275" duration="7755000" />
-      <workItem from="1572666251076" duration="2654000" />
+      <workItem from="1572666251076" duration="2959000" />
     </task>
     <task id="LOCAL-00001" summary="Check User and Register User now tested and working">
       <created>1571706596076</created>
