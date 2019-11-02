@@ -23,11 +23,13 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(value: {username: string, password: string}) {
+
     this.loginService.getAuthentication(value.username, value.password).then(res => {
       res.subscribe((data) => {
         const response = (data as {valid: boolean, token: string});
         if (response.valid === true) {
           this.loginService.setUserToken(response.token);
+          this.loginService.setAuth(true);
           this.router.navigate(['/home']);
         } else {
           console.log('Invalid Login');

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b24fd075-5069-40a7-b3ac-b3ce880dbc12" name="Default Changelist" comment="Integrating JWT">
+    <list default="true" id="b24fd075-5069-40a7-b3ac-b3ce880dbc12" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/API/queries.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/login/login.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/product/product.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/pages/product/product.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/services/login-service/login.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/services/login-service/login.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/app.component.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,6 +15,15 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/API" />
     <option name="ROOT_SYNC" value="SYNC" />
+<<<<<<< HEAD
+=======
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+>>>>>>> 76c44bbbc4dd252ea30aa874b9ca4a70dcea6a81
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="964" />
+    <option name="width" value="956" />
+    <option name="height" value="1044" />
   </component>
   <component name="ProjectId" id="1SuoXiUHSuXQz3bQNLjEVdzj2G3" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -24,7 +31,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="editor.config.ad.shown" value="true" />
-    <property name="javascript.nodejs.core.library.configured.version" value="10.15.3" />
+    <property name="javascript.nodejs.core.library.configured.version" value="12.9.1" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
@@ -32,7 +39,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/Angular/Rentflix/node_modules/typescript/lib" />
   </component>
   <component name="RunDashboard">
@@ -45,6 +52,16 @@
           <option name="name" value="StatusDashboardGroupingRule" />
         </RuleState>
       </list>
+    </option>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="allServicesViewState">
+      <serviceView>
+        <treeState>
+          <expand />
+          <select />
+        </treeState>
+      </serviceView>
     </option>
   </component>
   <component name="SvnConfiguration">
@@ -61,7 +78,9 @@
       <workItem from="1572135411697" duration="161000" />
       <workItem from="1572135572777" duration="5838000" />
       <workItem from="1572422884324" duration="4647000" />
-      <workItem from="1572427566424" duration="3510000" />
+      <workItem from="1572427566424" duration="5886000" />
+      <workItem from="1572656499275" duration="7755000" />
+      <workItem from="1572666251076" duration="2959000" />
     </task>
     <task id="LOCAL-00001" summary="Check User and Register User now tested and working">
       <created>1571706596076</created>
@@ -77,7 +96,28 @@
       <option name="project" value="LOCAL" />
       <updated>1572144060360</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fixed merge issue in product.component.html">
+      <created>1572579757205</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1572579757205</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Starting to integrate user_token table in database">
+      <created>1572579922677</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1572579922677</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Changing service to use headers rather than url parameters">
+      <created>1572581043447</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1572581043447</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -95,10 +135,28 @@
         </entry>
       </map>
     </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Check User and Register User now tested and working" />
     <MESSAGE value="Integrating JWT" />
-    <option name="LAST_COMMIT_MESSAGE" value="Integrating JWT" />
+    <MESSAGE value="Fixed merge issue in product.component.html" />
+    <MESSAGE value="Starting to integrate user_token table in database" />
+    <MESSAGE value="Changing service to use headers rather than url parameters" />
+    <MESSAGE value="Logout now completed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Logout now completed" />
   </component>
 </project>
