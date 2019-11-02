@@ -7,9 +7,9 @@ import { Movie } from './move';
   providedIn: 'root'
 })
 export class CrudServiceService {
-   orderItems: Movie[];
+   orderItems: Movie[] = [];
   constructor(private http: HttpClient) {
-    this.orderItems = [];
+    // this.orderItems = [];
   }
   addItemToOrder(movie: Movie) {
     this.orderItems.push(movie);
