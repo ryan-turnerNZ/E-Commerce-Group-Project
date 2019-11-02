@@ -1,1 +1,52 @@
-<p>library works!</p>
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+  <div class="container"><a class="navbar-brand" href="#">Rentflix</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse"
+         id="navcol-1">
+      <ul class="nav navbar-nav mr-auto">
+        <li class="nav-item" role="presentation"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link active" href="/catalog/page/1">Catalog</a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link" href="/cart">Shopping Cart</a></li>
+      </ul><span class="navbar-text actions"> <a class="login" href="/login">Log In</a><a class="btn btn-light action-button" role="button" href="/register">Sign Up</a></span></div>
+  </div>
+</nav>
+
+<main class="page catalog-page">
+  <section class="clean-block clean-catalog dark">
+    <div class="container">
+      <div class="block-heading">
+        <h2 class="text-info">My Movies</h2>
+        <p>Your rented movies displayed here</p>
+      </div>
+      <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="products">
+              <div class="row no-gutters">
+                <div class="col-12 col-md-2 col-lg-3" *ngFor="let item of displayResults(this.page)">
+                  <div class="clean-product-item">
+                    <div class="image"><a><img class="img-fluid d-block mx-auto" [routerLink]="['/product', item.id]" src="{{'https://image.tmdb.org/t/p/w500'+item.poster_path}}"></a></div>
+                    <div class="product-name"><a href="#">{{item?.title}}</a></div>
+                    <div class="about">
+                      <div class="rating">
+                        <img [src]="item.vote_average >= 2 ? '../../../assets/img/star.svg' : item.vote_average >= 1 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                        <img [src]="item.vote_average >= 4 ? '../../../assets/img/star.svg' : item.vote_average >= 3 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                        <img [src]="item.vote_average >= 6 ? '../../../assets/img/star.svg' : item.vote_average >= 5 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                        <img [src]="item.vote_average >= 8 ? '../../../assets/img/star.svg' : item.vote_average >= 7 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                        <img [src]="item.vote_average >= 10 ? '../../../assets/img/star.svg' : item.vote_average >= 9 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                      </div>
+                      <div class="price">
+                        <h3>{{getPrice(item.release_date)}}</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+

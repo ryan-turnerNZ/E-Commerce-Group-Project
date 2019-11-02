@@ -24,8 +24,8 @@ const routes: Routes = [
   {path: 'cart', component: CartComponent , canActivate: [AuthGuard]},
   {path: 'payment', component: PaymentComponent, canActivate: [AuthGuard]},
   {path: 'account/:userToken', component: AccountComponent, canActivate: [AuthGuard]},
-  {path: 'account/library/:userToken', component: AccountComponent, canActivate: [AuthGuard]},
-  {path: 'account/orders/:userToken', component: AccountComponent, canActivate: [AuthGuard]},
+  {path: 'account/library/:userToken', component: LibraryComponent, /*canActivate: [AuthGuard]*/},
+  {path: 'account/orders/:userToken', component: OrdersComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({
