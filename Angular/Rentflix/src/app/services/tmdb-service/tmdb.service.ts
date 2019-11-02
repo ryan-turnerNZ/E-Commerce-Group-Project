@@ -16,6 +16,7 @@ export class TMDBService {
   private genres;
   private reviews;
   private related;
+  private results
   constructor(private http: HttpClient) {}
 
   public getNewest = () => this.newest;
@@ -24,6 +25,7 @@ export class TMDBService {
   public getMovie = () => this.movie;
   public getReviews = () => this.reviews;
   public getRelated = () => this.related;
+  public getResults = () => this.results;
   public getGenresList = () => this.genres;
 
   /* Gets the latest movies from TMDB
@@ -140,32 +142,44 @@ export class TMDBService {
       );
   }
 
+  public getGenres() {
+    this.http.get(this.apiGenres, { responseType: 'text' })
+    .subscribe(response => {
+      const responseBody = JSON.parse(response);
+      console.log(this.genres)
+      this.genres = responseBody.genres;
+      }, err => {
+        console.log(err);
+      }
+    );
+  }
 
-  // public getGenres() {
-  //   this.http.get(this.apiGenres, { responseType: 'text' })
-  //   .subscribe(response => {
-  //     const responseBody = JSON.parse(response);
+  public discoverByGenre(id: number, sort_by = 'popularity.desc') {
+    if(!id) {
+      this.discover(sort_by)
+      return;
+    }
 
-  //     this.genres = responseBody.genres;
-  //     }, err => {
-  //       console.log(err);
-  //     }
-  //   );
-  // }
+    this.http.get(`${this.apiDiscover}?api_key=${this.apiKey}&sort_by=${sort_by}&with_genres=${id}&language=en-US`, { responseType: 'text' })
+      .subscribe(response => {
+        const responseBody = JSON.parse(response);
+        this.results = responseBody.results;
+      }, err => {
+        console.log(err);
+      }
+    );
+  }
 
-  // public discoverByGenre(id: number, sort_by = 'popularity.desc', displayLoading = true) {
-  //   if(!id) {
-  //     this.discover(sort_by, displayLoading)
-  //     return;
-  //   }
+  public discover(sort_by = 'popularity.desc') {
+    this.http.get(`${this.apiDiscover}?api_key=${this.apiKey}&sort_by=${sort_by}&language=en-US`, { responseType: 'text' })
+      .subscribe(response => {
+        const responseBody = JSON.parse(response);
+        this.results = responseBody.results;
+       
+      }, err => {
+        console.log(err);
+      }
+    );
+  }
 
-  //   this.http.get(`${this.apiDiscover}?api_key=${this.apiKey}&sort_by=${sort_by}&with_genres=${id}&language=en-US`, { responseType: 'text' })
-  //     .subscribe(response => {
-  //       const responseBody = JSON.parse(response);
-  //       this.results = responseBody.results;
-  //     }, err => {
-  //       console.log(err);
-  //     }
-  //   );
-  // }
 }
