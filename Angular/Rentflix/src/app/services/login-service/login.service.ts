@@ -7,6 +7,7 @@ const httpOptions = {
     'Content-Type':  'application/json',
     username: '',
     plainTextPass: '',
+    'X-Requested-With': '',
   })
 };
 
@@ -17,7 +18,8 @@ const httpOptions = {
 export class LoginService {
 
   private userToken = '';
-
+  private auth = false;
+  private serverlink = 'http://rent-flix-api.herokuapp.com';
   constructor(private http: HttpClient) {
 
   }
@@ -27,9 +29,14 @@ export class LoginService {
       httpOptions.headers.set('username', username);
     httpOptions.headers =
       httpOptions.headers.set('plainTextPass', password);
-    return this.http.get('http://rent-flix-api.herokuapp.com/user', httpOptions);
+    return this.http.get(`${this.serverlink}/user/authentication`, httpOptions);
   }
 
+  async logout() {
+    httpOptions.headers =
+      httpOptions.headers.set('X-Requested-With', this.getUserToken());
+    return this.http.delete(`${this.serverlink}/user/authentication`, httpOptions);
+  }
   setUserToken(token: string) {
     this.userToken = token;
   }
@@ -39,6 +46,9 @@ export class LoginService {
   }
 
   isAuthenticated() {
-    return false;
+    return this.auth;
+  }
+  setAuth(auth) {
+    this.auth = auth;
   }
 }

@@ -1,16 +1,17 @@
-import { Component, OnInit } from "@angular/core";
-import { TMDBService } from "../../services/tmdb-service/tmdb.service";
-
+import { Component, OnInit } from '@angular/core';
+import { TMDBService } from '../../services/tmdb-service/tmdb.service';
+import {LoginService} from '../../services/login-service/login.service';
+import {Router} from '@angular/router';
 @Component({
-  selector: "app-home",
-  templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.scss"]
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   topRated: any[];
   popular: any[];
 
-  constructor(private TMDBService: TMDBService) {}
+  constructor(private TMDBService: TMDBService, private loginService: LoginService, private router: Router) {}
 
   ngOnInit() {
     this.TMDBService.discoverTopRated();
@@ -25,8 +26,9 @@ export class HomeComponent implements OnInit {
       this.topRated = this.TMDBService.getTopRated().slice(0, 4);
     }
     // remove any results that have no poster
-    if (this.topRated)
+    if (this.topRated) {
       return this.topRated.filter(t => t.poster_path != null);
+    }
   }
 
   /* Returns a list of four popular films to display
@@ -37,17 +39,32 @@ export class HomeComponent implements OnInit {
       this.popular = this.TMDBService.getPopular().slice(0, 4);
     }
     // remove any results that have no poster
-    if (this.popular) return this.popular.filter(t => t.poster_path != null);
+    if (this.popular) { return this.popular.filter(t => t.poster_path != null); }
   }
 
   /* Determines an arbitrary price for a given movie,
    * based on the release date of said movie
    */
   public getPrice(date) {
-    var year = date.substring(0, 4);
-    console.log(year);
-    if (year >= 2019) return "$8.99";
-    else if (year <= 2018 && year > 2015) return "$5.99";
-    return "$3.99";
+    let year = date.substring(0, 4);
+    // console.log(year);
+    if (year >= 2019) { return '$8.99'; }
+    else if (year <= 2018 && year > 2015) { return '$5.99'; }
+    return '$3.99';
+  }
+  logout() {
+    console.log("logingoust");
+    this.loginService.logout().then(res => {
+      res.subscribe((data) => {
+        const {valid, message, error} = (data as {valid, message, error});
+        if (valid === true) {
+          this.loginService.setUserToken('');
+          this.loginService.setAuth(false);
+          this.router.navigate(['/home']);
+        } else {
+          console.log(error);
+        }
+      });
+    });
   }
 }

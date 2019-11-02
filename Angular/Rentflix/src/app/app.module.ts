@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+
+import {Injector, NgModule} from '@angular/core';
+import { createCustomElement } from '@angular/elements';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +23,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { LibraryComponent } from './pages/AccountPages/library/library.component';
 import { AccountComponent } from './pages/AccountPages/account/account.component';
 import { OrdersComponent } from './pages/AccountPages/orders/orders.component';
+import { NavComponent } from './component/nav/nav.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,8 @@ import { OrdersComponent } from './pages/AccountPages/orders/orders.component';
     CatalogComponent,
     LibraryComponent,
     AccountComponent,
-    OrdersComponent
+    OrdersComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +49,15 @@ import { OrdersComponent } from './pages/AccountPages/orders/orders.component';
     NgbModule,
   ],
   providers: [AuthGuard],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [NavComponent]
 })
-export class AppModule { }
+
+export class AppModule {
+  constructor(private injector: Injector) {}
+
+  ngDoBootstrap() {
+    const ngElement = createCustomElement(NavComponent, {injector: this.injector});
+    customElements.define('custom-nav', ngElement);
+  }
+}
