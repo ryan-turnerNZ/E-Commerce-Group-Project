@@ -1,3 +1,26 @@
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+  <div class="container"><a class="navbar-brand" href="#">Rentflix</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse"
+         id="navcol-1">
+      <ul class="nav navbar-nav mr-auto">
+        <li class="nav-item" role="presentation"><a class="nav-link" routerLink="/" >Home</a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link" routerLink="/catalog/page/1">Catalog</a></li>
+      </ul>
+      <ng-container *ngIf="!loginStatus()">
+      <span class="navbar-text actions"> <a class="login" routerLink="/login">Log In</a><a class="btn btn-light action-button" role="button" routerLink="/register">Sign Up</a></span>
+      </ng-container>
+      <ng-container *ngIf="loginStatus()">
+        <span class="navbar-text actions">
+          <a class="login" routerLink="/cart">Shopping Cart</a>
+          <a class="login" [routerLink]="['/account', this.loginService.getUserToken()]">Account</a>
+          <a class="login" [routerLink]="['/account/library', this.loginService.getUserToken()]">Library</a>
+          <a class="login" [routerLink]="['/account/orders', this.loginService.getUserToken()]">Orders</a>
+          <a class="btn btn-light action-button" role="button" (click)="logout()">Logout</a>
+        </span>
+      </ng-container>
+    </div>
+  </div>
+</nav>
 
 <!--
 Router here
@@ -8,7 +31,6 @@ Router here
 <!--
 
 -->
-
 
 <script src="../assets/js/jquery.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>

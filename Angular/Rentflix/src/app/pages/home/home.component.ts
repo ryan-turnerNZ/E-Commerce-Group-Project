@@ -52,19 +52,5 @@ export class HomeComponent implements OnInit {
     else if (year <= 2018 && year > 2015) { return '$5.99'; }
     return '$3.99';
   }
-  logout() {
-    console.log("logingoust");
-    this.loginService.logout().then(res => {
-      res.subscribe((data) => {
-        const {valid, message, error} = (data as {valid, message, error});
-        if (valid === true) {
-          this.loginService.setUserToken('');
-          this.loginService.setAuth(false);
-          this.router.navigate(['/home']);
-        } else {
-          console.log(error);
-        }
-      });
-    });
-  }
+
 }

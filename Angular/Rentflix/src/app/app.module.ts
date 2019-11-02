@@ -54,10 +54,4 @@ import { NavComponent } from './component/nav/nav.component';
 })
 
 export class AppModule {
-  constructor(private injector: Injector) {}
-
-  ngDoBootstrap() {
-    const ngElement = createCustomElement(NavComponent, {injector: this.injector});
-    customElements.define('custom-nav', ngElement);
-  }
 }
