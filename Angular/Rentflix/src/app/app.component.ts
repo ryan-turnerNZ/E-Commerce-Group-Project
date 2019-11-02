@@ -12,7 +12,7 @@ export class AppComponent {
   title = 'Rentflix';
   constructor(private loginService: LoginService, private router: Router) {
     const clicks$ = fromEvent(document, 'click');
-    clicks$.subscribe(x => console.log('Calling my service here'));
+    clicks$.subscribe(x => this.loginService.resetTimer());
   }
 
 
