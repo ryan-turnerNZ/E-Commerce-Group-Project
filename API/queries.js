@@ -309,7 +309,6 @@ module.exports = {
     getUserDetails,
     getUserOrders,
     orderCart,
-    updateCartItemAmount,
     removeFromCart,
     addToCart,
     getCart,
