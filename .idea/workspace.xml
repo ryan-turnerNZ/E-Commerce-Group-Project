@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b24fd075-5069-40a7-b3ac-b3ce880dbc12" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/API/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/API/queries.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Angular/Rentflix/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Angular/Rentflix/src/app/app.component.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,6 +15,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/API" />
     <option name="ROOT_SYNC" value="SYNC" />
+<<<<<<< HEAD
+=======
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+>>>>>>> 76c44bbbc4dd252ea30aa874b9ca4a70dcea6a81
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="964" />
@@ -27,7 +31,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="editor.config.ad.shown" value="true" />
-    <property name="javascript.nodejs.core.library.configured.version" value="10.16.0" />
+    <property name="javascript.nodejs.core.library.configured.version" value="12.9.1" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
@@ -35,7 +39,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/Angular/Rentflix/node_modules/typescript/lib" />
   </component>
   <component name="RunDashboard">
@@ -76,6 +80,7 @@
       <workItem from="1572422884324" duration="4647000" />
       <workItem from="1572427566424" duration="5886000" />
       <workItem from="1572656499275" duration="7755000" />
+      <workItem from="1572666251076" duration="2959000" />
     </task>
     <task id="LOCAL-00001" summary="Check User and Register User now tested and working">
       <created>1571706596076</created>
