@@ -8,8 +8,6 @@ import {Observable} from 'rxjs';
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-
-  ngOnInit(): {
-
-  };
+  ngOnInit(): void {
+  }
 }
