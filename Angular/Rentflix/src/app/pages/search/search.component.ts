@@ -9,15 +9,21 @@ import { TMDBService } from '../../services/tmdb-service/tmdb.service';
 })
 export class SearchComponent implements OnInit {
 
+  private validSearch;
+
+
+
   constructor(private TMDBService: TMDBService) { }
 
   ngOnInit() {
+    this.validSearch = false;
   }
 
 
   search(title: string) {
     // alert(title)
     this.TMDBService.searchTitle(title);
+    this.validSearch = this.TMDBService.isValidSearch();
   }
 
   public getSearchResults() {
@@ -25,7 +31,7 @@ export class SearchComponent implements OnInit {
     if (results) return results.filter(t => t.poster_path != null);
   }
 
-  public isValidSearch = () => this.TMDBService.isValidSearch();
+  public isValidSearch = () => this.validSearch;
 
 
 }

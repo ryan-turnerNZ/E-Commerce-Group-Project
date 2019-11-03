@@ -1,16 +1,17 @@
 <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
-  <div class="container"><a class="navbar-brand" href="#">Rentflix</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+  <div class="container">
     <div class="collapse navbar-collapse"
          id="navcol-1">
       <ul class="nav navbar-nav mr-auto">
-        <li class="nav-item" role="presentation"><a class="nav-link" routerLink="/" >Home</a></li>
-        <li class="nav-item" role="presentation"><a class="nav-link" routerLink="/catalog/page/1">Catalog</a></li>
-        <li class="nav-item" role="presentation"><a class="nav-link" routerLink="/search">Search</a></li>
-
+         <li><a class="navbar-brand " href="#">Rentflix</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button></li> 
+        <li class="nav-item" role="presentation"><a class="nav-link"  routerLinkActive="active_route" routerLink="/home" >Home</a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link"  routerLinkActive="active_route" routerLink="/catalog/page/1">Catalog</a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link"  routerLinkActive="active_route" routerLink="/search">Search</a></li>
       </ul>
       <ng-container *ngIf="!loginStatus()">
-      <span class="navbar-text actions"> <a class="login" routerLink="/login">Log In</a>
-        <a class="btn btn-light action-button" role="button" routerLink="/register">Sign Up</a>
+      <span class="navbar-text actions"> 
+        <a class="login" routerLinkActive="registration" routerLink="/login">Log In</a>
+        <a class="btn btn-light action-button" role="button" routerLinkActive="registration" routerLink="/register">Sign Up</a>
       </span>
       </ng-container>
       <ng-container *ngIf="loginStatus()">
@@ -36,6 +37,7 @@ Router here
 <!--
 
 -->
+
 
 <script src="../assets/js/jquery.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>

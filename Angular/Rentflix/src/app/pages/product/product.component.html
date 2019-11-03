@@ -1,8 +1,9 @@
+<router-outlet></router-outlet>
+
 <main class="page product-page">
   <section class="clean-block clean-product dark">
     <div class="container">
       <div class="block-heading">
-
       </div>
       <div class="block-content">
         <div class="product-info">
@@ -44,14 +45,15 @@
         </div>
         <div class="clean-related-items">
           <h3>Related Movies</h3>
+          
           <div class="items">
             <div class="row justify-content-center">
-              <div class="col-sm-6 col-lg-4" *ngFor="let movie of getRelated()">
+              <div class="col-sm-6 col-lg-3" *ngFor="let movie of getRelated()">
                 <div class="clean-related-item">
-                    <div class="image"><img class="img-fluid d-block mx-auto" [routerLink]="['/product', movie.id]" src="{{'https://image.tmdb.org/t/p/w500'+movie.poster_path}}"></div>
+                    <div class="image"><img class="img-fluid d-block mx-auto" [routerLink]="['/product', movie.id]" src="{{'https://image.tmdb.org/t/p/w500'+movie?.poster_path}}"></div>
                     <div class="related-name">{{ movie.title }}
                     <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-half-empty.svg"><img src="assets/img/star-empty.svg"></div>
-                    <h4>$300</h4>
+                    <h4>{{getPrice(movie?.release_date)}}</h4>
                   </div>
                 </div>
               </div>
@@ -62,3 +64,4 @@
     </div>
   </section>
 </main>
+
