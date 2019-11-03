@@ -31,6 +31,7 @@ export class ProductComponent implements OnInit {
     this.TMDBService.getRelatedMovies(this.id);
   }
 
+
   OnDestroy() {
     this.sub.unsubscribe();
   }
