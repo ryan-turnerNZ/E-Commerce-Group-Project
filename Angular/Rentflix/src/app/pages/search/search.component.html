@@ -1,0 +1,55 @@
+<main class="page search-page">
+        <section class="clean-block clean-catalog dark">
+          <div class="container">
+            <div class="block-heading">
+
+              <h2 class="text-info">Search</h2>
+              <!-- <p>Movies move us like nothing else can, whether they're scary, funny,
+                dramatic, romantic or anywhere in-between. So many titles, so much to experience.</p> -->
+                <form class="search-form" >
+                        <div class="search">
+                          <input #title  class="form-control mr-sm-2" (keyup.enter)="search(title.value)" type="text" placeholder="Search">
+                        </div>
+                      </form>
+            </div>
+          
+
+
+          </div>
+        </section>
+  
+        <div class="col-md-9">
+             
+         
+                      <div class="products">
+                        <div class="row no-gutters">
+                          <div class="col-12 col-md-6 col-lg-4" *ngFor="let item of getSearchResults()">
+                            <div class="clean-product-item">
+                              <div class="image"><a><img class="img-fluid d-block mx-auto" [routerLink]="['/product', item.id]" src="{{'https://image.tmdb.org/t/p/w500'+item.poster_path}}"></a></div>
+                              <div class="product-name"><a href="#">{{item?.title}}</a></div>
+                              <div class="about">
+                                <div class="rating">
+                                    <img [src]="item.vote_average >= 2 ? '../../../assets/img/star.svg' : item.vote_average >= 1 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                                    <img [src]="item.vote_average >= 4 ? '../../../assets/img/star.svg' : item.vote_average >= 3 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                                    <img [src]="item.vote_average >= 6 ? '../../../assets/img/star.svg' : item.vote_average >= 5 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                                    <img [src]="item.vote_average >= 8 ? '../../../assets/img/star.svg' : item.vote_average >= 7 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                                    <img [src]="item.vote_average >= 10 ? '../../../assets/img/star.svg' : item.vote_average >= 9 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                                </div>
+                                <div class="price">
+                                  <!-- <h3>{{getPrice(item.release_date)}}</h3> -->
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+          
+                      
+                     </div>
+                      </div>
+                    </div>
+              
+      </main>
+      
+      
+
+  
+         

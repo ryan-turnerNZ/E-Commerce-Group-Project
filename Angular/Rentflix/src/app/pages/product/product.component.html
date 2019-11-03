@@ -8,50 +8,51 @@
         <div class="product-info">
           <div class="row">
             <div class="col-md-6">
-              <figure class="figure"><img class="poster" src="{{'https://image.tmdb.org/t/p/w500'+getMovie()?.poster_path}}"></figure>
+                  <figure class="figure"><img class="poster" src="{{'https://image.tmdb.org/t/p/w500'+getMovie()?.poster_path}}"></figure>
             </div>
             <div class="col-md-6">
               <div class="info">
                 <h3>{{ getMovie()?.title }}</h3>
                 <div class="rating">
-                  <img [src]="getMovie()?.vote_average >= 2 ? '../../../assets/img/star.svg' : getMovie()?.vote_average >= 1 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
-                  <img [src]="getMovie()?.vote_average >= 4 ? '../../../assets/img/star.svg' : getMovie()?.vote_average >= 3 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
-                  <img [src]="getMovie()?.vote_average >= 6 ? '../../../assets/img/star.svg' : getMovie()?.vote_average >= 5 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
-                  <img [src]="getMovie()?.vote_average >= 8 ? '../../../assets/img/star.svg' : getMovie()?.vote_average >= 7 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
-                  <img [src]="getMovie()?.vote_average >= 10 ? '../../../assets/img/star.svg' : getMovie()?.vote_average >= 9 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                    <img [src]="getMovie()?.vote_average >= 2 ? '../../../assets/img/star.svg' : getMovie()?.vote_average >= 1 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                    <img [src]="getMovie()?.vote_average >= 4 ? '../../../assets/img/star.svg' : getMovie()?.vote_average >= 3 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                    <img [src]="getMovie()?.vote_average >= 6 ? '../../../assets/img/star.svg' : getMovie()?.vote_average >= 5 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                    <img [src]="getMovie()?.vote_average >= 8 ? '../../../assets/img/star.svg' : getMovie()?.vote_average >= 7 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
+                    <img [src]="getMovie()?.vote_average >= 10 ? '../../../assets/img/star.svg' : getMovie()?.vote_average >= 9 ? '../../../assets/img/star-half-empty.svg' : '../../../assets/img/star-empty.svg'"/>
                 </div>
                 <div class="price">
-                  <h3>{{ getPrice(getMovie()?.release_date) }}</h3>
+                  <h3>{{getPrice(getMovie()?.release_date)}}</h3>
+                </div><button class="btn btn-primary" type="button" (click)="additemToCart()"><i class="icon-basket"></i>Add to Cart</button>
+                <div class="summary">
+                  <p>{{ getMovie()?.overview }}</p>
                 </div>
-              </div><button class="btn btn-primary" type="button" (click)="additemToCart()"><i class="icon-basket"></i>Add to Cart</button>
-              <div class="summary">
-                <p>{{ getMovie()?.overview }}</p>
               </div>
+             
             </div>
           </div>
         </div>
-      </div>
-      <div class="product-info">
-        <h2 style="margin-bottom: 2rem">Reviews</h2>
-        <div class="reviews" *ngFor="let r of getReview()">
-          <div class="review-item">
-            <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-empty.svg"></div>
-            <h4>hello</h4><span class="text-muted">{{r?.author}}</span>
-            <p> {{r?.content |slice:0:800}}.......</p>
-            <p><a href="{{r?.url}}">Read the full review here</a></p>
-          </div>
+        <div class="product-info">
+          <h2 style="margin-bottom: 2rem">Reviews</h2>
+                <div class="reviews" *ngFor="let r of getReview()">
+                  <div class="review-item">
+                    <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-empty.svg"></div>
+                    <h4>hello</h4><span class="text-muted">{{r?.author}}</span>
+                    <p> {{r?.content |slice:0:800}}.......</p>
+                    <p><a href="{{r?.url}}">Read the full review here</a></p>
+                  </div>
+                </div>
         </div>
-      </div>
-      <div class="clean-related-items">
-        <h3>Related Movies</h3>
-        <div class="items">
-          <div class="row justify-content-center">
-            <div class="col-sm-6 col-lg-4" *ngFor="let movie of getRelated()">
-              <div class="clean-related-item">
-                <div class="image"><img class="img-fluid d-block mx-auto" [routerLink]="['/product', movie.id]" src="{{'https://image.tmdb.org/t/p/w500'+movie.poster_path}}"></div>
-                <div class="related-name">{{ movie.title }}
-                  <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-half-empty.svg"><img src="assets/img/star-empty.svg"></div>
-                  <h4>$300</h4>
+        <div class="clean-related-items">
+          <h3>Related Movies</h3>
+          <div class="items">
+            <div class="row justify-content-center">
+              <div class="col-sm-6 col-lg-4" *ngFor="let movie of getRelated()">
+                <div class="clean-related-item">
+                    <div class="image"><img class="img-fluid d-block mx-auto" [routerLink]="['/product', movie.id]" src="{{'https://image.tmdb.org/t/p/w500'+movie.poster_path}}"></div>
+                    <div class="related-name">{{ movie.title }}
+                    <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-half-empty.svg"><img src="assets/img/star-empty.svg"></div>
+                    <h4>$300</h4>
+                  </div>
                 </div>
               </div>
             </div>

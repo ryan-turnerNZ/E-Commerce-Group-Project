@@ -29,7 +29,6 @@ export class ProductComponent implements OnInit {
     this.TMDBService.getMovieFromID(this.id);
     this.TMDBService.getMovieReviews(this.id);
     this.TMDBService.getRelatedMovies(this.id);
-
   }
 
   OnDestroy() {
