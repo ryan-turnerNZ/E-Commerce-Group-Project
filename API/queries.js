@@ -86,13 +86,21 @@ const insertUserToken = (user_id, token, response) => {
 }
 
 const registerUser = (request, response) => {
-    const {username, plainTextPass} = request.body;
+    const {email, username, plainTextPass} = request.body;
     bcrypt.hash(plainTextPass, saltRounds, function(err, hash) {
-        pool.query('INSERT INTO users (username, hash) VALUES ($1, $2)', [username, hash], (error, results) => {
+        pool.query('INSERT INTO users (email, username, hash) VALUES ($1, $2, $3)', [email, username, hash], (error, results) => {
             if(error){
-                response.status(400).json('User could not be registered');
+                response.status(400).json({
+                    valid: false,
+                    message: 'Server Error'
+                });
             }
-            response.status(201).json('User registered');
+            const {rowCount} = results;
+            if (rowCount > 0) {
+                response.status(201).json({
+                    valid: true,
+                });
+            }
         });
     });
 };
@@ -195,15 +203,22 @@ const orderCart = (request, response) => {
                     error: error
                 })
             }
+            const {rowCount} = results;
+            if (rowCount<1) {
+                response.status(404).json({
+                    valid: false,
+                    error: 'There are no movie to purchase'
+                })
+            }
             const {rows} = results;
             let values = '';
             for(i =0; i<rows.length-1; i++) {
                 const {item_id} = rows[i];
-                values += '(\''+user_id + '\' \'' + item_id+'\'),';
+                values += '('+user_id + ', ' + item_id+'),';
                 console.log(rows[i])
             }
             const {item_id} = rows[rows.length-1];
-            values += '(\''+user_id + '\' \'' + item_id+'\')';
+            values += '('+user_id + ', ' + item_id+')';
             console.log(values);
             pool.connect((err, client, done) => {
                 const shouldAbort = err => {
@@ -224,11 +239,10 @@ const orderCart = (request, response) => {
                 };
                 client.query('BEGIN', err => {
                     if (shouldAbort(err)) return;
-                    client.query('DELETE FROM shopping_cart WHERE user_id = $1', [user_id], (err, res) => {
+                    client.query('INSERT INTO purchases (user_id, item_id) SELECT user_id, item_id FROM shopping_cart WHERE user_id = $1', [user_id], (err, res) => {
                         if (shouldAbort(err)) return;
-                        client.query('INSERT INTO purchases (user_id, item_id) VALUES $1', [values], (err, res) => {
-                        // client.query('INSERT INTO purchases SELECT user_id, item_id FROM shopping_cart WHERE user_id = $1', [user_id], (err, res) => {
-                            if (shouldAbort(err)) return
+                        client.query('DELETE FROM shopping_cart WHERE user_id = $1', [user_id], (err, res) => {
+                            if (shouldAbort(err)) return;
                             client.query('COMMIT', err => {
                                 if (err) {
                                     console.error('Error committing transaction', err.stack);
@@ -237,7 +251,7 @@ const orderCart = (request, response) => {
                                         message: err
                                     });
                                 }
-                                done()
+                                done();
                                 response.status(200).json({
                                     valid: true,
                                     message: 'Items ordered'
