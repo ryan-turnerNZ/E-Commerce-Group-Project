@@ -107,7 +107,6 @@ export class CatalogComponent implements OnInit {
   public getGenresList() {
     this.genres = this.TMDBService.getGenresList()
     if (this.genres) {
-      console.log(this.genres);
       return this.genres
     }
   }

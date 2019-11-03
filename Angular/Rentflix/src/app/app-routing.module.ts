@@ -11,12 +11,14 @@ import { AuthGuard } from './guards/auth-guard.service';
 import {AccountComponent} from './pages/AccountPages/account/account.component';
 import {LibraryComponent} from './pages/AccountPages/library/library.component';
 import {OrdersComponent} from './pages/AccountPages/orders/orders.component';
+import { SearchComponent } from './pages/search/search.component';
 
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'catalog/page/:page', component: CatalogComponent},
+  {path: 'search', component: SearchComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
   {path: 'product/:id', component: ProductComponent},

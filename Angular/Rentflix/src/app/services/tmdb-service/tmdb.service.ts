@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -9,6 +10,8 @@ export class TMDBService {
   private apiDiscover = `https://api.themoviedb.org/3/discover/movie`;
   private apiGenres = `https://api.themoviedb.org/3/genre/tv/list?api_key=${this.apiKey}&language=en-US`;
   private apiDetails  = `https://api.themoviedb.org/3/movie`;
+  private apiSearch = `https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}`
+
   private newest;
   private topRated;
   private popular;
@@ -16,7 +19,13 @@ export class TMDBService {
   private genres;
   private reviews;
   private related;
-  private results
+  private results;
+  private searchResults;
+
+  private validSearch: boolean;
+  private notFound: boolean;
+  private notProvided: boolean;
+
   constructor(private http: HttpClient) {}
 
   public getNewest = () => this.newest;
@@ -26,7 +35,10 @@ export class TMDBService {
   public getReviews = () => this.reviews;
   public getRelated = () => this.related;
   public getResults = () => this.results;
+  public getSearchResults = () => this.searchResults;
   public getGenresList = () => this.genres;
+  public isValidSearch = () => this.validSearch;
+
 
   /* Gets the latest movies from TMDB
   to display on the landing page */
@@ -39,7 +51,7 @@ export class TMDBService {
       .subscribe(
         response => {
           const responseBody = JSON.parse(response);
-          console.log(responseBody);
+          // console.log(responseBody);
           this.newest = responseBody.results;
         },
         err => {
@@ -59,7 +71,7 @@ export class TMDBService {
       .subscribe(
         response => {
           const responseBody = JSON.parse(response);
-          console.log(responseBody);
+          // console.log(responseBody);
           this.popular = responseBody.results;
         },
         err => {
@@ -79,7 +91,7 @@ export class TMDBService {
       .subscribe(
         response => {
           const responseBody = JSON.parse(response);
-          console.log(responseBody);
+          // console.log(responseBody);
           this.topRated = responseBody.results;
         },
         err => {
@@ -97,7 +109,7 @@ export class TMDBService {
     .subscribe(
       response => {
         const responseBody = JSON.parse(response);
-        console.log(responseBody);
+        // console.log(responseBody);
         this.movie = responseBody;
       },
       err => {
@@ -115,7 +127,7 @@ export class TMDBService {
       .subscribe(
         response => {
           const responseBody = JSON.parse(response);
-          console.log(responseBody);
+          // console.log(responseBody);
           this.reviews = responseBody.results;
         },
         err => {
@@ -133,7 +145,7 @@ export class TMDBService {
       .subscribe(
         response => {
           const responseBody = JSON.parse(response);
-          console.log(responseBody);
+          // console.log(responseBody);
           this.related = responseBody.results;
         },
         err => {
@@ -146,7 +158,7 @@ export class TMDBService {
     this.http.get(this.apiGenres, { responseType: 'text' })
     .subscribe(response => {
       const responseBody = JSON.parse(response);
-      console.log(this.genres)
+      // console.log(this.genres)
       this.genres = responseBody.genres;
       }, err => {
         console.log(err);
@@ -180,6 +192,37 @@ export class TMDBService {
         console.log(err);
       }
     );
+  }
+
+
+  public searchTitle(title: string): void {
+    if (!title) {
+      this.validSearch = false;
+      this.notProvided = true;
+      this.notFound = false;
+    } else {
+      this.getValidSearchResults(title);
+    }
+  }
+
+  public getValidSearchResults(title: string) {
+    this.http.get(`${this.apiSearch}&language=en-US&query=${title}`, { responseType: 'text' })
+      .subscribe(response => {
+        const responseBody = JSON.parse(response);
+
+        if (responseBody.Error) {
+          this.validSearch = false;
+          this.notFound = true;
+          this.notProvided = false;
+        } else {
+          this.validSearch = true;
+          this.notFound = false;
+          this.notProvided = false;
+
+          this.searchResults = responseBody.results;
+          console.log(this.searchResults);
+        }
+      });
   }
 
 }

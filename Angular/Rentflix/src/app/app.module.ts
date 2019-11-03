@@ -24,6 +24,7 @@ import { LibraryComponent } from './pages/AccountPages/library/library.component
 import { AccountComponent } from './pages/AccountPages/account/account.component';
 import { OrdersComponent } from './pages/AccountPages/orders/orders.component';
 import { NavComponent } from './component/nav/nav.component';
+import { SearchComponent } from './pages/search/search.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { NavComponent } from './component/nav/nav.component';
     LibraryComponent,
     AccountComponent,
     OrdersComponent,
-    NavComponent
+    NavComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
