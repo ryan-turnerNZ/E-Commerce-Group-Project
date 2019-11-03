@@ -1,3 +1,9 @@
+/***
+ * Author: Ryan Turner
+ *
+ * Ryan Turner worked on this file himself
+ */
+
 const express = require('express');
 const app = express();
 const cors = require('cors');

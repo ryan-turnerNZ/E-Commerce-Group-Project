@@ -1,3 +1,9 @@
+/***
+ * Author: Ryan Turner
+ *
+ * Ryan Turner worked on this file himself
+ */
+
 require('dotenv').config();
 const { Pool } = require('pg');
 const conString = process.env.DB_URL;
