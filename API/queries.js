@@ -181,13 +181,51 @@ const getCart = (request, response) => {
 
 const orderCart = (request, response) => {
     const token = request.get('X-Requested-With');
-    checkToken(token).then(num => {
-        if (num>0) {
-            response.status(200).json({
-                valid: true,
-                error: 'Valid token',
+    checkToken(token).then(user_id => {
+        pool.query('SELECT item_id FROM shopping_cart WHERE user_id = $1', [user_id], (error, results) => {
+            if (error) {
+                response.status(500).json({
+                    valid: false,
+                    error: error
+                })
+            }
+            const {rows} = results;
+            let values = '';
+            for(i =0; i<rows.length-1; i++) {
+                values += '('+user_id + ' ' + rows[i]+'),'
+            }
+            values += '('+user_id + ' ' + rows[rows.length]+')';
+            console.log(values);
+            pool.connect((err, client, done) => {
+                const shouldAbort = err => {
+                    if (err) {
+                        console.error('Error in transaction', err.stack);
+                        client.query('ROLLBACK', err => {
+                            if (err) {
+                                console.error('Error rolling back client', err.stack)
+                            }
+                            done()
+                        })
+                    }
+                    return !!err
+                };
+                client.query('BEGIN', err => {
+                    if (shouldAbort(err)) return;
+                    client.query('DELETE FROM shopping_cart WHERE user_id = $1', [user_id], (err, res) => {
+                        if (shouldAbort(err)) return;
+                        client.query('INSERT INTO orders (user_id, item_id) VALUES $1', [values], (err, res) => {
+                            if (shouldAbort(err)) return
+                            client.query('COMMIT', err => {
+                                if (err) {
+                                    console.error('Error committing transaction', err.stack)
+                                }
+                                done()
+                            })
+                        })
+                    })
+                })
             })
-        }
+        })
     });
 };
 
