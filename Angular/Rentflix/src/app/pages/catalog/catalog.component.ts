@@ -11,6 +11,7 @@ export class CatalogComponent implements OnInit {
   newReleases: any[];
   popular: any[];
   pagesarray = new Array();
+  genres;
   count = 0;
   max = 20;
   limit = 9;
@@ -26,6 +27,7 @@ export class CatalogComponent implements OnInit {
     });
     this.TMDBService.discoverNewest();
     this.TMDBService.discoverPopular();
+    this.TMDBService.getGenres();
     this.numberOfPages();
 
   }
@@ -59,7 +61,6 @@ export class CatalogComponent implements OnInit {
    */
   public getPrice(date) {
     let year = date.substring(0, 4);
-    console.log(year);
     if (year >= 2019) { return '$8.99'; }
     else if (year <= 2018 && year > 2015) { return '$5.99'; }
     return '$3.99';
@@ -67,7 +68,7 @@ export class CatalogComponent implements OnInit {
   public displayResults(page) {
     const results = this.limit * page;
     let temp = this.getPopular();
-    console.log(temp);
+    // console.log(temp);
     if (results > this.max - this.limit) {
       return temp.slice(results, this.max);
     }
@@ -82,5 +83,31 @@ export class CatalogComponent implements OnInit {
   }
   public getPages(){
     return this.pagesarray;
+  }
+
+
+  // public getWithGenre(id) {
+  //   this.content.scrollToTop(200);
+  //   this.currentGenre = id;
+  //   if(id) {
+  //     this.discover.discoverByGenre(id, this.sort_by)
+  //   }
+  //   else {
+  //     this.discover.discover(this.sort_by)
+  //   }
+  //   this.showGenres = false;
+  //   this.scrollerClass = "scroll";
+  // }
+
+  // public getResults() {
+  //   this.results = this.discover.getResults()
+  //   if (this.results) return this.results.filter(t => t.poster_path != null);
+  // }
+
+  public getGenresList() {
+    this.genres = this.TMDBService.getGenresList()
+    if (this.genres) {
+      return this.genres
+    }
   }
 }
