@@ -11,9 +11,8 @@ import {LoginService} from '../../services/login-service/login.service';
 })
 export class CartComponent implements OnInit {
   private cart;
+  private id = -1;
   private totalPrice = 0.00;
-  private movieCart = [];
-  private movie;
   ngOnInit(): void {
     this.getCart();
   }
@@ -28,10 +27,12 @@ export class CartComponent implements OnInit {
       res.subscribe(data => {
         const response = (data as {results: any});
         this.cart = response.results;
+        console.log("hey");
         this.convertCart();
       });
     });
   }
+
   /**
    * gets ids from array and then gets related movies
    *
@@ -40,7 +41,13 @@ export class CartComponent implements OnInit {
 
   }
 
-  getMovie() {
+  getMovie(id) {
+    //console.log(id);
+    if (this.id !== id) {
+      this.moviedb.getMovieFromID(id);
+
+    }
+
     return this.moviedb.getMovie();
   }
 

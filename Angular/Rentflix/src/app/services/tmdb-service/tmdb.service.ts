@@ -16,7 +16,7 @@ export class TMDBService {
   private genres;
   private reviews;
   private related;
-  movieLists;
+  private movieList;
   constructor(private http: HttpClient) {}
 
   public getNewest = () => this.newest;
@@ -87,7 +87,7 @@ export class TMDBService {
       );
   }
 
-  public getMovieFromID(id) {
+  async getMovieFromID(id) {
     this.http
     .get(
       `${this.apiDetails}/${id}?api_key=${this.apiKey}`,
