@@ -5,10 +5,12 @@
         <h2 class="text-info">Registration</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
       </div>
-      <form>
-        <div class="form-group"><label for="name">Name</label><input class="form-control item" type="text" id="name"></div>
-        <div class="form-group"><label for="password">Password</label><input class="form-control item" type="password" id="password"></div>
-        <div class="form-group"><label for="email">Email</label><input class="form-control item" type="email" id="email"></div><button class="btn btn-primary btn-block" type="submit">Sign Up</button></form>
+      <form [formGroup]="registerForum" (ngSubmit)="onRegister(registerForum.value)">
+        <div class="form-group"><label for="username">Name</label><input formControlName="username" class="form-control item" type="username" id="username"></div>
+        <div class="form-group"><label for="password">Password</label><input formControlName="password" class="form-control item" type="password" id="password"></div>
+        <button class="btn btn-primary btn-block" type="submit">Log In</button>
+      </form>
+
     </div>
   </section>
 </main>

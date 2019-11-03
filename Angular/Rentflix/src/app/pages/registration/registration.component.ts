@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {LoginService} from '../../services/login-service/login.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -6,10 +9,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
-
-  constructor() { }
+  registerForum: FormGroup;
+  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private router: Router) {
+    this.registerForum = formBuilder.group({
+      username: '',
+      password: '',
+    });
+  }
 
   ngOnInit() {
+  }
+  public onRegister(value: {username: string, password: string}) {
+    console.log(value.username + ' ' + value.password);
+    this.loginService.registerUser(value.username, value.password).then(res => {
+      res.subscribe(data => {
+          if (data === 'User registered') {
+            this.router.navigate(['/login']);
+          } else {
+            console.log(data);
+          }
+      });
+    });
+
   }
 
 }
