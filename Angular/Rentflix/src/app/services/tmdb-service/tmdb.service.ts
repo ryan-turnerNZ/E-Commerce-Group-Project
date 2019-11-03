@@ -100,7 +100,7 @@ export class TMDBService {
       );
   }
 
-  public getMovieFromID(id) {
+  async getMovieFromID(id) {
     this.http
     .get(
       `${this.apiDetails}/${id}?api_key=${this.apiKey}`,
@@ -111,13 +111,13 @@ export class TMDBService {
         const responseBody = JSON.parse(response);
         // console.log(responseBody);
         this.movie = responseBody;
+        console.log(this.movie);
       },
       err => {
         console.log(err);
       }
     );
   }
-
   public getMovieReviews(id) {
     this.http
       .get(

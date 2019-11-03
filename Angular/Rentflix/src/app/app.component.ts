@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {LoginService} from './services/login-service/login.service';
 import {Router} from '@angular/router';
+import {Observable, fromEvent} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,15 @@ import {Router} from '@angular/router';
 })
 export class AppComponent {
   title = 'Rentflix';
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(private loginService: LoginService, private router: Router) {
+    const clicks$ = fromEvent(document, 'click');
+    clicks$.subscribe(x => {
+      if (this.loginService.getTimer() != null) {
+        this.loginService.resetTimer();
+      }}
+    );
+  }
+
 
   loginStatus() {
     return this.loginService.isAuthenticated();
@@ -23,6 +32,7 @@ export class AppComponent {
         if (valid === true) {
           this.loginService.setUserToken('');
           this.loginService.setAuth(false);
+          this.loginService.stopTimer();
           this.router.navigate(['/home']);
         } else {
           console.log(error);

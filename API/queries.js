@@ -1,3 +1,9 @@
+/***
+ * Author: Ryan Turner
+ *
+ * Ryan Turner worked on this file himself
+ */
+
 require('dotenv').config();
 const { Pool } = require('pg');
 const conString = process.env.DB_URL;
@@ -119,7 +125,7 @@ const checkUser = (request, response) => {
 const addToCart = (request, response) => {
     const token = request.get('X-Requested-With');
     const {item_id} = request.body;
-    checkToken(token).then(user_id => {
+    checkToken(token, response).then(user_id => {
         pool.query('INSERT INTO shopping_cart (user_id, item_id) VALUES ($1, $2)', [user_id, item_id], (error, results) => {
             if (error) {
                 response.status(403).json({
@@ -138,7 +144,7 @@ const addToCart = (request, response) => {
 const removeFromCart = (request, response) => {
     const token = request.get('X-Requested-With');
     const item_id = request.params.item_id;
-    checkToken(token).then(user_id => {
+    checkToken(token, response).then(user_id => {
         pool.query('DELETE FROM shopping_cart WHERE user_id = $1 AND item_id = $2', [user_id, item_id], (error, results) => {
             if (error) {
                 response.status(500).json({
@@ -164,7 +170,7 @@ const removeFromCart = (request, response) => {
 
 const getCart = (request, response) => {
     const token = request.get('X-Requested-With');
-    checkToken(token).then(user_id => {
+    checkToken(token, response).then(user_id => {
         pool.query('SELECT item_id FROM shopping_cart WHERE user_id = $1', [user_id], (error, results) => {
             if (error) {
                 response.status(500).json({
@@ -181,19 +187,73 @@ const getCart = (request, response) => {
 
 const orderCart = (request, response) => {
     const token = request.get('X-Requested-With');
-    checkToken(token).then(num => {
-        if (num>0) {
-            response.status(200).json({
-                valid: true,
-                error: 'Valid token',
+    checkToken(token, response).then(user_id => {
+        pool.query('SELECT item_id FROM shopping_cart WHERE user_id = $1', [user_id], (error, results) => {
+            if (error) {
+                response.status(500).json({
+                    valid: false,
+                    error: error
+                })
+            }
+            const {rows} = results;
+            let values = '';
+            for(i =0; i<rows.length-1; i++) {
+                const {item_id} = rows[i];
+                values += '(\''+user_id + '\' \'' + item_id+'\'),';
+                console.log(rows[i])
+            }
+            const {item_id} = rows[rows.length-1];
+            values += '(\''+user_id + '\' \'' + item_id+'\')';
+            console.log(values);
+            pool.connect((err, client, done) => {
+                const shouldAbort = err => {
+                    if (err) {
+                        console.error('Error in transaction', err.stack);
+                        client.query('ROLLBACK', err => {
+                            if (err) {
+                                console.error('Error rolling back client', err.stack)
+                            }
+                            response.status(500).json({
+                                valid: false,
+                                message: err
+                            });
+                            done()
+                        })
+                    }
+                    return !!err
+                };
+                client.query('BEGIN', err => {
+                    if (shouldAbort(err)) return;
+                    client.query('DELETE FROM shopping_cart WHERE user_id = $1', [user_id], (err, res) => {
+                        if (shouldAbort(err)) return;
+                        client.query('INSERT INTO purchases (user_id, item_id) VALUES $1', [values], (err, res) => {
+                        // client.query('INSERT INTO purchases SELECT user_id, item_id FROM shopping_cart WHERE user_id = $1', [user_id], (err, res) => {
+                            if (shouldAbort(err)) return
+                            client.query('COMMIT', err => {
+                                if (err) {
+                                    console.error('Error committing transaction', err.stack);
+                                    response.status(500).json({
+                                        valid: false,
+                                        message: err
+                                    });
+                                }
+                                done()
+                                response.status(200).json({
+                                    valid: true,
+                                    message: 'Items ordered'
+                                })
+                            })
+                        })
+                    })
+                })
             })
-        }
+        })
     });
 };
 
 const getUserOrders = (request, response) => {
     const token = request.get('X-Requested-With');
-    checkToken(token).then(user_id => {
+    checkToken(token, response).then(user_id => {
         pool.query('SELECT purchase_id, item_id, purchase_date FROM purchases WHERE user_id = $1', [user_id], (error, results) => {
             if (error) {
                 response.status(500).json({
@@ -210,7 +270,7 @@ const getUserOrders = (request, response) => {
 
 const getUserDetails = (request, response) => {
     const token = request.get('X-Requested-With');
-    checkToken(token).then(user_id => {
+    checkToken(token, response).then(user_id => {
         pool.query('SELECT * from users WHERE user_id = $1', [user_id], (error, results) => {
             if (error) {
                 response.status(500).json({
@@ -228,7 +288,7 @@ const getUserDetails = (request, response) => {
 const changeUserDetails = (request, response) => {
     const token = request.get('X-Requested-With');
     const {username, new_username} = request.body;
-    checkToken(token).then(user_id => {
+    checkToken(token, response).then(user_id => {
         pool.query('SELECT * FROM users WHERE username = $2', [new_username], (error, results) => {
             if (error) {
                 response.status(500).json({
@@ -257,7 +317,7 @@ const changeUserDetails = (request, response) => {
 
 const deleteAccount = (request, response) => {
     const token = request.get('X-Requested-With');
-    checkToken(token).then(num => {
+    checkToken(token, response).then(num => {
         if (num>0) {
             response.status(200).json({
                 valid: true,
@@ -275,7 +335,7 @@ const logoutUser = (request, response) => {
             error: 'You are not logged in',
         })
     }
-    checkToken(token).then(user_id => {
+    checkToken(token, response).then(user_id => {
         console.log(user_id);
         console.log(token);
         pool.query('DELETE FROM login_tokens WHERE user_id = $1 AND token = $2', [user_id, token], (error, results) => {

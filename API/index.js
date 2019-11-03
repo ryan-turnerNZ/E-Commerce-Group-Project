@@ -1,3 +1,9 @@
+/***
+ * Author: Ryan Turner
+ *
+ * Ryan Turner worked on this file himself
+ */
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -35,7 +41,7 @@ app.delete('/user', db.deleteAccount);
 
 app.get('/cart', db.getCart);
 app.post('/cart', db.addToCart);
-app.delete('/cart', db.removeFromCart);
+app.delete('/cart/:item_id', db.removeFromCart);
 
 app.get('/orders', db.getUserOrders);
 app.post('/orders', db.orderCart);

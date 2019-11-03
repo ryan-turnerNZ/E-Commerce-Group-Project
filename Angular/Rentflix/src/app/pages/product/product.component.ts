@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TMDBService } from '../../services/tmdb-service/tmdb.service';
 import {LoginService} from '../../services/login-service/login.service';
+import {CartService} from '../../services/cart-service/cart.service';
 
 @Component({
   selector: 'app-product',
@@ -17,7 +18,7 @@ export class ProductComponent implements OnInit {
   related: any[];
 
   // tslint:disable-next-line:max-line-length
-  constructor(private router: Router, private Activatedroute: ActivatedRoute, private TMDBService: TMDBService, private loginService: LoginService) {}
+  constructor(private cartService: CartService, private router: Router, private Activatedroute: ActivatedRoute, private TMDBService: TMDBService, private loginService: LoginService) {}
 
   sub;
 
@@ -68,6 +69,12 @@ export class ProductComponent implements OnInit {
     return '$3.99';
   }
   additemToCart() {
-
+    if(this.loginService.isAuthenticated()) {
+      this.cartService.addToCartItem(this.loginService.getUserToken(), this.getMovie().id).then(som => {
+        this.router.navigate(['/account/cart']);
+      });
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 }

@@ -25,6 +25,10 @@ import { AccountComponent } from './pages/AccountPages/account/account.component
 import { OrdersComponent } from './pages/AccountPages/orders/orders.component';
 import { NavComponent } from './component/nav/nav.component';
 import { SearchComponent } from './pages/search/search.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AlertComponent } from './component/alert/alert.component';
+import  {MatButtonToggleModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -40,7 +44,8 @@ import { SearchComponent } from './pages/search/search.component';
     AccountComponent,
     OrdersComponent,
     NavComponent,
-    SearchComponent
+    SearchComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -49,10 +54,13 @@ import { SearchComponent } from './pages/search/search.component';
     FormsModule,
     HttpClientModule,
     NgbModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatButtonToggleModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],
-  entryComponents: [NavComponent]
+  entryComponents: [NavComponent, AlertComponent]
 })
 
 export class AppModule {
