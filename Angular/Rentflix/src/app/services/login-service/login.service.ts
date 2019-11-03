@@ -28,6 +28,7 @@ export class LoginService {
 
 
   constructor(private http: HttpClient, private matDialog: MatDialog, private router: Router) {
+      this.timer = null;
   }
 
   async getAuthentication(username, password) {
@@ -44,6 +45,7 @@ export class LoginService {
     return this.http.delete(`${this.serverlink}/user/authentication`, httpOptions);
   }
   stopTimer() {
+    clearInterval(this.timer);
     this.timer = null;
   }
   setUserToken(token: string) {
@@ -69,9 +71,11 @@ export class LoginService {
         this.stopTimer();
       }
       this.timerExpired = true;
-    }, 5000); // 10 minutes
+    }, 600000); // 10 minutes
   }
-
+  getTimer = () => {
+    return this.timer;
+  }
   resetTimer = () => {
     this.timerExpired = false;
     this.timer = setInterval(() => {
@@ -81,7 +85,7 @@ export class LoginService {
         this.stopTimer();
       }
       this.timerExpired = true;
-    }, 5000); // 10 minutes
+    }, 600000); // 10 minutes
 
   }
 
@@ -90,8 +94,24 @@ export class LoginService {
     const dialogRef = this.matDialog.open(AlertComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(value => {
       console.log(`Dialog sent: ${value}`);
-      this.router.navigate(['/login']);
+      this.logoutFunc();
     });
 
+  }
+   logoutFunc() {
+    console.log('logingoust');
+    this.logout().then(res => {
+      res.subscribe((data) => {
+        const {valid, message, error} = (data as {valid, message, error});
+        if (valid === true) {
+          this.setUserToken('');
+          this.setAuth(false);
+          this.stopTimer();
+          this.router.navigate(['/login']);
+        } else {
+          console.log(error);
+        }
+      });
+    });
   }
 }

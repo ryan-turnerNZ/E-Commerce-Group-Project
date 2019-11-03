@@ -24,19 +24,19 @@ export class CartService {
 
   async getCart(token: string) {
     httpOptions.headers =
-      httpOptions.headers.set('X-Requested_With', token);
+      httpOptions.headers.set('X-Requested-With', token);
     return this.http.get(`${this.serverlink}/cart`, httpOptions);
   }
 
   async addToCartItem(token: string, itemId: string) {
     httpOptions.headers =
-      httpOptions.headers.set('X-Requested_With', token);
+      httpOptions.headers.set('X-Requested-With', token);
     return this.http.post(`${this.serverlink}/cart`, {item_id: itemId}, httpOptions);
   }
 
   async removeFromCartItem(token: string, itemId: string) {
     httpOptions.headers =
-      httpOptions.headers.set('X-Requested_With', token);
+      httpOptions.headers.set('X-Requested-With', token);
     return this.http.delete(`${this.serverlink}/cart/${itemId}`, httpOptions);
   }
 }
