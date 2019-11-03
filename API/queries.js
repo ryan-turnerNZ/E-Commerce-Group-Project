@@ -220,8 +220,8 @@ const orderCart = (request, response) => {
                     if (shouldAbort(err)) return;
                     client.query('DELETE FROM shopping_cart WHERE user_id = $1', [user_id], (err, res) => {
                         if (shouldAbort(err)) return;
-                        // client.query('INSERT INTO orders (user_id, item_id) VALUES $1', [values], (err, res) => {
-                        client.query('INSERT INTO orders SELECT user_id, item_id FROM shopping_cart WHERE user_id = $1', [user_id], (err, res) => {
+                        client.query('INSERT INTO purchases (user_id, item_id) VALUES $1', [values], (err, res) => {
+                        // client.query('INSERT INTO purchases SELECT user_id, item_id FROM shopping_cart WHERE user_id = $1', [user_id], (err, res) => {
                             if (shouldAbort(err)) return
                             client.query('COMMIT', err => {
                                 if (err) {
