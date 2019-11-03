@@ -10,17 +10,45 @@ import {LoginService} from '../../services/login-service/login.service';
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-  cart = [];
+  private cart;
+  private totalPrice = 0.00;
+  private movieCart = [];
+  private movie;
   ngOnInit(): void {
     this.getCart();
   }
-  constructor(private cartService: CartService, private loginService: LoginService) {}
+
+  constructor(private cartService: CartService, private loginService: LoginService, private moviedb: TMDBService) {}
+  /**
+  * Gets cart from database
+   *
+  * */
   getCart() {
     this.cartService.getCart(this.loginService.getUserToken()).then(res => {
       res.subscribe(data => {
         const response = (data as {results: any});
-        console.log(response.results);
+        this.cart = response.results;
+        this.convertCart();
       });
     });
+  }
+  /**
+   * gets ids from array and then gets related movies
+   *
+   * */
+  convertCart() {
+
+  }
+
+  getMovie() {
+    return this.moviedb.getMovie();
+  }
+
+  public getPrice(date) {
+    const year = date.substring(0, 4);
+    console.log(year);
+    if (year >= 2019) { this.totalPrice += 8.99; return '$8.99'; } else if (year <= 2018 && year > 2015) {this.totalPrice += 5.99; return '$5.99'; }
+    this.totalPrice += 3.99;
+    return '$3.99';
   }
 }

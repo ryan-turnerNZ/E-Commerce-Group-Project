@@ -72,7 +72,7 @@ export class ProductComponent implements OnInit {
   additemToCart() {
     if(this.loginService.isAuthenticated()) {
       this.cartService.addToCartItem(this.loginService.getUserToken(), this.getMovie().id).then(som => {
-        console.log('Hey it worked' + this.getMovie().id);
+        this.router.navigate(['/account/cart']);
       });
     } else {
       this.router.navigate(['/login']);

@@ -16,6 +16,7 @@ export class TMDBService {
   private genres;
   private reviews;
   private related;
+  movieLists;
   constructor(private http: HttpClient) {}
 
   public getNewest = () => this.newest;
@@ -95,15 +96,15 @@ export class TMDBService {
     .subscribe(
       response => {
         const responseBody = JSON.parse(response);
-        console.log(responseBody);
+        //console.log(responseBody);
         this.movie = responseBody;
+        console.log(this.movie);
       },
       err => {
         console.log(err);
       }
     );
   }
-
   public getMovieReviews(id) {
     this.http
       .get(
