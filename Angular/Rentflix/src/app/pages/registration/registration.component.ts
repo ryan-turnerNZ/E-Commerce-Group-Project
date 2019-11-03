@@ -12,6 +12,7 @@ export class RegistrationComponent implements OnInit {
   registerForum: FormGroup;
   constructor(private formBuilder: FormBuilder, private loginService: LoginService, private router: Router) {
     this.registerForum = formBuilder.group({
+      email: '',
       username: '',
       password: '',
     });
@@ -19,9 +20,9 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit() {
   }
-  public onRegister(value: {username: string, password: string}) {
+  public onRegister(value: {email: string, username: string, password: string}) {
     console.log(value.username + ' ' + value.password);
-    this.loginService.registerUser(value.username, value.password).then(res => {
+    this.loginService.registerUser(value.email, value.username, value.password).then(res => {
       res.subscribe(data => {
           if (data === 'User registered') {
             this.router.navigate(['/login']);

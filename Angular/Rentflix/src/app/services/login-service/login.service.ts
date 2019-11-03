@@ -39,12 +39,8 @@ export class LoginService {
     return this.http.get(`${this.serverlink}/user/authentication`, httpOptions);
   }
 
-  async registerUser(username, password) {
-    httpOptions.headers =
-      httpOptions.headers.set('username', username);
-    httpOptions.headers =
-      httpOptions.headers.set('plainTextPass', password);
-    return this.http.post(`${this.serverlink}/user`, httpOptions);
+  async registerUser(email, username, password) {
+    return this.http.post(`${this.serverlink}/user`,{email, username, password}, httpOptions);
 
   }
   async logout() {
