@@ -1,5 +1,8 @@
 import {Injectable, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {AlertComponent} from '../../component/alert/alert.component';
+import {Router} from '@angular/router';
 
 
 const httpOptions = {
@@ -24,8 +27,7 @@ export class LoginService {
   private timer;
 
 
-  constructor(private http: HttpClient) {
-    this.startTimer();
+  constructor(private http: HttpClient, private matDialog: MatDialog, private router: Router) {
   }
 
   async getAuthentication(username, password) {
@@ -40,6 +42,9 @@ export class LoginService {
     httpOptions.headers =
       httpOptions.headers.set('X-Requested-With', this.getUserToken());
     return this.http.delete(`${this.serverlink}/user/authentication`, httpOptions);
+  }
+  stopTimer() {
+    this.timer = null;
   }
   setUserToken(token: string) {
     this.userToken = token;
@@ -60,9 +65,11 @@ export class LoginService {
     this.timer = setInterval(() => {
       if (this.timerExpired === true) {
         console.log('Logging out');
+        this.openDialog();
+        this.stopTimer();
       }
       this.timerExpired = true;
-    }, 600000); // 10 minutes
+    }, 5000); // 10 minutes
   }
 
   resetTimer = () => {
@@ -70,9 +77,21 @@ export class LoginService {
     this.timer = setInterval(() => {
       if (this.timerExpired === true) {
         console.log('Logging out');
+        this.openDialog();
+        this.stopTimer();
       }
       this.timerExpired = true;
-    }, 600000); // 10 minutes
+    }, 5000); // 10 minutes
+
+  }
+
+  openDialog() {
+    const dialogConfig = new MatDialogConfig();
+    const dialogRef = this.matDialog.open(AlertComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(value => {
+      console.log(`Dialog sent: ${value}`);
+      this.router.navigate(['/login']);
+    });
 
   }
 }

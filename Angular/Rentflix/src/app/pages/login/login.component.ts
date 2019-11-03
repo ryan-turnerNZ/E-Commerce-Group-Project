@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
         if (response.valid === true) {
           this.loginService.setUserToken(response.token);
           this.loginService.setAuth(true);
+          this.loginService.startTimer();
           this.router.navigate(['/home']);
         } else {
           console.log('Invalid Login');

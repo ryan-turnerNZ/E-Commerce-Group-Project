@@ -3,6 +3,9 @@ import {LoginService} from './services/login-service/login.service';
 import {Router} from '@angular/router';
 import {Observable, fromEvent} from 'rxjs';
 
+import {MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {AlertComponent} from './component/alert/alert.component';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -28,6 +31,7 @@ export class AppComponent {
         if (valid === true) {
           this.loginService.setUserToken('');
           this.loginService.setAuth(false);
+          this.loginService.stopTimer();
           this.router.navigate(['/home']);
         } else {
           console.log(error);

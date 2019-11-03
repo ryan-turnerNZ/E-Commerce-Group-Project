@@ -24,6 +24,12 @@ import { LibraryComponent } from './pages/AccountPages/library/library.component
 import { AccountComponent } from './pages/AccountPages/account/account.component';
 import { OrdersComponent } from './pages/AccountPages/orders/orders.component';
 import { NavComponent } from './component/nav/nav.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
+import { MatDialogModule } from '@angular/material/dialog';
+import { AlertComponent } from './component/alert/alert.component';
+import {MatButtonToggleModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -38,7 +44,8 @@ import { NavComponent } from './component/nav/nav.component';
     LibraryComponent,
     AccountComponent,
     OrdersComponent,
-    NavComponent
+    NavComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -47,10 +54,13 @@ import { NavComponent } from './component/nav/nav.component';
     FormsModule,
     HttpClientModule,
     NgbModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatButtonToggleModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],
-  entryComponents: [NavComponent]
+  entryComponents: [NavComponent, AlertComponent]
 })
 
 export class AppModule {
