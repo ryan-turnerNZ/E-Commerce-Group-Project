@@ -11,18 +11,17 @@
         <div class="row no-gutters">
           <div class="col-md-12 col-lg-8">
             <div class="items">
-              <div class="product" *ngFor="let id of cart">
+              <div class="product" *ngFor="let m of movie">
                 <div class="row justify-content-center align-items-center">
                   <div class="col-md-3">
-                    <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{{'https://image.tmdb.org/t/p/w500'+getMovie(id)?.poster_path}}"></div>
+                    <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{{'https://image.tmdb.org/t/p/w500'+ m?.posterPath}}"></div>
                   </div>
-                  <div class="col-md-5 product-info"><a class="product-name" href="#">{{getMovie(id.item_id)?.title}}</a>
+                  <div class="col-md-5 product-info"><a class="product-name" href="#">{{m?.title}}</a>
                     <div class="product-specs">
-                      <div><span>Release Date:&nbsp;</span><span class="value">{{getMovie(id.item_id)?.release_date}}</span></div>
-                      <div><span>Runtime:&nbsp;</span><span class="value">{{getMovie(id.item_id)?.runtime}}</span></div>
+                      <div><span>Release Date:&nbsp;</span><span class="value">{{m?.releaseDate}}</span></div>
                     </div>
                   </div>
-                  <div class="col-6 col-md-2 price"><span>{{getPrice(getMovie(id.item_id)?.release_date)}}</span></div>
+                  <div class="col-6 col-md-2 price"><span>{{getPrice(m?.releaseDate)}}</span></div>
                 </div>
               </div>
             </div>

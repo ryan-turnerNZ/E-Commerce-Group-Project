@@ -118,6 +118,25 @@ export class TMDBService {
       }
     );
   }
+  public getMovieFromID2(id) {
+    this.http
+      .get(
+        `${this.apiDetails}/${id}?api_key=${this.apiKey}`,
+        { responseType: 'text' }
+      )
+      .subscribe(
+        response => {
+          const responseBody = JSON.parse(response);
+          // console.log(responseBody);
+          this.movie = responseBody;
+          console.log(this.movie);
+          return responseBody;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
   public getMovieReviews(id) {
     this.http
       .get(
@@ -187,7 +206,7 @@ export class TMDBService {
       .subscribe(response => {
         const responseBody = JSON.parse(response);
         this.results = responseBody.results;
-       
+
       }, err => {
         console.log(err);
       }

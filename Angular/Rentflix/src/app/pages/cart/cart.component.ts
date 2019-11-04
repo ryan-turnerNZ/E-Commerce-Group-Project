@@ -4,52 +4,48 @@ import {Observable} from 'rxjs';
 import {CartService} from '../../services/cart-service/cart.service';
 import {LoginService} from '../../services/login-service/login.service';
 
+export interface Movie {
+  title: any;
+  releaseDate: any;
+  posterPath: any;
+}
+
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-  private cart;
+  private cart = [];
   private id = -1;
   private totalPrice = 0.00;
+  private movie: Movie[];
+
   ngOnInit(): void {
     this.getCart();
   }
 
   constructor(private cartService: CartService, private loginService: LoginService, private moviedb: TMDBService) {}
-  /**
-  * Gets cart from database
-   *
-  * */
+
   getCart() {
     this.cartService.getCart(this.loginService.getUserToken()).then(res => {
       res.subscribe(data => {
         const response = (data as {results: any});
         this.cart = response.results;
-        console.log("hey");
+        console.log(this.cart);
         this.convertCart();
       });
     });
   }
 
-  /**
-   * gets ids from array and then gets related movies
-   *
-   * */
-  convertCart() {
-
+   convertCart() {
+    this.cart.forEach(async m => {
+        await this.moviedb.getMovieFromID2(m.item_id);
+        const test: Movie = {title:  this.moviedb.getMovie().title, posterPath: this.moviedb.getMovie().poster_path, releaseDate: this.moviedb.getMovie().release_date};
+        this.movie.push(test);
+    });
   }
 
-  getMovie(id) {
-    //console.log(id);
-    if (this.id !== id) {
-      this.moviedb.getMovieFromID(id);
-
-    }
-
-    return this.moviedb.getMovie();
-  }
 
   public getPrice(date) {
     const year = date.substring(0, 4);
