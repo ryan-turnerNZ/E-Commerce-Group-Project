@@ -9,11 +9,12 @@
               <!-- <p>Movies move us like nothing else can, whether they're scary, funny,
                       dramatic, romantic or anywhere in-between. So many titles, so much to experience.</p> -->
               <form class="search-form">
-                <div class="search inner-addon left-addon">
-                  <i class="glyphicon glyphicon-search"></i>
+              
                   <input #title class="form-control mr-sm-2 search-bar" (keyup.enter)="search(title.value)" type="text"
                     placeholder="Type in a movie title...">
-                </div>
+                    
+                
+                <button class="btn btn-primary" type="button" (click)="search(title.value)">Search</button>
               </form>
             </div>
        

@@ -17,6 +17,8 @@ export class ProductComponent implements OnInit {
   reviews: any[];
   related: any[];
 
+
+
   // tslint:disable-next-line:max-line-length
   constructor(private cartService: CartService, private router: Router, private Activatedroute: ActivatedRoute, private TMDBService: TMDBService, private loginService: LoginService) {}
 
@@ -69,6 +71,7 @@ export class ProductComponent implements OnInit {
     this.price = 3.99;
     return '$3.99';
   }
+
   additemToCart() {
     if(this.loginService.isAuthenticated()) {
       this.cartService.addToCartItem(this.loginService.getUserToken(), this.getMovie().id).then(som => {
