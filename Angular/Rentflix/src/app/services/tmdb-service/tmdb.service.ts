@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+export interface Movie {
+  title: any;
+  releaseDate: any;
+  posterPath: any;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +15,7 @@ export class TMDBService {
   private apiGenres = `https://api.themoviedb.org/3/genre/tv/list?api_key=${this.apiKey}&language=en-US`;
   private apiDetails  = `https://api.themoviedb.org/3/movie`;
   private apiSearch = `https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}`
-
+  private customMovieArray: Movie[];
   private newest;
   private topRated;
   private popular;
@@ -32,6 +36,7 @@ export class TMDBService {
   public getTopRated = () => this.topRated;
   public getPopular = () => this.popular;
   public getMovie = () => this.movie;
+  public getMovieArray = () => this.customMovieArray;
   public getReviews = () => this.reviews;
   public getRelated = () => this.related;
   public getResults = () => this.results;
@@ -118,7 +123,11 @@ export class TMDBService {
       }
     );
   }
-  public getMovieFromID2(id) {
+
+public clearMovieArray() {
+    this.customMovieArray = [];
+}
+  async getMovieFromID2(id) {
     this.http
       .get(
         `${this.apiDetails}/${id}?api_key=${this.apiKey}`,
@@ -128,9 +137,7 @@ export class TMDBService {
         response => {
           const responseBody = JSON.parse(response);
           // console.log(responseBody);
-          this.movie = responseBody;
-          console.log(this.movie);
-          return responseBody;
+          this.customMovieArray.push({title: responseBody.title, releaseDate: responseBody.release_data, posterPath: responseBody.poster_path});
         },
         err => {
           console.log(err);

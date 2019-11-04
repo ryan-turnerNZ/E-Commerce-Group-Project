@@ -39,13 +39,14 @@ export class CartComponent implements OnInit {
   }
 
    convertCart() {
-    this.cart.forEach(async m => {
-        await this.moviedb.getMovieFromID2(m.item_id);
-        const test: Movie = {title:  this.moviedb.getMovie().title, posterPath: this.moviedb.getMovie().poster_path, releaseDate: this.moviedb.getMovie().release_date};
-        this.movie.push(test);
+    this.moviedb.clearMovieArray();
+    this.cart.forEach(async  m => {
+      await this.moviedb.getMovieFromID2(m.item_id);
     });
   }
-
+  getArray(){
+    return this.moviedb.getMovieArray();
+  }
 
   public getPrice(date) {
     const year = date.substring(0, 4);
