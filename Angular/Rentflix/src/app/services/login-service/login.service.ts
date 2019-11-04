@@ -40,7 +40,7 @@ export class LoginService {
   }
 
   async registerUser(email, username, password) {
-    return this.http.post(`${this.serverlink}/user`,{email, username, password}, httpOptions);
+    return this.http.post(`${this.serverlink}/user`, {email, username, password}, httpOptions);
 
   }
   async logout() {

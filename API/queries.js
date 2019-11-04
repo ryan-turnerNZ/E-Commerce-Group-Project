@@ -86,7 +86,34 @@ const insertUserToken = (user_id, token, response) => {
 }
 
 const registerUser = (request, response) => {
-    const {email, username, plainTextPass} = request.body;
+    const {googleReg, email, username, plainTextPass} = request.body;git
+    if (googleReg) {
+        googleRegister(email, username, plainTextPass);
+    } else {
+        normalRegister(email, username, plainTextPass);
+    }
+};
+
+const normalRegister = (email, username, plainTextPass) => {
+    bcrypt.hash(plainTextPass, saltRounds, function(err, hash) {
+        pool.query('INSERT INTO users (email, username, hash) VALUES ($1, $2, $3)', [email, username, hash], (error, results) => {
+            if(error){
+                response.status(400).json({
+                    valid: false,
+                    message: 'Server Error'
+                });
+            }
+            const {rowCount} = results;
+            if (rowCount > 0) {
+                response.status(201).json({
+                    valid: true,
+                });
+            }
+        });
+    });
+};
+
+const googleRegister = (email, username, plainTextPass) => {
     bcrypt.hash(plainTextPass, saltRounds, function(err, hash) {
         pool.query('INSERT INTO users (email, username, hash) VALUES ($1, $2, $3)', [email, username, hash], (error, results) => {
             if(error){
