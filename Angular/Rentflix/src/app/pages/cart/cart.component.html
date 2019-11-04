@@ -11,7 +11,7 @@
         <div class="row no-gutters">
           <div class="col-md-12 col-lg-8">
             <div class="items">
-              <div class="product" *ngFor="let m of movie">
+              <div class="product" *ngFor="let m of getArray()">
                 <div class="row justify-content-center align-items-center">
                   <div class="col-md-3">
                     <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{{'https://image.tmdb.org/t/p/w500'+ m?.posterPath}}"></div>
@@ -21,7 +21,7 @@
                       <div><span>Release Date:&nbsp;</span><span class="value">{{m?.releaseDate}}</span></div>
                     </div>
                   </div>
-                  <div class="col-6 col-md-2 price"><span>{{getPrice(m?.releaseDate)}}</span></div>
+                  <!--<div class="col-6 col-md-2 price"><span>{{getPrice(m?.releaseDate)}}</span></div>-->
                 </div>
               </div>
             </div>
