@@ -86,35 +86,37 @@ const insertUserToken = (user_id, token, response) => {
 }
 
 const registerUser = (request, response) => {
-    const {googleReg, email, username, plainTextPass} = request.body;git
+    const {googleReg, email, username, password} = request.body;
     if (googleReg) {
-        googleRegister(email, username, plainTextPass);
+        googleRegister(email, username, password, response);
     } else {
-        normalRegister(email, username, plainTextPass);
+        normalRegister(email, username, password, response);
     }
 };
 
-const normalRegister = (email, username, plainTextPass) => {
-    bcrypt.hash(plainTextPass, saltRounds, function(err, hash) {
-        pool.query('INSERT INTO users (email, username, hash) VALUES ($1, $2, $3)', [email, username, hash], (error, results) => {
+const normalRegister = (email, username, password, response) => {
+    bcrypt.hash(password, saltRounds, function(err, hash) {
+        console.log(email);
+        console.log(username);
+        console.log(hash);
+        pool.query('INSERT INTO users (username, hash, email) VALUES ($1, $2, $3)', [username, hash, email], (error, results) => {
             if(error){
                 response.status(400).json({
                     valid: false,
                     message: 'Server Error'
                 });
+                console.log(error)
             }
-            const {rowCount} = results;
-            if (rowCount > 0) {
-                response.status(201).json({
-                    valid: true,
-                });
-            }
+            response.status(201).json({
+                valid: true,
+                message: 'User Registered'
+            })
         });
     });
 };
 
-const googleRegister = (email, username, plainTextPass) => {
-    bcrypt.hash(plainTextPass, saltRounds, function(err, hash) {
+const googleRegister = (email, username, password, response) => {
+    bcrypt.hash(password, saltRounds, function(err, hash) {
         pool.query('INSERT INTO users (email, username, hash) VALUES ($1, $2, $3)', [email, username, hash], (error, results) => {
             if(error){
                 response.status(400).json({
