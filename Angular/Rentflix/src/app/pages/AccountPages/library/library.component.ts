@@ -45,7 +45,13 @@ export class LibraryComponent implements OnInit {
     return '$3.99';
   }
   public displayResults() {
-      return this.moviedb.getMovieArray2();
+    const filteredArr = this.moviedb.getMovieArray2().reduce((unique, o) => {
+      if(!unique.some(obj => obj.id === o.id)){
+        unique.push(o);
+      }
+      return unique;
+    },[]);
+    return filteredArr;
   }
 
 
