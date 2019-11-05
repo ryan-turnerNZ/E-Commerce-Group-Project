@@ -18,7 +18,7 @@
                   <div class="col-md-3">
                     <div class="product-image"><img class="img-fluid d-block mx-auto image" src="{{'https://image.tmdb.org/t/p/w500'+ m?.posterPath}}"></div>
                   </div>
-                  <div class="col-md-5 product-info"><a class="product-name" href="#">{{m?.title}}</a>
+                  <div class="col-md-5 product-info"><a class="product-name">{{m?.title}}</a>
                     <div class="product-specs">
                       <div><span>Release Date:&nbsp;</span><span class="value">{{m?.releaseDate}}</span></div>
                     </div>
@@ -31,10 +31,11 @@
           <div class="col-md-12 col-lg-4">
             <div class="summary">
               <h3>Summary</h3>
-              <h4><span class="text">Subtotal</span><span class="price">$5.00</span></h4>
+              <h5>{{getDate(r.value[0].timeAdded)}}</h5>
+              <h4><span class="text">Subtotal</span><span class="price">${{calcTotal(r.value)}}</span></h4>
               <h4><span class="text">Discount</span><span class="price">$0</span></h4>
               <h4><span class="text">Shipping</span><span class="price">$0</span></h4>
-              <h4><span class="text">Total</span><span class="price">$5.00</span></h4>
+              <h4><span class="text">Total</span><span class="price">${{calcTotal(r.value)}}</span></h4>
             </div>
           </div>
         </div>

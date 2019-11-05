@@ -3,6 +3,7 @@ import {LoginService} from '../../../services/login-service/login.service';
 import {OrdersService} from '../../../services/orders-service/orders.service';
 import {TMDBService} from '../../../services/tmdb-service/tmdb.service';
 
+
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
@@ -61,5 +62,24 @@ export class OrdersComponent implements OnInit {
       }
     });
     return map;
+  }
+
+  calcTotal(r) {
+    function updateCost(data: any) {
+      const year = data.substring(0, 4);
+      console.log(year);
+      if (year >= 2019) { return 8.99; } else if (year <= 2018 && year > 2015) { return 5.99; }
+      return 3.99;
+    }
+    let total = 0.00;
+    r.forEach(val => {
+      total += updateCost(val.releaseDate);
+    });
+    return total;
+  }
+
+  getDate(timeAdded: any) {
+    const date = new Date(timeAdded);
+    return date.toDateString() + ' ' + date.getDay() + ":" + date.getMinutes();
   }
 }
