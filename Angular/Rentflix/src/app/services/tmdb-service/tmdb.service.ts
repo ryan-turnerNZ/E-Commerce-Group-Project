@@ -6,10 +6,13 @@ export interface Movie {
   posterPath: any;
 }
 export interface Movie2 {
+  id: any;
   title: any;
   releaseDate: any;
   posterPath: any;
   timeAdded: any;
+  averageVote: any;
+  homePage: any;
 }
 @Injectable({
   providedIn: 'root'
@@ -169,7 +172,8 @@ public clearMovieArray() {
         response => {
           const responseBody = JSON.parse(response);
           // console.log(responseBody);
-          this.customMovieArray2.push({title: responseBody.title, releaseDate: responseBody.release_date, posterPath: responseBody.poster_path, timeAdded: objs.purchase_date});
+          this.customMovieArray2.push({id: objs.item_id, title: responseBody.title, releaseDate: responseBody.release_date,
+            posterPath: responseBody.poster_path, timeAdded: objs.purchase_date, averageVote: responseBody.vote_average, homePage: responseBody.homepage});
           // this.totalCartCost += updateCost1(responseBody.release_date);
         },
         err => {
