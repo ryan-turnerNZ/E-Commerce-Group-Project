@@ -70,7 +70,7 @@ export class CartComponent implements OnInit {
         const response = (data as {valid: any, message: any});
         console.log(response.message);
         if (response.message === 'Items ordered') {
-          this.router.navigate(['/account']);
+          this.router.navigate(['/account/orders']);
         }
       });
     });
