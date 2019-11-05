@@ -137,8 +137,6 @@ public clearMovieArray() {
       if (year >= 2019) { return 8.99; } else if (year <= 2018 && year > 2015) { return 5.99; }
       return 3.99;
     }
-
-
     this.http
       .get(
         `${this.apiDetails}/${id}?api_key=${this.apiKey}`,

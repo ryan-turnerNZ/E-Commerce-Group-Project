@@ -27,13 +27,6 @@ export class CartService {
       httpOptions.headers.set('X-Requested-With', token);
     return this.http.get(`${this.serverlink}/cart`, httpOptions);
   }
-  async orderCart(token: string) {
-    console.log("token: " + token);
-    httpOptions.headers =
-      httpOptions.headers.set('X-Requested-With', token);
-    console.log(httpOptions.headers.get('X-Requested-With'));
-    return this.http.post(`${this.serverlink}/orders`,{}, httpOptions);
-  }
   async addToCartItem(token: string, itemId: string) {
     httpOptions.headers =
       httpOptions.headers.set('X-Requested-With', token);

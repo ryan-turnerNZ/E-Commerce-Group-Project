@@ -71,8 +71,8 @@ export class LoginService {
     this.timer = setInterval(() => {
       if (this.timerExpired === true) {
         console.log('Logging out');
-        this.openDialog();
         this.stopTimer();
+        this.openDialog();
       }
       this.timerExpired = true;
     }, 600000); // 10 minutes
@@ -85,8 +85,9 @@ export class LoginService {
     this.timer = setInterval(() => {
       if (this.timerExpired === true) {
         console.log('Logging out');
-        this.openDialog();
         this.stopTimer();
+        this.openDialog();
+
       }
       this.timerExpired = true;
     }, 600000); // 10 minutes
