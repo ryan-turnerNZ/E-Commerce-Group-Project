@@ -48,13 +48,14 @@ export class LoginService {
       httpOptions.headers.set('X-Requested-With', token);
     return this.http.get(`${this.serverlink}/user/details`, httpOptions);
   }
-  
+
   async logout() {
     httpOptions.headers =
       httpOptions.headers.set('X-Requested-With', this.getUserToken());
     return this.http.delete(`${this.serverlink}/user/authentication`, httpOptions);
   }
   stopTimer() {
+    this.timerExpired = true;
     clearInterval(this.timer);
     this.timer = null;
   }
@@ -101,6 +102,7 @@ export class LoginService {
   }
 
   openDialog() {
+    this.stopTimer();
     const dialogConfig = new MatDialogConfig();
     const dialogRef = this.matDialog.open(AlertComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(value => {
