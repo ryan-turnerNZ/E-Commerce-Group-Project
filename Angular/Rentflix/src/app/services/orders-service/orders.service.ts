@@ -32,11 +32,6 @@ export class OrdersService {
     console.log("token: " + token);
     httpOptions.headers =
       httpOptions.headers.set('X-Requested-With', token);
-<<<<<<< HEAD
-    return this.http.post(`${this.serverlink}/orders`, httpOptions);
-=======
-    console.log(httpOptions.headers.get('X-Requested-With'));
     return this.http.post(`${this.serverlink}/orders`,{}, httpOptions);
->>>>>>> a4ef7406e14070b857cd0d94a7cf970d4dcd9f88
   }
 }
