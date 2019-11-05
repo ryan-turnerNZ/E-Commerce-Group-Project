@@ -87,11 +87,11 @@ export class CatalogComponent implements OnInit {
     }
     return "$3.99";
   }
+  
   public displayResults(page) {
     const results = this.limit * page;
-   
     let value = (<HTMLSelectElement>document.getElementById("genres")).value;
-    // console.log(value);
+    console.log(value);
     if (value == "any") {
       this.results  = this.getPopular();
     }
