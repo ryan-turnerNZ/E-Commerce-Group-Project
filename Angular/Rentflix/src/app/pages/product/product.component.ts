@@ -73,13 +73,13 @@ export class ProductComponent implements OnInit {
   }
 
   additemToCart() {
-    if(this.loginService.isAuthenticated()) {
+    if (this.loginService.isAuthenticated()) {
       this.cartService.addToCartItem(this.loginService.getUserToken(), this.getMovie().id).then(som => {
         som.subscribe(data => {
           const response = (data as {message: any, valid: any});
-          console.log("hi");
+          console.log('hi');
           console.log(response.message);
-          console.log("end");
+          console.log('end');
         });
 
       });

@@ -28,14 +28,14 @@ export class AppComponent {
     console.log('logingoust');
     this.loginService.logout().then(res => {
       res.subscribe((data) => {
-        const {valid, message, error} = (data as {valid, message, error});
-        if (valid === true) {
+        const response = (data as {valid: boolean, message: any});
+        if (response.valid === true) {
           this.loginService.setUserToken('');
           this.loginService.setAuth(false);
           this.loginService.stopTimer();
           this.router.navigate(['/home']);
         } else {
-          console.log(error);
+          console.log(response.message);
         }
       });
     });

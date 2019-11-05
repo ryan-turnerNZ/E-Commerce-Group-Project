@@ -107,14 +107,14 @@ export class LoginService {
     console.log('logingoust');
     this.logout().then(res => {
       res.subscribe((data) => {
-        const {valid, message, error} = (data as {valid, message, error});
-        if (valid === true) {
+        const response = (data as {valid: boolean, message: any});
+        if (response.valid === true) {
           this.setUserToken('');
           this.setAuth(false);
           this.stopTimer();
           this.router.navigate(['/login']);
         } else {
-          console.log(error);
+          console.log(response.message);
         }
       });
     });

@@ -36,8 +36,8 @@ export class CartComponent implements OnInit {
   getCart() {
     this.cartService.getCart(this.loginService.getUserToken()).then(res => {
       res.subscribe(data => {
-        const response = (data as {results: any});
-        this.cart = response.results;
+        const response = (data as {valid: boolean, message: any});
+        this.cart = response.message;
         console.log(this.cart);
         this.convertCart();
       });
@@ -67,9 +67,9 @@ export class CartComponent implements OnInit {
     console.log(this.loginService.getUserToken());
     this.ordersService.orderCart(this.loginService.getUserToken()).then(res => {
       res.subscribe(data => {
-        const response = (data as {valid: any, message: any});
+        const response = (data as {valid: boolean, message: any});
         console.log(response.message);
-        if (response.message === 'Items ordered') {
+        if (response.valid === true) {
           this.router.navigate(['/account/orders']);
         }
       });
