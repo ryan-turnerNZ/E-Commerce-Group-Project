@@ -28,11 +28,6 @@ export class CartService {
     return this.http.get(`${this.serverlink}/cart`, httpOptions);
   }
 
-  async getAccountDetails(token: string) {
-    httpOptions.headers =
-      httpOptions.headers.set('X-Requested-With', token);
-    return this.http.get(`${this.serverlink}/user/details`, httpOptions);
-  }
   async addToCartItem(token: string, itemId: string) {
     httpOptions.headers =
       httpOptions.headers.set('X-Requested-With', token);

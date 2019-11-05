@@ -1,0 +1,129 @@
+@import url("https://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css");
+.container {
+  background-color: rgb(246, 246, 246);
+  min-height: 80vh;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font: 16px/1 "Open Sans", sans-serif;
+  color: #555;
+  background: #e5e5e5;
+}
+
+body {
+  padding: 50px;
+}
+
+.accordion {
+  transform: translateZ(0);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  background: #fff;
+}
+
+.accordion > .accordion-toggle {
+  position: absolute;
+  opacity: 0;
+  display: none;
+}
+
+.accordion > label {
+  position: relative;
+  display: block;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 40px;
+  font-size: 20px;
+  font-weight: 500;
+  padding-bottom: 70px;
+  background: #fff;
+  color: lightslategrey;
+  cursor: pointer;
+  border-bottom: 1px solid rgb(230, 230, 230);
+}
+
+.first,
+.second {
+  padding-top: 30px;
+}
+
+label {
+  margin-bottom: 0px !important;
+}
+.accordion > label:after {
+  content: "\f077";
+  color: rgb(84, 153, 218);
+  position: absolute;
+  top: 0px;
+  right: 40px;
+  font-family: fontawesome;
+  transform: rotate(180deg);
+  transition: 0.3s transform;
+}
+
+section {
+  padding-left: 10px;
+}
+.accordion > section {
+  height: 0;
+  transition: 0.3s all;
+  overflow: hidden;
+}
+
+.accordion > .accordion-toggle:checked ~ label:after {
+  transform: rotate(0deg);
+}
+
+.accordion > .accordion-toggle:checked ~ section {
+  height: 200px;
+}
+
+.second > .accordion-toggle:checked ~ section {
+  height: 300px;
+}
+
+.accordion > section p {
+  margin: 15px 0;
+  padding: 0 40px;
+  line-height: 1.5;
+}
+
+.label {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgb(199, 199, 199);
+}
+
+.detail {
+  color: rgb(112, 112, 112);
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 30px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.reset-pwd {
+  margin-left: 40px;
+  margin-top: 25px;
+}
+
+.below {
+    padding-top: 30px !important;
+}

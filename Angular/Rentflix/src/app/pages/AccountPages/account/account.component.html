@@ -1,1 +1,54 @@
-<p>account works!</p>
+<main class="page account-page">
+    <section class="clean-block clean-account dark">
+        <div class="container">
+            <div class="block-heading">
+                <h2 class="text-info">Account Information</h2>
+            </div>
+            <div class="content">
+                <div class="row no-gutters">
+                    <div class="col-md-12 col-lg-12">
+                        <div class="accordion first">
+                            <input id="toggle1" type="checkbox" checked class="accordion-toggle" name="toggle" />
+                            <label for="toggle1">Account Information</label>
+                            <section>
+                                <div class="row">
+                                    <div class="column">
+                                        <p class="label">Username</p>
+                                        <p class="detail" *ngIf="account">{{ account[0].username }}</p>
+                                        <button type="button" class="reset-pwd btn btn-outline-danger">Reset
+                                            Password</button>
+                                    </div>
+                                    <div class="column">
+                                        <p class="label">Email</p>
+                                        <p class="detail" *ngIf="account">{{ account[0].email }}</p>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="accordion second">
+                            <input id="toggle2" type="checkbox" checked class="accordion-toggle" name="toggle" />
+                            <label for="toggle2">Billing information</label>
+                            <section class="billing">
+                                <div class="row">
+                                    <div class="column">
+                                        <p class="label">Cardholder Name</p>
+                                        <p class="detail" *ngIf="account">{{ account[0].username | titlecase }} Doe</p>
+                                        <p class="label below">Credit Card Number</p>
+                                        <p class="detail">**** **** **** 1843</p>
+                                    </div>
+                                    <div class="column">
+                                        <p class="label">Country</p>
+                                        <p class="detail">NZ</p>
+                                        <p class="label below">Expiration: MM/YY</p>
+                                        <p class="detail">02/22</p>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

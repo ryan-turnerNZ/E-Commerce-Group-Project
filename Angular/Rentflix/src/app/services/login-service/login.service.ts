@@ -41,8 +41,14 @@ export class LoginService {
 
   async registerUser(email, username, password) {
     return this.http.post(`${this.serverlink}/user`, {email, username, password}, httpOptions);
-
   }
+
+  async getAccountDetails(token: string) {
+    httpOptions.headers =
+      httpOptions.headers.set('X-Requested-With', token);
+    return this.http.get(`${this.serverlink}/user/details`, httpOptions);
+  }
+  
   async logout() {
     httpOptions.headers =
       httpOptions.headers.set('X-Requested-With', this.getUserToken());
