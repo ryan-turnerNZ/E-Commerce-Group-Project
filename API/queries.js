@@ -43,15 +43,14 @@ async function checkToken(token, response){
         } else {
             response.status(401).json({
                 valid: false,
-                error: 'Expired Token',
-                force_relog: true,
+                message: 'Expired Token',
             });
         }
     }
     else {
         response.status(401).json({
             valid: false,
-            error: 'Invalid Token Provided'
+            message: 'Invalid Token Provided'
         });
     }
 };
@@ -59,15 +58,12 @@ async function checkToken(token, response){
 const attemptUserToken = (user_id, token, response) => {
     pool.query('SELECT * FROM login_tokens WHERE user_id = $1', [user_id], (error, results) => {
         const {rowCount} = results;
-        console.log(rowCount);
         if (rowCount>0) {
-            console.log("Deleting")
             deleteToken(user_id, token, response).then(res => {
                 const new_token = generateLoginToken(user_id);
                 insertUserToken(user_id, new_token, response);
             })
         } else {
-            console.log('Here');
             insertUserToken(user_id, token, response);
         }
     });
@@ -78,7 +74,7 @@ async function deleteToken(user_id, response) {
         if (error) {
             response.status(404).json({
                 valid: false,
-                error: 'Token did not exist'
+                message: error
             })
         }
     })
@@ -87,10 +83,13 @@ async function deleteToken(user_id, response) {
 const insertUserToken = (user_id, token, response) => {
     pool.query('INSERT INTO login_tokens (user_id, token) VALUES ($1, $2)', [user_id, token], (error, results) => {
         if (error) {
-            console.log(error);
+            response.status(404).json({
+                valid: false,
+                message: error
+            })
         }
         response.status(200).json({
-            token: token,
+            message: token,
             valid: true
         });
     })
@@ -107,14 +106,11 @@ const registerUser = (request, response) => {
 
 const normalRegister = (email, username, password, response) => {
     bcrypt.hash(password, saltRounds, function(err, hash) {
-        console.log(email);
-        console.log(username);
-        console.log(hash);
         pool.query('INSERT INTO users (username, hash, email, google_reg) VALUES ($1, $2, $3, false)', [username, hash, email], (error, results) => {
             if(error){
                 response.status(400).json({
                     valid: false,
-                    message: 'Server Error'
+                    message: error
                 });
                 console.log(error)
             }
@@ -132,13 +128,14 @@ const googleRegister = (email, username, password, response) => {
             if(error){
                 response.status(400).json({
                     valid: false,
-                    message: 'Server Error'
+                    message: error
                 });
             }
             const {rowCount} = results;
             if (rowCount > 0) {
                 response.status(201).json({
                     valid: true,
+                    message: "Registered with google"
                 });
             }
         });
@@ -152,7 +149,7 @@ const checkUser = (request, response) => {
         if(error){
             response.status(404).json({
                 valid: false,
-                token: null,
+                message: null,
             });
         }
         const {user_id, hash} = results.rows[0];
@@ -163,7 +160,7 @@ const checkUser = (request, response) => {
             } else {
                 response.status(422).json({
                     valid: false,
-                    token: null,
+                    message: null,
                 })
             }
         });
@@ -178,7 +175,7 @@ const addToCart = (request, response) => {
             if (error) {
                 response.status(403).json({
                     valid: false,
-                    error: 'Movie is already rented out by this user'
+                    message: 'Movie is already rented out by this user'
                 })
             }
             response.status(200).json({
@@ -197,7 +194,7 @@ const removeFromCart = (request, response) => {
             if (error) {
                 response.status(500).json({
                     valid: false,
-                    error: error
+                    message: error
                 })
             }
             const {rowCount} = results;
@@ -209,7 +206,7 @@ const removeFromCart = (request, response) => {
             } else {
                 response.status(403).json({
                     valid: true,
-                    error: 'The user is not renting that movie'
+                    message: 'The user is not renting that movie'
                 })
             }
         })
@@ -223,11 +220,12 @@ const getCart = (request, response) => {
             if (error) {
                 response.status(500).json({
                     valid: false,
-                    error: error
+                    message: error
                 })
             }
             response.status(200).json({
-                results: results.rows,
+                valid: true,
+                message: results.rows,
             })
         })
     });
@@ -235,20 +233,19 @@ const getCart = (request, response) => {
 
 const orderCart = (request, response) => {
     const token = request.get('X-Requested-With');
-    console.log(request);
     checkToken(token, response).then(user_id => {
         pool.query('SELECT item_id FROM shopping_cart WHERE user_id = $1', [user_id], (error, results) => {
             if (error) {
                 response.status(500).json({
                     valid: false,
-                    error: error
+                    message: error
                 })
             }
             const {rowCount} = results;
             if (rowCount<1) {
                 response.status(404).json({
                     valid: false,
-                    error: 'There are no movie to purchase'
+                    message: 'There are no movie to purchase'
                 })
             }
             const {rows} = results;
@@ -256,11 +253,9 @@ const orderCart = (request, response) => {
             for(i =0; i<rows.length-1; i++) {
                 const {item_id} = rows[i];
                 values += '('+user_id + ', ' + item_id+'),';
-                console.log(rows[i])
             }
             const {item_id} = rows[rows.length-1];
             values += '('+user_id + ', ' + item_id+')';
-            console.log(values);
             pool.connect((err, client, done) => {
                 const shouldAbort = err => {
                     if (err) {
@@ -317,7 +312,8 @@ const getUserOrders = (request, response) => {
                 })
             }
             response.status(200).json({
-                results: results.rows,
+                valid: true,
+                message: results.rows,
             })
         })
     });
@@ -330,7 +326,7 @@ const getUserDetails = (request, response) => {
             if (error) {
                 response.status(500).json({
                     valid: false,
-                    error: error
+                    message: error
                 })
             }
             response.status(200).json({
@@ -348,21 +344,21 @@ const changeUserDetails = (request, response) => {
             if (error) {
                 response.status(500).json({
                     valid: false,
-                    error: error
+                    message: error
                 })
             }
             const {rowCount} = results;
             if (rowCount > 0) {
                 response.status(403).json({
                     valid: false,
-                    error: 'That username is currently unavailable',
+                    message: 'That username is currently unavailable',
                 })
             }
             pool.query('UPDATE users SET username = $1 WHERE user_id = $2 AND username = $3', [new_username, user_id, username], (error, results) => {
                 if (error) {
                     response.status(500).json({
                         valid: false,
-                        error: error
+                        message: error
                     })
                 }
             })
@@ -376,7 +372,7 @@ const deleteAccount = (request, response) => {
         if (num>0) {
             response.status(200).json({
                 valid: true,
-                error: 'Valid token',
+                message: 'Valid token',
             })
         }
     });
@@ -387,17 +383,15 @@ const logoutUser = (request, response) => {
     if (token.length<1) {
         response.status(401).json({
             valid: false,
-            error: 'You are not logged in',
+            message: 'You are not logged in',
         })
     }
     checkToken(token, response).then(user_id => {
-        console.log(user_id);
-        console.log(token);
         pool.query('DELETE FROM login_tokens WHERE user_id = $1 AND token = $2', [user_id, token], (error, results) => {
             if (error) {
                 response.status(500).json({
                     valid: false,
-                    error: 'Server error'
+                    message: error
                 });
             }
             const {rowCount} = results;
@@ -409,7 +403,7 @@ const logoutUser = (request, response) => {
             } else {
                 response.status(404).json({
                     valid: false,
-                    error: 'Invalid token'
+                    message: 'Invalid token'
                 });
             }
         })
@@ -417,7 +411,6 @@ const logoutUser = (request, response) => {
 };
 
 const requestResetPassword = (request, response) => {
-    console.log("HERE")
     const token = request.get('X-Requested-With');
     const username = request.get('username');
     checkToken(token, response).then((user_id) => {
@@ -425,7 +418,7 @@ const requestResetPassword = (request, response) => {
             if (err) {
                 response.status(500).json({
                     valid: false,
-                    message: 1,
+                    message: err,
                 })
             }
             const {rowCount} = results;
@@ -434,7 +427,7 @@ const requestResetPassword = (request, response) => {
                     if (err) {
                         response.status(500).json({
                             valid: false,
-                            message: 2,
+                            message: err,
                         })
                     }
                 })
@@ -444,7 +437,7 @@ const requestResetPassword = (request, response) => {
             if (err) {
                 response.status(500).json({
                     valid: false,
-                    message: 3,
+                    message: err,
                 })
             }
             const {rowCount} = results;
@@ -507,11 +500,7 @@ const resetPassword = (request, response) => {
         }
         const {rowCount} = results;
         if (rowCount > 0) {
-            deleteEmailToken(response)
-            response.status(200).json({
-                valid: true,
-                message: "Valid Token",
-            })
+            deleteEmailToken(user_id, response)
         } else {
             response.status(403).json({
                 valid: false,
@@ -523,10 +512,16 @@ const resetPassword = (request, response) => {
 
 deleteEmailToken = (user_id, response) => {
     pool.query("DELETE FROM email_tokens WHERE user_id = $1", [user_id], (err, results) => {
+        console.log("UserId: " +user_id)
         if (err) {
             response.status(500).json({
                 valid: false,
                 message: err,
+            })
+        } else {
+            response.status(200).json({
+                valid: true,
+                message: "Valid Token",
             })
         }
     })

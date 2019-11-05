@@ -26,9 +26,9 @@ export class LoginComponent implements OnInit {
 
     this.loginService.getAuthentication(value.username, value.password).then(res => {
       res.subscribe((data) => {
-        const response = (data as {valid: boolean, token: string});
+        const response = (data as {valid: boolean, message: string});
         if (response.valid === true) {
-          this.loginService.setUserToken(response.token);
+          this.loginService.setUserToken(response.message);
           this.loginService.setAuth(true);
           this.loginService.startTimer();
           this.router.navigate(['/home']);

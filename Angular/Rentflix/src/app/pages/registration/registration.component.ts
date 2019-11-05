@@ -24,11 +24,12 @@ export class RegistrationComponent implements OnInit {
     console.log(value.username + ' ' + value.password);
     this.loginService.registerUser(value.email, value.username, value.password).then(res => {
       res.subscribe(data => {
-          if (data === 'User registered') {
-            this.router.navigate(['/login']);
-          } else {
-            console.log(data);
-          }
+        const response = (data as {valid: boolean, message: string})
+        if (response.valid === true) {
+          this.router.navigate(['/login']);
+        } else {
+          console.log(data);
+        }
       });
     });
 

@@ -22,8 +22,8 @@ export class OrdersComponent implements OnInit {
   private getOrders() {
     this.orderService.getOrders(this.loginService.getUserToken()).then(res => {
       res.subscribe(data => {
-        const response = (data as {results: any});
-        this.orders = response.results;
+        const response = (data as {valid: boolean, message: any});
+        this.orders = response.message;
         this.convertCart();
       });
     });
