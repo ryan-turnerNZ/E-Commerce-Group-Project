@@ -21,7 +21,7 @@
                       <div><span>Release Date:&nbsp;</span><span class="value">{{m?.releaseDate}}</span></div>
                     </div>
                   </div>
-                  <!--<div class="col-6 col-md-2 price"><span>{{getPrice(m?.releaseDate)}}</span></div>-->
+                  <div class="col-6 col-md-2 price"><span>{{getPrice(m?.releaseDate)}}</span></div>
                 </div>
               </div>
             </div>
@@ -29,10 +29,12 @@
           <div class="col-md-12 col-lg-4">
             <div class="summary">
               <h3>Summary</h3>
-              <h4><span class="text">Subtotal</span><span class="price">${{this.totalPrice}}</span></h4>
+              <h4><span class="text">Subtotal</span><span class="price">${{getTotalCost()}}</span></h4>
               <h4><span class="text">Discount</span><span class="price">$0</span></h4>
               <h4><span class="text">Shipping</span><span class="price">$0</span></h4>
-              <h4><span class="text">Total</span><span class="price">${{this.totalPrice}}</span></h4><button class="btn btn-primary btn-block btn-lg" type="button">Checkout</button></div>
+              <h4><span class="text">Total</span><span class="price">${{getTotalCost()}}</span></h4>
+              <button class="btn btn-primary btn-block btn-lg" type="button" (click)="addToOrder()">Checkout</button>
+            </div>
           </div>
         </div>
       </div>
