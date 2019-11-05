@@ -14,8 +14,9 @@ export class TMDBService {
   private apiDiscover = `https://api.themoviedb.org/3/discover/movie`;
   private apiGenres = `https://api.themoviedb.org/3/genre/tv/list?api_key=${this.apiKey}&language=en-US`;
   private apiDetails  = `https://api.themoviedb.org/3/movie`;
-  private apiSearch = `https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}`
+  private apiSearch = `https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}`;
   private customMovieArray: Movie[];
+  private totalCartCost = 0.00;
   private newest;
   private topRated;
   private popular;
@@ -37,6 +38,8 @@ export class TMDBService {
   public getPopular = () => this.popular;
   public getMovie = () => this.movie;
   public getMovieArray = () => this.customMovieArray;
+  public getTotalCartCost = () => this.totalCartCost;
+  public resetTotalCartCost = () => this.totalCartCost = 0.00;
   public getReviews = () => this.reviews;
   public getRelated = () => this.related;
   public getResults = () => this.results;
@@ -128,6 +131,14 @@ public clearMovieArray() {
     this.customMovieArray = [];
 }
   async getMovieFromID2(id) {
+    function updateCost(data: any) {
+      const year = data.substring(0, 4);
+      console.log(year);
+      if (year >= 2019) { return 8.99; } else if (year <= 2018 && year > 2015) { return 5.99; }
+      return 3.99;
+    }
+
+
     this.http
       .get(
         `${this.apiDetails}/${id}?api_key=${this.apiKey}`,
@@ -137,7 +148,8 @@ public clearMovieArray() {
         response => {
           const responseBody = JSON.parse(response);
           // console.log(responseBody);
-          this.customMovieArray.push({title: responseBody.title, releaseDate: responseBody.release_data, posterPath: responseBody.poster_path});
+          this.customMovieArray.push({title: responseBody.title, releaseDate: responseBody.release_date, posterPath: responseBody.poster_path});
+          this.totalCartCost += updateCost(responseBody.release_date);
         },
         err => {
           console.log(err);
@@ -193,8 +205,8 @@ public clearMovieArray() {
   }
 
   public discoverByGenre(id: number, sort_by = 'popularity.desc') {
-    if(!id) {
-      this.discover(sort_by)
+    if (!id) {
+      this.discover(sort_by);
       return;
     }
 

@@ -24,13 +24,13 @@ export class OrdersService {
 
   async getOrders(token: string) {
     httpOptions.headers =
-      httpOptions.headers.set('X-Requested_With', token);
+      httpOptions.headers.set('X-Requested-With', token);
     return this.http.get(`${this.serverlink}/orders`, httpOptions);
   }
 
   async orderCart(token: string) {
     httpOptions.headers =
-      httpOptions.headers.set('X-Requested_With', token);
+      httpOptions.headers.set('X-Requested-With', token);
     return this.http.post(`${this.serverlink}/orders`, httpOptions);
   }
 }
