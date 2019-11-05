@@ -29,6 +29,7 @@ export class OrdersService {
   }
 
   async orderCart(token: string) {
+    console.log("Token: " + token);
     httpOptions.headers =
       httpOptions.headers.set('X-Requested-With', token);
     return this.http.post(`${this.serverlink}/orders`, httpOptions);
