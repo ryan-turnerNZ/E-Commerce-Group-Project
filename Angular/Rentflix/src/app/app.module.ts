@@ -29,6 +29,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AlertComponent } from './component/alert/alert.component';
 import  {MatButtonToggleModule } from '@angular/material';
+import { ResetPageComponent } from './pages/reset-page/reset-page.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import  {MatButtonToggleModule } from '@angular/material';
     OrdersComponent,
     NavComponent,
     SearchComponent,
-    AlertComponent
+    AlertComponent,
+    ResetPageComponent
   ],
   imports: [
     BrowserModule,

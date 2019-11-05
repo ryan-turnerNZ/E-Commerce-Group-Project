@@ -12,6 +12,7 @@ import {AccountComponent} from './pages/AccountPages/account/account.component';
 import {LibraryComponent} from './pages/AccountPages/library/library.component';
 import {OrdersComponent} from './pages/AccountPages/orders/orders.component';
 import { SearchComponent } from './pages/search/search.component';
+import {ResetPageComponent} from './pages/reset-page/reset-page.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
   {path: 'product/:id', component: ProductComponent},
+  {path: 'reset/:token', component: ResetPageComponent},
   //authGuard protected links
   {path: 'account/cart', component: CartComponent , canActivate: [AuthGuard]},
   {path: 'payment', component: PaymentComponent, canActivate: [AuthGuard]},
