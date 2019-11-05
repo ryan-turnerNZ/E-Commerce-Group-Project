@@ -11,11 +11,22 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const pool = new Pool({
     connectionString: conString,
     ssl: true,
 });
+
+const options = {
+    auth: {
+        api_user: 'apikey',
+        api_key: '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'
+    }
+}
+
+//const transporter = nodemailer.createTransport(sgTransport(options));
 
 const privateKey = fs.readFileSync('./private.pem', 'utf8');
 
@@ -99,7 +110,7 @@ const normalRegister = (email, username, password, response) => {
         console.log(email);
         console.log(username);
         console.log(hash);
-        pool.query('INSERT INTO users (username, hash, email) VALUES ($1, $2, $3)', [username, hash, email], (error, results) => {
+        pool.query('INSERT INTO users (username, hash, email, google_reg) VALUES ($1, $2, $3, false)', [username, hash, email], (error, results) => {
             if(error){
                 response.status(400).json({
                     valid: false,
@@ -117,7 +128,7 @@ const normalRegister = (email, username, password, response) => {
 
 const googleRegister = (email, username, password, response) => {
     bcrypt.hash(password, saltRounds, function(err, hash) {
-        pool.query('INSERT INTO users (email, username, hash) VALUES ($1, $2, $3)', [email, username, hash], (error, results) => {
+        pool.query('INSERT INTO users (email, username, hash, google_reg) VALUES ($1, $2, $3, true)', [email, username, hash], (error, results) => {
             if(error){
                 response.status(400).json({
                     valid: false,
@@ -137,7 +148,7 @@ const googleRegister = (email, username, password, response) => {
 const checkUser = (request, response) => {
     const username = request.get('username');
     const plainTextPass = request.get('plainTextPass');
-    pool.query('SELECT user_id, hash FROM users WHERE username = $1', [username], (error, results) => {
+    pool.query('SELECT user_id, hash FROM users WHERE username = $1 AND google_reg=false', [username], (error, results) => {
         if(error){
             response.status(404).json({
                 valid: false,
@@ -224,6 +235,7 @@ const getCart = (request, response) => {
 
 const orderCart = (request, response) => {
     const token = request.get('X-Requested-With');
+    console.log(request);
     checkToken(token, response).then(user_id => {
         pool.query('SELECT item_id FROM shopping_cart WHERE user_id = $1', [user_id], (error, results) => {
             if (error) {
@@ -404,6 +416,122 @@ const logoutUser = (request, response) => {
     });
 };
 
+const requestResetPassword = (request, response) => {
+    console.log("HERE")
+    const token = request.get('X-Requested-With');
+    const username = request.get('username');
+    checkToken(token, response).then((user_id) => {
+        pool.query("SELECT user_id FROM email_tokens WHERE user_id = $1", [user_id], (err, results) => {
+            if (err) {
+                response.status(500).json({
+                    valid: false,
+                    message: 1,
+                })
+            }
+            const {rowCount} = results;
+            if (rowCount > 0) {
+                pool.query("DELETE FROM email_tokens WHERE user_id = $1", [user_id], (err, results) => {
+                    if (err) {
+                        response.status(500).json({
+                            valid: false,
+                            message: 2,
+                        })
+                    }
+                })
+            }
+        });
+        pool.query("SELECT email FROM users WHERE user_id = $1 AND username = $2", [user_id, username], (err, results) => {
+            if (err) {
+                response.status(500).json({
+                    valid: false,
+                    message: 3,
+                })
+            }
+            const {rowCount} = results;
+            if (rowCount <1) {
+                response.status(403).json({
+                    valid: false,
+                    message: 'No user exists for those details'
+                })
+            }
+            const email = results.rows[0];
+            const secToken = generateOneTimeToken(user_id);
+
+            const msg = {
+                from: 'rentflixhelp@gmail.com',
+                to: email,
+                subject: 'Password Reset',
+                html: '<p>Click <a href="https://rent-flix-api.herokuapp.com/user/password/' + secToken + '">here</a> to reset your password</p>'
+            };
+            pool.query("INSERT INTO email_tokens (user_id, token) VALUES ($1, $2)", [user_id, secToken], (err, results) => {
+                if (err) {
+                    console.log(err)
+                    response.status(500).json({
+                        valid: false,
+                        message: err,
+                    })
+                } else {
+                    sgMail.send(msg);
+                    response.status(200).json({
+                        valid: true,
+                        message: 'Reset Email Sent',
+                    })
+                }
+            });
+
+        })
+
+    })
+};
+
+const generateOneTimeToken = (userId) => {
+    return jwt.sign({aud: userId, exp: Math.floor(Date.now() /1000 ) + 600}, privateKey, {algorithm: 'HS256'});
+};
+
+const resetPassword = (request, response) => {
+    const token = request.params.token;
+    const decoded = jwt.verify(token, privateKey, {algorithm: 'HS256'})
+    if (!decoded) {
+        response.status(403).json({
+            valid: false,
+            message: "Invalid/Expired Token",
+        })
+    }
+    const user_id = decoded.aud;
+    pool.query("SELECT * FROM email_tokens WHERE user_id = $1 AND token = $2", [user_id, token], (err, results) => {
+        if (err) {
+            response.status(500).json({
+                valid: false,
+                message: err,
+            })
+        }
+        const {rowCount} = results;
+        if (rowCount > 0) {
+            deleteEmailToken(response)
+            response.status(200).json({
+                valid: true,
+                message: "Valid Token",
+            })
+        } else {
+            response.status(403).json({
+                valid: false,
+                message: "Token is no longer valid"
+            })
+        }
+    })
+};
+
+deleteEmailToken = (user_id, response) => {
+    pool.query("DELETE FROM email_tokens WHERE user_id = $1", [user_id], (err, results) => {
+        if (err) {
+            response.status(500).json({
+                valid: false,
+                message: err,
+            })
+        }
+    })
+};
+
 module.exports = {
     registerUser,
     checkUser,
@@ -416,4 +544,6 @@ module.exports = {
     addToCart,
     getCart,
     logoutUser,
+    requestResetPassword,
+    resetPassword,
 };

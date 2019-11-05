@@ -46,6 +46,9 @@ app.delete('/cart/:item_id', db.removeFromCart);
 app.get('/orders', db.getUserOrders);
 app.post('/orders', db.orderCart);
 
+app.get('/user/password', db.requestResetPassword);
+app.get('/user/password/:token', db.resetPassword);
+
 app.listen(port, function () {
     console.log('Example app listening on '+port);
 });

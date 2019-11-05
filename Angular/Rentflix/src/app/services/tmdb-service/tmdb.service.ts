@@ -5,7 +5,12 @@ export interface Movie {
   releaseDate: any;
   posterPath: any;
 }
-
+export interface Movie2 {
+  title: any;
+  releaseDate: any;
+  posterPath: any;
+  timeAdded: any;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +21,7 @@ export class TMDBService {
   private apiDetails  = `https://api.themoviedb.org/3/movie`;
   private apiSearch = `https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}`;
   private customMovieArray: Movie[];
+  private customMovieArray2: Movie2[];
   private totalCartCost = 0.00;
   private newest;
   private topRated;
@@ -38,6 +44,7 @@ export class TMDBService {
   public getPopular = () => this.popular;
   public getMovie = () => this.movie;
   public getMovieArray = () => this.customMovieArray;
+  public getMovieArray2 = () => this.customMovieArray2;
   public getTotalCartCost = () => this.totalCartCost;
   public resetTotalCartCost = () => this.totalCartCost = 0.00;
   public getReviews = () => this.reviews;
@@ -129,6 +136,7 @@ export class TMDBService {
 
 public clearMovieArray() {
     this.customMovieArray = [];
+    this.customMovieArray2 = [];
 }
   async getMovieFromID2(id) {
     function updateCost(data: any) {
@@ -137,8 +145,6 @@ public clearMovieArray() {
       if (year >= 2019) { return 8.99; } else if (year <= 2018 && year > 2015) { return 5.99; }
       return 3.99;
     }
-
-
     this.http
       .get(
         `${this.apiDetails}/${id}?api_key=${this.apiKey}`,
@@ -147,9 +153,24 @@ public clearMovieArray() {
       .subscribe(
         response => {
           const responseBody = JSON.parse(response);
-          // console.log(responseBody);
+           // console.log(responseBody);
           this.customMovieArray.push({title: responseBody.title, releaseDate: responseBody.release_date, posterPath: responseBody.poster_path});
           this.totalCartCost += updateCost(responseBody.release_date);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+  async getMovieFromID3(objs) {
+    this.http.get(`${this.apiDetails}/${objs.item_id}?api_key=${this.apiKey}`,
+        { responseType: 'text' }
+      ).subscribe(
+        response => {
+          const responseBody = JSON.parse(response);
+          // console.log(responseBody);
+          this.customMovieArray2.push({title: responseBody.title, releaseDate: responseBody.release_date, posterPath: responseBody.poster_path, timeAdded: objs.purchase_date});
+          // this.totalCartCost += updateCost1(responseBody.release_date);
         },
         err => {
           console.log(err);
@@ -263,6 +284,6 @@ public clearMovieArray() {
       });
   }
 
-  
+
 
 }
