@@ -99,7 +99,7 @@ const normalRegister = (email, username, password, response) => {
         console.log(email);
         console.log(username);
         console.log(hash);
-        pool.query('INSERT INTO users (username, hash, email) VALUES ($1, $2, $3)', [username, hash, email], (error, results) => {
+        pool.query('INSERT INTO users (username, hash, email, google_reg) VALUES ($1, $2, $3, false)', [username, hash, email], (error, results) => {
             if(error){
                 response.status(400).json({
                     valid: false,
@@ -117,7 +117,7 @@ const normalRegister = (email, username, password, response) => {
 
 const googleRegister = (email, username, password, response) => {
     bcrypt.hash(password, saltRounds, function(err, hash) {
-        pool.query('INSERT INTO users (email, username, hash) VALUES ($1, $2, $3)', [email, username, hash], (error, results) => {
+        pool.query('INSERT INTO users (email, username, hash, google_reg) VALUES ($1, $2, $3, true)', [email, username, hash], (error, results) => {
             if(error){
                 response.status(400).json({
                     valid: false,
@@ -137,7 +137,7 @@ const googleRegister = (email, username, password, response) => {
 const checkUser = (request, response) => {
     const username = request.get('username');
     const plainTextPass = request.get('plainTextPass');
-    pool.query('SELECT user_id, hash FROM users WHERE username = $1', [username], (error, results) => {
+    pool.query('SELECT user_id, hash FROM users WHERE username = $1 AND google_reg=false', [username], (error, results) => {
         if(error){
             response.status(404).json({
                 valid: false,
@@ -224,6 +224,7 @@ const getCart = (request, response) => {
 
 const orderCart = (request, response) => {
     const token = request.get('X-Requested-With');
+    console.log(token);
     checkToken(token, response).then(user_id => {
         pool.query('SELECT item_id FROM shopping_cart WHERE user_id = $1', [user_id], (error, results) => {
             if (error) {
