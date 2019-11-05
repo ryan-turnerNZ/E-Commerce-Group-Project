@@ -17,6 +17,12 @@
     "express": "^4.17.1",
     "googleapis": "^44.0.0",
     "jsonwebtoken": "^8.5.1",
-    "pg": "^7.12.1"
+    "nodemailer": "^6.3.1",
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "pg": "^7.12.1",
+    "@sendgrid/mail": "^6.4.0"
+  },
+  "devDependencies": {
+    "@sendgrid/mail": "^6.4.0"
   }
 }
