@@ -15,6 +15,7 @@ const bodyParser = require('body-parser');
 const db = require('./queries');
 
 
+
 const corsOptions = {
     origin: '',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204

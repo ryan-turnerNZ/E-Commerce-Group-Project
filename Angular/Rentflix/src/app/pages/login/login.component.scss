@@ -2,3 +2,8 @@
     background-color: rgb(246,246,246);
     min-height: 80vh
 }
+.has-error input[type="username"],
+.has-error input[type="password"] {
+  border-color: rgb(216, 12, 12);
+  color: rgb(230, 14, 14);
+}
