@@ -24,9 +24,7 @@ const options = {
         api_user: 'apikey',
         api_key: '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'
     }
-}
-
-//const transporter = nodemailer.createTransport(sgTransport(options));
+};
 
 const privateKey = fs.readFileSync('./private.pem', 'utf8');
 
