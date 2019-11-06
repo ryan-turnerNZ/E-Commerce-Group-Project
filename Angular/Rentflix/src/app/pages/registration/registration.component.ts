@@ -47,7 +47,7 @@ export class RegistrationComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-    console.log(value.username + ' ' + value.password);
+    console.log(value.username + ' ' + value.password + ' ' + value.email);
     this.loginService.registerUser(value.email, value.username, value.password).then(res => {
       res.subscribe(data => {
         const response = (data as {valid: boolean, message: string});

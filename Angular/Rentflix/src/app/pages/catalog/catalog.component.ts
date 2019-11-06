@@ -33,7 +33,6 @@ export class CatalogComponent implements OnInit {
     this.TMDBService.discoverNewest();
     this.TMDBService.discoverPopular();
     this.TMDBService.getGenres();
-    this.numberOfPages();
   }
 
   /* Returns a list of four new releases to display
@@ -101,11 +100,13 @@ export class CatalogComponent implements OnInit {
     if (results > this.max - this.limit) {
         return  this.results.slice(results, this.max);
       }
+    this.numberOfPages(this.results);
     return  this.results.slice(results, this.limit + results);
   }
 
-  private numberOfPages() {
-    const page = Math.floor(this.max / this.limit);
+  private numberOfPages(res) {
+    this.pagesarray = [];
+    const page = Math.ceil(res.length / this.limit);
 
     for (let i = 0; i < page; i++) {
       this.pagesarray.push(i + 1);
