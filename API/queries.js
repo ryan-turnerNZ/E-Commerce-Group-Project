@@ -6,6 +6,11 @@
 
 require('dotenv').config();
 const { Pool } = require('pg');
+
+const verifier = requrie('google-id-token-verifier')
+const {OAuth2Client} = require('google-auth-library');
+
+
 const conString = process.env.DB_URL;
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -51,7 +56,13 @@ async function checkToken(token, response){
             message: 'Invalid Token Provided'
         });
     }
-};
+}
+
+async function checkGoogleToken(token, response) {
+    verifier.verify(token, process.env.CLIENT_ID, (err, tokenInfo) => {
+        console.log(tokenInfo);
+    })
+}
 
 const attemptUserToken = (user_id, token, response) => {
     pool.query('SELECT * FROM login_tokens WHERE user_id = $1', [user_id], (error, results) => {
@@ -95,7 +106,7 @@ const insertUserToken = (user_id, token, response) => {
 
 const registerUser = (request, response) => {
     const {googleReg, email, username, password} = request.body;
-    if (googleReg) {
+    if (googleReg === true) {
         googleRegister(email, username, response);
     } else {
         normalRegister(email, username, password, response);
@@ -137,6 +148,14 @@ const googleRegister = (email, username, response) => {
         }
     });
 };
+
+const googleLogIn = (request, response) => {
+    const token = request.get('X-Requested-With');
+    const email = request.get('email');
+    checkGoogleToken.then(data => {
+
+    })
+}
 
 const checkUser = (request, response) => {
     const username = request.get('username');
