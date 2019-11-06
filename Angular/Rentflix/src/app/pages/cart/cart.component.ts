@@ -34,6 +34,7 @@ export class CartComponent implements OnInit {
   constructor(private cartService: CartService, private loginService: LoginService, private moviedb: TMDBService, private ordersService: OrdersService, private router: Router) {}
 
   getCart() {
+    this.totalPrice = 0.00;
     this.cartService.getCart(this.loginService.getUserToken()).then(res => {
       res.subscribe(data => {
         const response = (data as {valid: boolean, message: any});
@@ -72,6 +73,16 @@ export class CartComponent implements OnInit {
         if (response.valid === true) {
           this.router.navigate(['/account/orders']);
         }
+      });
+    });
+  }
+
+  removeFromCart(id) {
+    this.cartService.removeFromCartItem(this.loginService.getUserToken(), id).then(res => {
+      res.subscribe(data => {
+        const response = data as {message, status};
+        console.log(response.message + response.status);
+        this.ngOnInit();
       });
     });
   }
