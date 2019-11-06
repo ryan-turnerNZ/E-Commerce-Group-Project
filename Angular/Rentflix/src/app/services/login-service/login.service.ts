@@ -25,6 +25,7 @@ export class LoginService {
   private serverlink = 'http://rent-flix-api.herokuapp.com';
   private timerExpired = false;
   private timer;
+  private yes = true;
 
 
   constructor(private http: HttpClient, private matDialog: MatDialog, private router: Router) {
@@ -42,7 +43,10 @@ export class LoginService {
   async registerUser(email, username, password) {
     return this.http.post(`${this.serverlink}/user`, {email, username, password}, httpOptions);
   }
-
+  async registerGoogleUser(email, username, password) {
+    const bool = true;
+    return this.http.post(`${this.serverlink}/user`, {email, username, password, bool}, httpOptions);
+  }
   async getAccountDetails(token: string) {
     httpOptions.headers =
       httpOptions.headers.set('X-Requested-With', token);
