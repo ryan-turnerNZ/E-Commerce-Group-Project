@@ -5,6 +5,9 @@
  */
 
 const express = require('express');
+// var cacheControl = require("express-cache-control") 
+var cacheResponseDirective = require('express-cache-response-directive');
+
 const app = express();
 const cors = require('cors');
 const port = process.env.PORT || 8080;
@@ -23,11 +26,19 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, username, plainTextPass, email");
     res.header("Access-Control-Allow-Methods", "*");
-
     next();
 });
 
+// app.use(cacheControl({
+//     maxAge: 60
+//   }));
+app.use(cacheResponseDirective());
+
 app.get('/', function (req, res) {
+    // res.cacheControl = {
+    //     maxAge: 86400 // 24 hours
+    // };
+    res.cacheControl({maxAge: 86400});
     res.send('Rent FLix API');
 });
 
