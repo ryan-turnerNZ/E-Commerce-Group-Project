@@ -2,14 +2,12 @@
  * Author: Ryan Turner
  *
  * Ryan Turner worked on this file himself
- * (Annisha added caching)
  */
 
 require('dotenv').config();
 const { Pool } = require('pg');
-var cacheControl = require("express-cache-control") 
 
-const verifier = requrie('google-id-token-verifier')
+const verifier = require('google-id-token-verifier')
 const {OAuth2Client} = require('google-auth-library');
 
 
@@ -40,10 +38,6 @@ const generateLoginToken = (userId) => {
 };
 
 async function checkToken(token, response){
-    response.cacheControl = {
-        noCache: true
-    };
-    res.send('Rent FLix API');
     const decoded = jwt.verify(token, privateKey, {algorithm: 'HS256'});
     if (decoded) {
         const {rowCount} = await pool.query('SELECT user_id FROM login_tokens WHERE user_id = $1', [decoded.aud]);
@@ -71,9 +65,6 @@ async function checkGoogleToken(token, response) {
 }
 
 const attemptUserToken = (user_id, token, response) => {
-    response.cacheControl = {
-        noCache: true
-    };
     pool.query('SELECT * FROM login_tokens WHERE user_id = $1', [user_id], (error, results) => {
         const {rowCount} = results;
         if (rowCount>0) {
@@ -88,9 +79,6 @@ const attemptUserToken = (user_id, token, response) => {
 };
 
 async function deleteToken(user_id, response) {
-    response.cacheControl = {
-        noCache: true
-    };
     await pool.query('DELETE FROM login_tokens WHERE user_id = $1', [user_id], (error, results) => {
         if (error) {
             response.status(404).json({
@@ -102,9 +90,6 @@ async function deleteToken(user_id, response) {
 }
 
 const insertUserToken = (user_id, token, response) => {
-    response.cacheControl = {
-        noCache: true
-    };
     pool.query('INSERT INTO login_tokens (user_id, token) VALUES ($1, $2)', [user_id, token], (error, results) => {
         if (error) {
             response.status(404).json({
@@ -120,21 +105,15 @@ const insertUserToken = (user_id, token, response) => {
 }
 
 const registerUser = (request, response) => {
-    response.cacheControl = {
-        noCache: true
-    };
-    const {googleReg, email, username, password} = request.body;
-    if (googleReg === true) {
-        googleRegister(email, username, response);
+    const {bool, email, username, password, token} = request.body;
+    if (bool === true) {
+        googleRegister(email, username, response, token);
     } else {
         normalRegister(email, username, password, response);
     }
 };
 
 const normalRegister = (email, username, password, response) => {
-    response.cacheControl = {
-        noCache: true
-    };
     bcrypt.hash(password, saltRounds, function(err, hash) {
         pool.query('INSERT INTO users (username, hash, email, google_reg) VALUES ($1, $2, $3, false)', [username, hash, email], (error, results) => {
             if(error){
@@ -152,36 +131,49 @@ const normalRegister = (email, username, password, response) => {
     });
 };
 
-const googleRegister = (email, username, response) => {
-    pool.query('INSERT INTO users (email, username, google_reg) VALUES ($1, $2, true)', [email, username], (error, results) => {
-        if(error){
+const googleRegister = (email, username, response, token) => {
+    pool.query('SELECT * FROM users where email = $1, and google_reg = true', [email], (error, results) => {
+        if (error) {
             response.status(400).json({
                 valid: false,
                 message: error
             });
         }
         const {rowCount} = results;
-        if (rowCount > 0) {
-            response.status(201).json({
-                valid: true,
-                message: "Registered with google"
+        if(rowCount > 0) {
+            checkGoogleToken(token, response).then(user_id => {
+                console.log(user_id)
+            })
+        } else {
+            pool.query('INSERT INTO users (email, username, google_reg) VALUES ($1, $2, true)', [email, username], (error, results) => {
+                if(error){
+                    response.status(400).json({
+                        valid: false,
+                        message: error
+                    });
+                }
+                const {rowCount} = results;
+                if (rowCount > 0) {
+                    response.status(201).json({
+                        valid: true,
+                        message: "Registered with google"
+                    });
+                }
             });
         }
-    });
+
+    })
+
 };
 
-const googleLogIn = (request, response) => {
-    const token = request.get('X-Requested-With');
-    const email = request.get('email');
+const checkGoogleUser = (request, response) => {
+    const {token, email, username, bool} = request.body;
     checkGoogleToken.then(data => {
 
     })
 }
 
 const checkUser = (request, response) => {
-    response.cacheControl = {
-        noCache: true
-    };
     const username = request.get('username');
     const plainTextPass = request.get('plainTextPass');
     pool.query('SELECT user_id, hash FROM users WHERE username = $1 AND google_reg=false', [username], (error, results) => {
@@ -207,9 +199,6 @@ const checkUser = (request, response) => {
 };
 
 const addToCart = (request, response) => {
-    response.cacheControl = {
-        maxAge: 86400 // 24 hours
-    };
     const token = request.get('X-Requested-With');
     const {item_id} = request.body;
     checkToken(token, response).then(user_id => {
@@ -229,9 +218,6 @@ const addToCart = (request, response) => {
 };
 
 const removeFromCart = (request, response) => {
-    response.cacheControl = {
-        maxAge: 86400 // 24 hours
-    };
     const token = request.get('X-Requested-With');
     const item_id = request.params.item_id;
     checkToken(token, response).then(user_id => {
@@ -259,7 +245,6 @@ const removeFromCart = (request, response) => {
 };
 
 const getCart = (request, response) => {
-    res.cacheControl({maxAge: 86400});
     const token = request.get('X-Requested-With');
     checkToken(token, response).then(user_id => {
         pool.query('SELECT item_id FROM shopping_cart WHERE user_id = $1', [user_id], (error, results) => {
@@ -278,7 +263,6 @@ const getCart = (request, response) => {
 };
 
 const orderCart = (request, response) => {
-    res.cacheControl({maxAge: 86400});
     const token = request.get('X-Requested-With');
     checkToken(token, response).then(user_id => {
         pool.query('SELECT item_id FROM shopping_cart WHERE user_id = $1', [user_id], (error, results) => {
@@ -349,7 +333,6 @@ const orderCart = (request, response) => {
 };
 
 const getUserOrders = (request, response) => {
-    res.cacheControl({maxAge: 86400});
     const token = request.get('X-Requested-With');
     checkToken(token, response).then(user_id => {
         pool.query('SELECT purchase_id, item_id, purchase_date FROM purchases WHERE user_id = $1', [user_id], (error, results) => {
@@ -368,7 +351,6 @@ const getUserOrders = (request, response) => {
 };
 
 const getUserDetails = (request, response) => {
-    res.cacheControl({maxAge: 86400});
     const token = request.get('X-Requested-With');
     checkToken(token, response).then(user_id => {
         pool.query('SELECT * from users WHERE user_id = $1', [user_id], (error, results) => {
@@ -387,9 +369,6 @@ const getUserDetails = (request, response) => {
 };
 
 const changeUserDetails = (request, response) => {
-    response.cacheControl = {
-        noCache: true
-    };
     const token = request.get('X-Requested-With');
     const {username, new_username} = request.body;
     checkToken(token, response).then(user_id => {
@@ -420,9 +399,6 @@ const changeUserDetails = (request, response) => {
 };
 
 const deleteAccount = (request, response) => {
-    response.cacheControl = {
-        noCache: true
-    };
     const token = request.get('X-Requested-With');
     checkToken(token, response).then(num => {
         if (num>0) {
@@ -435,9 +411,6 @@ const deleteAccount = (request, response) => {
 };
 
 const logoutUser = (request, response) => {
-    response.cacheControl = {
-        noCache: true
-    };
     const token = request.get('X-Requested-With');
     if (token.length<1) {
         response.status(401).json({
@@ -470,9 +443,6 @@ const logoutUser = (request, response) => {
 };
 
 const requestResetPassword = (request, response) => {
-    response.cacheControl = {
-        noCache: true
-    };
     const token = request.get('X-Requested-With');
     const username = request.get('username');
     checkToken(token, response).then((user_id) => {
@@ -544,9 +514,6 @@ const generateOneTimeToken = (userId) => {
 };
 
 const resetPassword = (request, response) => {
-    response.cacheControl = {
-        noCache: true
-    };
     const token = request.params.token;
     const decoded = jwt.verify(token, privateKey, {algorithm: 'HS256'})
     if (!decoded) {
@@ -595,6 +562,7 @@ deleteEmailToken = (user_id, response) => {
 module.exports = {
     registerUser,
     checkUser,
+    checkGoogleUser,
     deleteAccount,
     changeUserDetails,
     getUserDetails,
