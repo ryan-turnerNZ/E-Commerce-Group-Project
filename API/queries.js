@@ -98,7 +98,7 @@ const insertUserToken = (user_id, token, response) => {
 const registerUser = (request, response) => {
     const {googleReg, email, username, password} = request.body;
     if (googleReg) {
-        googleRegister(email, username, password, response);
+        googleRegister(email, username, response);
     } else {
         normalRegister(email, username, password, response);
     }
@@ -122,23 +122,21 @@ const normalRegister = (email, username, password, response) => {
     });
 };
 
-const googleRegister = (email, username, password, response) => {
-    bcrypt.hash(password, saltRounds, function(err, hash) {
-        pool.query('INSERT INTO users (email, username, hash, google_reg) VALUES ($1, $2, $3, true)', [email, username, hash], (error, results) => {
-            if(error){
-                response.status(400).json({
-                    valid: false,
-                    message: error
-                });
-            }
-            const {rowCount} = results;
-            if (rowCount > 0) {
-                response.status(201).json({
-                    valid: true,
-                    message: "Registered with google"
-                });
-            }
-        });
+const googleRegister = (email, username, response) => {
+    pool.query('INSERT INTO users (email, username, google_reg) VALUES ($1, $2, true)', [email, username], (error, results) => {
+        if(error){
+            response.status(400).json({
+                valid: false,
+                message: error
+            });
+        }
+        const {rowCount} = results;
+        if (rowCount > 0) {
+            response.status(201).json({
+                valid: true,
+                message: "Registered with google"
+            });
+        }
     });
 };
 
@@ -149,7 +147,7 @@ const checkUser = (request, response) => {
         if(error){
             response.status(404).json({
                 valid: false,
-                message: null,
+                message: "Wrong username/password",
             });
         }
         const {user_id, hash} = results.rows[0];
@@ -160,7 +158,7 @@ const checkUser = (request, response) => {
             } else {
                 response.status(422).json({
                     valid: false,
-                    message: null,
+                    message: "Wrong username/password",
                 })
             }
         });
@@ -330,7 +328,8 @@ const getUserDetails = (request, response) => {
                 })
             }
             response.status(200).json({
-                results: results.rows,
+                valid: true,
+                message: results.rows,
             })
         })
     });
@@ -454,7 +453,7 @@ const requestResetPassword = (request, response) => {
                 from: 'rentflixhelp@gmail.com',
                 to: email,
                 subject: 'Password Reset',
-                html: '<p>Click <a href="https://rent-flix-api.herokuapp.com/user/password/' + secToken + '">here</a> to reset your password</p>'
+                html: '<p>Click <a href="https://rent-flix.herokuapp.com/reset/' + secToken + '">here</a> to reset your password</p>'
             };
             pool.query("INSERT INTO email_tokens (user_id, token) VALUES ($1, $2)", [user_id, secToken], (err, results) => {
                 if (err) {
