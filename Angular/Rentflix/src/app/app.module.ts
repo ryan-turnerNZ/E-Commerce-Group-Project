@@ -28,9 +28,24 @@ import { SearchComponent } from './pages/search/search.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AlertComponent } from './component/alert/alert.component';
-import  {MatButtonToggleModule } from '@angular/material';
+import {MatButtonToggleModule } from '@angular/material';
 import { ResetPageComponent } from './pages/reset-page/reset-page.component';
 
+import {SocialLoginModule, AuthServiceConfig, LoginOpt} from 'angularx-social-login';
+import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+
+const googleLoginOptions: LoginOpt = {
+  scope: 'profile email'
+}; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
+let config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider("101333282092-er7fq8srlakvrpt1ubkcaad01je4scd9.apps.googleusercontent.com", googleLoginOptions),
+}
+]);
+export function provideConfig() {
+  return config;
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,9 +73,13 @@ import { ResetPageComponent } from './pages/reset-page/reset-page.component';
     NgbModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    SocialLoginModule,
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, {
+    provide: AuthServiceConfig,
+    useFactory: provideConfig
+  }],
   bootstrap: [AppComponent],
   entryComponents: [NavComponent, AlertComponent]
 })
