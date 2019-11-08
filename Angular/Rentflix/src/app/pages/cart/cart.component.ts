@@ -5,6 +5,7 @@ import {CartService} from '../../services/cart-service/cart.service';
 import {LoginService} from '../../services/login-service/login.service';
 import {OrdersService} from '../../services/orders-service/orders.service';
 import {Router} from '@angular/router';
+import { RecommendationService } from '../../services/recommendation-service/recommendation.service';
 
 export interface Movie {
   title: any;
@@ -27,11 +28,14 @@ export class CartComponent implements OnInit {
     this.totalPrice = 0.00;
     this.moviedb.resetTotalCartCost();
     this.getCart();
-
-
   }
 
-  constructor(private cartService: CartService, private loginService: LoginService, private moviedb: TMDBService, private ordersService: OrdersService, private router: Router) {}
+  constructor(private cartService: CartService, 
+    private loginService: LoginService, 
+    private moviedb: TMDBService, 
+    private ordersService: OrdersService, 
+    private router: Router, 
+    private recommendation: RecommendationService) {}
 
   getCart() {
     this.cartService.getCart(this.loginService.getUserToken()).then(res => {
@@ -58,21 +62,24 @@ export class CartComponent implements OnInit {
   }
   public getPrice(date) {
     const year = date.substring(0, 4);
-    console.log(year);
     if (year >= 2019) { return '$8.99'; } else if (year <= 2018 && year > 2015) { return '$5.99'; }
     return '$3.99';
   }
 
   addToOrder() {
-    console.log(this.loginService.getUserToken());
+    // console.log(this.loginService.getUserToken());
     this.ordersService.orderCart(this.loginService.getUserToken()).then(res => {
       res.subscribe(data => {
         const response = (data as {valid: boolean, message: any});
-        console.log(response.message);
+        // console.log(response.message);
         if (response.valid === true) {
-          this.router.navigate(['/account/orders']);
+          this.router.navigate(['/recommended']);
         }
       });
     });
+    // forward cart to recommendation service
+  this.recommendation.storeCart(this.getArray());
   }
+
+  
 }

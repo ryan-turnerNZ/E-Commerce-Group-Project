@@ -12,6 +12,8 @@ import { CartComponent } from './pages/cart/cart.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { ProductComponent } from './pages/product/product.component';
 import { CatalogComponent } from './pages/catalog/catalog.component';
+import { RecommendationComponent } from './pages/recommendation/recommendation.component';
+
 import { AuthGuard } from './guards/auth-guard.service';
 
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
@@ -62,7 +64,8 @@ export function provideConfig() {
     NavComponent,
     SearchComponent,
     AlertComponent,
-    ResetPageComponent
+    ResetPageComponent,
+    RecommendationComponent
   ],
   imports: [
     BrowserModule,

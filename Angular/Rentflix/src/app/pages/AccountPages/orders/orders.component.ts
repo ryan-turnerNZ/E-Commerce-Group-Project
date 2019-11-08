@@ -46,7 +46,6 @@ export class OrdersComponent implements OnInit {
   }
   public getPrice(date) {
     const year = date.substring(0, 4);
-    console.log(year);
     if (year >= 2019) { return '$8.99'; } else if (year <= 2018 && year > 2015) { return '$5.99'; }
     return '$3.99';
   }
@@ -67,7 +66,6 @@ export class OrdersComponent implements OnInit {
   calcTotal(r) {
     function updateCost(data: any) {
       const year = data.substring(0, 4);
-      console.log(year);
       if (year >= 2019) { return 8.99; } else if (year <= 2018 && year > 2015) { return 5.99; }
       return 3.99;
     }

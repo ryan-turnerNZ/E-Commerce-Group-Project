@@ -37,7 +37,7 @@
                 <div class="reviews" *ngFor="let r of getReview()">
                   <div class="review-item">
                     <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-empty.svg"></div>
-                    <h4>hello</h4><span class="text-muted">{{r?.author}}</span>
+                  <span class="text-muted">{{r?.author}}</span>
                     <p> {{r?.content |slice:0:800}}.......</p>
                     <p><a href="{{r?.url}}">Read the full review here</a></p>
                   </div>

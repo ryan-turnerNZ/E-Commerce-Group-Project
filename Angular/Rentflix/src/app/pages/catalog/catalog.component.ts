@@ -63,15 +63,13 @@ export class CatalogComponent implements OnInit {
 
   public getWithGenre(id) {
     if (id) {
-      this.TMDBService.discoverByGenre(id, this.sort_by);
+      this.TMDBService.discoverByGenre(id);
       this.moviesWithGenre = this.TMDBService.getResults().slice(0, this.max);
     }
       // remove any results that have no poster
     if (this.moviesWithGenre) {
         return this.moviesWithGenre.filter(t => t.poster_path != null);
       }
-
-
   }
 
   /* Determines an arbitrary price for a given movie,

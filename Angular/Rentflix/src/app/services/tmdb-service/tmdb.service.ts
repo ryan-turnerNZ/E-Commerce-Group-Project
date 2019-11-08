@@ -4,6 +4,7 @@ export interface Movie {
   title: any;
   releaseDate: any;
   posterPath: any;
+  genres: any
 }
 export interface Movie2 {
   id: any;
@@ -33,6 +34,7 @@ export class TMDBService {
   private genres;
   private reviews;
   private related;
+  private recommended;
   private results;
   private searchResults;
 
@@ -53,6 +55,7 @@ export class TMDBService {
   public getReviews = () => this.reviews;
   public getRelated = () => this.related;
   public getResults = () => this.results;
+  public getRecommended = () => this.recommended;
   public getSearchResults = () => this.searchResults;
   public getGenresList = () => this.genres;
   public isValidSearch = () => this.validSearch;
@@ -157,7 +160,7 @@ public clearMovieArray() {
         response => {
           const responseBody = JSON.parse(response);
            // console.log(responseBody);
-          this.customMovieArray.push({title: responseBody.title, releaseDate: responseBody.release_date, posterPath: responseBody.poster_path});
+          this.customMovieArray.push({title: responseBody.title, releaseDate: responseBody.release_date, posterPath: responseBody.poster_path, genres: responseBody.genres});
           this.totalCartCost += updateCost(responseBody.release_date);
         },
         err => {
@@ -229,27 +232,40 @@ public clearMovieArray() {
     );
   }
 
-  public discoverByGenre(id: number, sort_by = 'popularity.desc') {
-    if (!id) {
-      this.discover(sort_by);
-      return;
-    }
-
-    this.http.get(`${this.apiDiscover}?api_key=${this.apiKey}&sort_by=${sort_by}&with_genres=${id}&language=en-US`, { responseType: 'text' })
+  public discoverByGenre(id: number) {
+    this.http.get(`${this.apiDiscover}?api_key=${this.apiKey}&sort_by=popularity.desc&with_genres=${id}&language=en-US`, { responseType: 'text' })
       .subscribe(response => {
         const responseBody = JSON.parse(response);
+        console.log(responseBody.results);
         this.results = responseBody.results;
+        this.recommended = responseBody.results;
+      }, err => {
+        console.log(err);
+      }
+    );
+    console.log(this.results);
+  }
+
+  public discoverByGenre2(id: number) {
+    this.http.get(`${this.apiDiscover}?api_key=${this.apiKey}&sort_by=popularity.desc&with_genres=${id}&language=en-US`, { responseType: 'text' })
+      .subscribe(response => {
+        const responseBody = JSON.parse(response);
+        console.log(responseBody.results);
+       this.recommended = responseBody.results;
+       console.log(this.recommended);
       }, err => {
         console.log(err);
       }
     );
   }
 
+
   public discover(sort_by = 'popularity.desc') {
     this.http.get(`${this.apiDiscover}?api_key=${this.apiKey}&sort_by=${sort_by}&language=en-US`, { responseType: 'text' })
       .subscribe(response => {
         const responseBody = JSON.parse(response);
         this.results = responseBody.results;
+        console.log(responseBody.results)
 
       }, err => {
         console.log(err);

@@ -1,0 +1,23 @@
+<main class="page login-page">
+        <section class="clean-block clean-form dark">
+          <div class="container">
+            <div class="block-heading" style="width: 1106px;height: 208px;">
+              <h1 class="text-info">You might like</h1>
+            </div>
+            <div class="items">
+                    <div class="row justify-content-center">
+                      <div class="col-sm-6 col-lg-3" *ngFor="let movie of getRecommendedMovies()">
+                        <div class="clean-related-item">
+                            <div class="image"><img class="img-fluid d-block mx-auto" [routerLink]="['/product', movie.id]" src="{{'https://image.tmdb.org/t/p/w500'+movie?.poster_path}}"></div>
+                            <div class="related-name">{{ movie.title }}
+                            <div class="rating"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star.svg"><img src="assets/img/star-half-empty.svg"><img src="assets/img/star-empty.svg"></div>
+                            <h4>{{getPrice(movie?.release_date)}}</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+          </div>
+        </section>
+      </main>
+      
