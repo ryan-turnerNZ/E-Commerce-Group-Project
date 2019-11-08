@@ -20,6 +20,7 @@ export class AccountComponent implements OnInit {
       res.subscribe(data => {
         const response = (data as {results: any});
         this.account = response.results;
+        console.log(this.account);
       });
     });
   }

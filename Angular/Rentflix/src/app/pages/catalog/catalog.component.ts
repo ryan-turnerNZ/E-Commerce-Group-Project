@@ -88,7 +88,6 @@ export class CatalogComponent implements OnInit {
   public displayResults(page) {
     const results = this.limit * (page - 1);
     const value = (document.getElementById('genres') as HTMLSelectElement).value;
-    console.log(value);
     if (value === 'any') {
       this.results  = this.getPopular();
     } else {

@@ -29,6 +29,7 @@ export class TMDBService {
   private customMovieArray2: Movie2[];
   private totalCartCost = 0.00;
   private newest;
+  private oldest;
   private topRated;
   private popular;
   private movie;
@@ -46,6 +47,7 @@ export class TMDBService {
   constructor(private http: HttpClient) {}
 
   public getNewest = () => this.newest;
+  public getOldest = () => this.oldest;
   public getTopRated = () => this.topRated;
   public getPopular = () => this.popular;
   public getMovie = () => this.movie;
@@ -81,6 +83,27 @@ export class TMDBService {
         }
       );
   }
+
+    /* Gets the olders movies from TMDB
+  to display on the landing page */
+  public discoverOldest(sort_by = 'date.desc') {
+    this.http
+      .get(
+        `${this.apiDiscover}?api_key=${this.apiKey}&sort_by=${sort_by}&language=en-US`,
+        { responseType: 'text' }
+      )
+      .subscribe(
+        response => {
+          const responseBody = JSON.parse(response);
+          // console.log(responseBody);
+          this.oldest = responseBody.results;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
 
   /* Gets the most popular movies from TMDB
   to display on the landing page */
@@ -233,7 +256,7 @@ public clearMovieArray() {
     );
   }
 
-  public discoverByGenre(id: number) {
+  public discoverByGenre(id: number, sort_by = 'popularity.desc') {
     this.http.get(`${this.apiDiscover}?api_key=${this.apiKey}&sort_by=popularity.desc&with_genres=${id}&language=en-US`, { responseType: 'text' })
       .subscribe(response => {
         const responseBody = JSON.parse(response);
