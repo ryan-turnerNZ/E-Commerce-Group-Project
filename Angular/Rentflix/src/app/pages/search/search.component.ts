@@ -23,7 +23,7 @@ export class SearchComponent implements OnInit {
   search(title: string) {
     // alert(title)
     this.TMDBService.searchTitle(title);
-    this.validSearch = this.TMDBService.isValidSearch();
+    // this.validSearch = this.TMDBService.isValidSearch();
   }
 
   public getSearchResults() {
@@ -31,8 +31,7 @@ export class SearchComponent implements OnInit {
     if (results) return results.filter(t => t.poster_path != null);
   }
 
-  public isValidSearch = () => this.validSearch;
-
+  public isValidSearch = () => this.TMDBService.isValidSearch();
 
 }
 
