@@ -43,9 +43,9 @@ export class LoginService {
   async registerUser(email, username, password) {
     return this.http.post(`${this.serverlink}/user`, {email, username, password}, httpOptions);
   }
-  async registerGoogleUser(email, username, password) {
+  async registerGoogleUser(email, username, token) {
     const bool = true;
-    return this.http.post(`${this.serverlink}/user`, {email, username, password, bool}, httpOptions);
+    return this.http.post(`${this.serverlink}/user`, {email, username, token, bool}, httpOptions);
   }
   async getAccountDetails(token: string) {
     httpOptions.headers =

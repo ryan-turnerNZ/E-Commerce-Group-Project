@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 export interface Movie {
+  id: any;
   title: any;
   releaseDate: any;
   posterPath: any;
@@ -160,7 +161,7 @@ public clearMovieArray() {
         response => {
           const responseBody = JSON.parse(response);
            // console.log(responseBody);
-          this.customMovieArray.push({title: responseBody.title, releaseDate: responseBody.release_date, posterPath: responseBody.poster_path, genres: responseBody.genres});
+          this.customMovieArray.push({id: responseBody.id, title: responseBody.title, releaseDate: responseBody.release_date, posterPath: responseBody.poster_path, genres: responseBody.genres});
           this.totalCartCost += updateCost(responseBody.release_date);
         },
         err => {

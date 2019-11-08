@@ -38,6 +38,7 @@ export class CartComponent implements OnInit {
     private recommendation: RecommendationService) {}
 
   getCart() {
+    this.totalPrice = 0.00;
     this.cartService.getCart(this.loginService.getUserToken()).then(res => {
       res.subscribe(data => {
         const response = (data as {valid: boolean, message: any});
@@ -81,5 +82,13 @@ export class CartComponent implements OnInit {
   this.recommendation.storeCart(this.getArray());
   }
 
-  
+  removeFromCart(id) {
+    this.cartService.removeFromCartItem(this.loginService.getUserToken(), id).then(res => {
+      res.subscribe(data => {
+        const response = data as {message, status};
+        console.log(response.message + response.status);
+        this.ngOnInit();
+      });
+    });
+  }
 }

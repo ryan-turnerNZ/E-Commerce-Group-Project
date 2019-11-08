@@ -24,6 +24,7 @@
                   <div class="col-md-5 product-info"><a class="product-name" href="#">{{m?.title}}</a>
                     <div class="product-specs">
                       <div><span>Release Date:&nbsp;</span><span class="value">{{m?.releaseDate}}</span></div>
+                      <div><span><a (click)="removeFromCart(m?.id)">Remove From Cart</a></span></div>
                     </div>
                   </div>
                   <div class="col-6 col-md-2 price"><span>{{getPrice(m?.releaseDate)}}</span></div>
