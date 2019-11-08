@@ -15,12 +15,16 @@ npm install
 3. Run the application in your browser
 
 ```
-npm start
+ng serve
 ```
 
 4. Explore the application at `http://localhost:4200/`
 
 Alternatively, view our app at https://rent-flix.herokuapp.com/
+```
+Username: annisha
+Password: password
+```
 
 Enjoy!
 
