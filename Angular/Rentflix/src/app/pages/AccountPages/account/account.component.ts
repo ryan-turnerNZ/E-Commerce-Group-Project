@@ -18,11 +18,15 @@ export class AccountComponent implements OnInit {
   getAccountDetails() {
     this.loginService.getAccountDetails(this.loginService.getUserToken()).then(res => {
       res.subscribe(data => {
-        const response = (data as {results: any});
-        this.account = response.results;
+        const response = (data as {message: any});
+        this.account = response.message;
         console.log(this.account);
       });
     });
+  }
+
+  getUserToken() {
+    return this.loginService.getUserToken();
   }
 
 }

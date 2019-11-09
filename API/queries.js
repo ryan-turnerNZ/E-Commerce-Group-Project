@@ -178,7 +178,7 @@ const checkUser = (request, response) => {
     const plainTextPass = request.get('plainTextPass');
     pool.query('SELECT user_id, hash FROM users WHERE username = $1 AND google_reg=false', [username], (error, results) => {
         if(error){
-            response.status(404).json({
+            response.status(500).json({
                 valid: false,
                 message: "Wrong username/password",
             });
@@ -189,7 +189,7 @@ const checkUser = (request, response) => {
                 const token = generateLoginToken(user_id);
                 attemptUserToken(user_id, token, response);
             } else {
-                response.status(422).json({
+                response.status(401).json({
                     valid: false,
                     message: "Wrong username/password",
                 })
