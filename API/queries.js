@@ -60,7 +60,11 @@ async function checkToken(token, response){
 
 async function checkGoogleToken(token, response) {
     verifier.verify(token, process.env.CLIENT_ID, (err, tokenInfo) => {
-        console.log(tokenInfo);
+        if (err) {
+            console.log("ERROR:" + err)
+        }
+        console.log(token)
+        return tokenInfo;
     })
 }
 
@@ -132,7 +136,7 @@ const normalRegister = (email, username, password, response) => {
 };
 
 const googleRegister = (email, username, response, token) => {
-    pool.query('SELECT * FROM users where email = $1, and google_reg = true', [email], (error, results) => {
+    pool.query('SELECT * FROM users WHERE email = $1 AND google_reg = true', [email], (error, results) => {
         if (error) {
             response.status(400).json({
                 valid: false,
@@ -142,7 +146,7 @@ const googleRegister = (email, username, response, token) => {
         const {rowCount} = results;
         if(rowCount > 0) {
             checkGoogleToken(token, response).then(user_id => {
-                console.log(user_id)
+                console.log("User ID: " + user_id)
             })
         } else {
             pool.query('INSERT INTO users (email, username, google_reg) VALUES ($1, $2, true)', [email, username], (error, results) => {
@@ -154,10 +158,20 @@ const googleRegister = (email, username, response, token) => {
                 }
                 const {rowCount} = results;
                 if (rowCount > 0) {
-                    response.status(201).json({
-                        valid: true,
-                        message: "Registered with google"
-                    });
+                    pool.query('SELECT user_id FROM users WHERE email = $1 AND google_reg = true', [email], (error, results) => {
+                        if (error) {
+                            response.status(400).json({
+                                valid: false,
+                                message: error
+                            });
+                        }
+                        const {user_id} = results.rows;
+                        const login_token = generateLoginToken(user_id);
+                        response.status(201).json({
+                            valid: true,
+                            message: login_token,
+                        });
+                    })
                 }
             });
         }
@@ -178,7 +192,7 @@ const checkUser = (request, response) => {
     const plainTextPass = request.get('plainTextPass');
     pool.query('SELECT user_id, hash FROM users WHERE username = $1 AND google_reg=false', [username], (error, results) => {
         if(error){
-            response.status(500).json({
+            response.status(404).json({
                 valid: false,
                 message: "Wrong username/password",
             });
@@ -189,7 +203,7 @@ const checkUser = (request, response) => {
                 const token = generateLoginToken(user_id);
                 attemptUserToken(user_id, token, response);
             } else {
-                response.status(401).json({
+                response.status(422).json({
                     valid: false,
                     message: "Wrong username/password",
                 })

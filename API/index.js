@@ -11,6 +11,8 @@ const port = process.env.PORT || 8080;
 const bodyParser = require('body-parser');
 const db = require('./queries');
 
+
+
 const corsOptions = {
     origin: '',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
@@ -22,7 +24,6 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, username, plainTextPass, email");
     res.header("Access-Control-Allow-Methods", "*");
-
     next();
 });
 
