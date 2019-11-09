@@ -258,6 +258,7 @@ const getCart = (request, response) => {
                 valid: true,
                 message: results.rows,
             })
+            
         })
     });
 };
@@ -346,6 +347,7 @@ const getUserOrders = (request, response) => {
                 valid: true,
                 message: results.rows,
             })
+           
         })
     });
 };
@@ -364,6 +366,7 @@ const getUserDetails = (request, response) => {
                 valid: true,
                 message: results.rows,
             })
+    
         })
     });
 };
