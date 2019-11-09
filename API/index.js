@@ -11,8 +11,13 @@ const port = process.env.PORT || 8080;
 const bodyParser = require('body-parser');
 const db = require('./queries');
 
+<<<<<<< HEAD
 const CacheControl = require("express-cache-control");
 const cache = new CacheControl().middleware;
+=======
+var CacheControl = require("express-cache-control");
+var cache = new CacheControl().middleware;
+>>>>>>> fa31641ebdbe831135f0eccd3dba22cd4d47ae02
 
 const corsOptions = {
     origin: '',
@@ -32,7 +37,6 @@ app.use(function(req, res, next) {
 
 
 app.get('/', cache("seconds", 27), function (req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.send('Rent FLix API');
 });
 
