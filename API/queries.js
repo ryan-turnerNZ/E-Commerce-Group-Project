@@ -56,13 +56,17 @@ async function checkToken(token, response){
     }
 }
 
-async function checkGoogleToken(token, response) {
+function checkGoogleToken(token, response) {
     verifier.verify(token, process.env.CLIENT_ID, (err, tokenInfo) => {
         if (err) {
-            console.log("ERROR:" + err)
+            response.status(401).json({
+                valid: false,
+                message: err,
+            });
+            console.log(err);
+            return;
         }
-        console.log(token)
-        return tokenInfo;
+        googleLogin(tokenInfo, response);
     })
 }
 
@@ -98,11 +102,13 @@ const insertUserToken = (user_id, token, response) => {
                 valid: false,
                 message: error
             })
+        } else {
+            response.status(200).json({
+                message: token,
+                valid: true
+            });
         }
-        response.status(200).json({
-            message: token,
-            valid: true
-        });
+
     })
 }
 
@@ -124,28 +130,54 @@ const normalRegister = (email, username, password, response) => {
                     message: error
                 });
                 console.log(error)
+            } else {
+                response.status(201).json({
+                    valid: true,
+                    message: 'User Registered'
+                })
             }
-            response.status(201).json({
-                valid: true,
-                message: 'User Registered'
-            })
         });
     });
 };
 
-const googleRegister = (email, username, response, token) => {
-    pool.query('SELECT * FROM users WHERE email = $1 AND google_reg = true', [email], (error, results) => {
+const googleLogin = (data, response) => {
+    console.log(data);
+    const {email, name} = data;
+    pool.query('SELECT user_id FROM users WHERE email = $1 AND google_reg=true', [email], (error, results) => {
+        if(error){
+            response.status(500).json({
+                valid: false,
+                message: error,
+            });
+        } else{
+            const {rowCount} = results;
+            if (rowCount > 0) {
+                const {user_id} = results.rows[0];
+                const login_token = generateLoginToken(user_id);
+                attemptUserToken(user_id, login_token, response);
+            } else {
+                response.status(500).json({
+                    valid: false,
+                    message:"Server Error",
+                });
+            }
+        }
+
+    });
+}
+
+const googleRegister = (reg_email, username, response, token) => {
+    pool.query('SELECT * FROM users WHERE email = $1 AND google_reg = true', [reg_email], (error, results) => {
         if (error) {
             response.status(400).json({
                 valid: false,
                 message: error
             });
+            return;
         }
         const {rowCount} = results;
         if(rowCount > 0) {
-            checkGoogleToken(token, response).then(user_id => {
-                console.log("User ID: " + user_id)
-            })
+            checkGoogleToken(token, response);
         } else {
             pool.query('INSERT INTO users (email, username, google_reg) VALUES ($1, $2, true)', [email, username], (error, results) => {
                 if(error){
@@ -153,24 +185,25 @@ const googleRegister = (email, username, response, token) => {
                         valid: false,
                         message: error
                     });
+                } else {
+                    const {rowCount} = results;
+                    if (rowCount > 0) {
+                        pool.query('SELECT user_id FROM users WHERE email = $1 AND google_reg = true', [email], (error, results) => {
+                            if (error) {
+                                response.status(400).json({
+                                    valid: false,
+                                    message: error
+                                });
+                            } else {
+                                const {user_id} = results.rows[0];
+                                const login_token = generateLoginToken(user_id);
+                                attemptUserToken(user_id, token, response);
+                            }
+
+                        })
+                    }
                 }
-                const {rowCount} = results;
-                if (rowCount > 0) {
-                    pool.query('SELECT user_id FROM users WHERE email = $1 AND google_reg = true', [email], (error, results) => {
-                        if (error) {
-                            response.status(400).json({
-                                valid: false,
-                                message: error
-                            });
-                        }
-                        const {user_id} = results.rows;
-                        const login_token = generateLoginToken(user_id);
-                        response.status(201).json({
-                            valid: true,
-                            message: login_token,
-                        });
-                    })
-                }
+
             });
         }
 
@@ -180,10 +213,8 @@ const googleRegister = (email, username, response, token) => {
 
 const checkGoogleUser = (request, response) => {
     const {token, email, username, bool} = request.body;
-    checkGoogleToken.then(data => {
-
-    })
-}
+    checkGoogleToken(token, response)
+};
 
 const checkUser = (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
@@ -195,19 +226,21 @@ const checkUser = (request, response) => {
                 valid: false,
                 message: "Wrong username/password",
             });
+        } else{
+            const {user_id, hash} = results.rows[0];
+            bcrypt.compare(plainTextPass, hash, (err, res) => {
+                if (res) {
+                    const token = generateLoginToken(user_id);
+                    attemptUserToken(user_id, token, response);
+                } else {
+                    response.status(422).json({
+                        valid: false,
+                        message: "Wrong username/password",
+                    })
+                }
+            });
         }
-        const {user_id, hash} = results.rows[0];
-        bcrypt.compare(plainTextPass, hash, (err, res) => {
-            if (res) {
-                const token = generateLoginToken(user_id);
-                attemptUserToken(user_id, token, response);
-            } else {
-                response.status(422).json({
-                    valid: false,
-                    message: "Wrong username/password",
-                })
-            }
-        });
+
     });
 };
 
@@ -221,11 +254,13 @@ const addToCart = (request, response) => {
                     valid: false,
                     message: 'Movie is already rented out by this user'
                 })
+            } else {
+                response.status(200).json({
+                    valid: true,
+                    message: 'Movie successfully rented'
+                })
             }
-            response.status(200).json({
-                valid: true,
-                message: 'Movie successfully rented'
-            })
+
         })
     });
 };
@@ -266,12 +301,14 @@ const getCart = (request, response) => {
                     valid: false,
                     message: error
                 })
+            } else {
+                response.status(200).json({
+                    valid: true,
+                    message: results.rows,
+                })
             }
-            response.status(200).json({
-                valid: true,
-                message: results.rows,
-            })
-            
+
+
         })
     });
 };
@@ -355,12 +392,12 @@ const getUserOrders = (request, response) => {
                     valid: false,
                     error: error
                 })
+            } else{
+                response.status(200).json({
+                    valid: true,
+                    message: results.rows,
+                })
             }
-            response.status(200).json({
-                valid: true,
-                message: results.rows,
-            })
-           
         })
     });
 };
@@ -374,12 +411,12 @@ const getUserDetails = (request, response) => {
                     valid: false,
                     message: error
                 })
+            } else {
+                response.status(200).json({
+                    valid: true,
+                    message: results.rows,
+                })
             }
-            response.status(200).json({
-                valid: true,
-                message: results.rows,
-            })
-    
         })
     });
 };
@@ -428,12 +465,6 @@ const deleteAccount = (request, response) => {
 
 const logoutUser = (request, response) => {
     const token = request.get('X-Requested-With');
-    if (token.length<1) {
-        response.status(401).json({
-            valid: false,
-            message: 'You are not logged in',
-        })
-    }
     checkToken(token, response).then(user_id => {
         pool.query('DELETE FROM login_tokens WHERE user_id = $1 AND token = $2', [user_id, token], (error, results) => {
             if (error) {
@@ -441,19 +472,21 @@ const logoutUser = (request, response) => {
                     valid: false,
                     message: error
                 });
-            }
-            const {rowCount} = results;
-            if (rowCount > 0){
-                response.status(200).json({
-                    valid: true,
-                    message: 'Logout successful'
-                })
             } else {
-                response.status(404).json({
-                    valid: false,
-                    message: 'Invalid token'
-                });
+                const {rowCount} = results;
+                if (rowCount > 0){
+                    response.status(200).json({
+                        valid: true,
+                        message: 'Logout successful'
+                    })
+                } else {
+                    response.status(404).json({
+                        valid: false,
+                        message: 'Invalid token'
+                    });
+                }
             }
+
         })
     });
 };

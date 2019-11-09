@@ -15,7 +15,7 @@
                                     <div class="column">
                                         <p class="label">Username</p>
                                         <p class="detail" *ngIf="account">{{ account[0].username }}</p>
-                                        <button type="button" class="reset-pwd btn btn-outline-danger">Reset
+                                        <button type="button" [routerLink]="['/reset', getUserToken()]"  class="reset-pwd btn btn-outline-danger">Reset
                                             Password</button>
                                     </div>
                                     <div class="column">
@@ -27,7 +27,7 @@
                         </div>
 
                         <div class="accordion second">
-                            <input id="toggle2" type="checkbox" checked class="accordion-toggle" name="toggle" />
+                            <input id="toggle2" type="checkbox" class="accordion-toggle" name="toggle" />
                             <label for="toggle2">Billing information</label>
                             <section class="billing">
                                 <div class="row">

@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
 
   signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(res => {
-      this.loginService.registerGoogleUser(res.email, res.firstName, res.authToken).then(response => {
+      this.loginService.registerGoogleUser(res.email, res.name, res.idToken).then(response => {
         response.subscribe(data => {
           const isOk = data as {valid, message};
           if (isOk.valid) {
@@ -69,5 +69,6 @@ export class LoginComponent implements OnInit {
         }
       });
     });
+
   }
 }
