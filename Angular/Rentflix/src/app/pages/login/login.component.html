@@ -28,6 +28,9 @@
                       <div *ngIf="isSubmitted && formControls.password.errors" class="help-block">
                         <div *ngIf="formControls.password.errors.required">Password is required</div>
                       </div>
+                    <div *ngIf="isSubmitted" class="help-block">
+                      <div *ngIf="isConfirmed">Is your Username and Password Correct?</div>
+                    </div>
                       <div class="form-group">
                         <div class="form-check"><input class="form-check-input" type="checkbox" id="checkbox"><label class="form-check-label" for="checkbox">Remember me</label></div>
                       </div><button class="btn btn-primary btn-block" type="submit">Log In</button>
@@ -35,11 +38,11 @@
                   <div class="justify-content-center align-items-center google"><button class="btn btn-primary btn-block" (click)="signInWithGoogle()">Sign in with Google</button></div>
                  </div>
               </div>
-             
+
             </div>
 
 
-      
+
     </div>
     </div>
 

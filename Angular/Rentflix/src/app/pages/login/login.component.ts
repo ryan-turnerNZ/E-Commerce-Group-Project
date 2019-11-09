@@ -5,6 +5,9 @@ import {Router} from '@angular/router';
 
 import {AuthService, SocialUser} from 'angularx-social-login';
 import { FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
+import {catchError} from "rxjs/operators";
+import {HttpErrorResponse} from "@angular/common/http";
+import {throwError} from "rxjs";
 
 
 @Component({
@@ -17,6 +20,7 @@ export class LoginComponent implements OnInit {
   private loggedIn: boolean;
   loginForm: FormGroup;
   private isSubmitted = false;
+  private isConfirmed = false;
   constructor(private formBuilder: FormBuilder, private loginService: LoginService, private router: Router, private authService: AuthService) {
     this.loginForm = formBuilder.group({
       username: ['', Validators.required] ,
@@ -66,8 +70,12 @@ export class LoginComponent implements OnInit {
         } else {
           console.log('Invalid Login');
           this.loginForm.controls.username.setErrors({invalid: true});
+          this.isConfirmed = true;
         }
       });
+    }).catch( err => {
+      console.log("guu");
+      this.isConfirmed = true;
     });
 
   }
