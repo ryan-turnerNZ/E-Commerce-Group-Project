@@ -53,10 +53,7 @@ export class RecommendationService {
   getRecommendedFromService(id: number) {
     console.log(id);
     this.TMDBService.discoverByGenre2(id);
-    
-    // this.recommended = this.TMDBService.getResults();
-    // console.log(this.recommended)
-  
+
   }
 
   getRecommendedMovies () {

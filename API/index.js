@@ -11,12 +11,14 @@ const port = process.env.PORT || 8080;
 const bodyParser = require('body-parser');
 const db = require('./queries');
 
-
+const CacheControl = require("express-cache-control");
+const cache = new CacheControl().middleware;
 
 const corsOptions = {
     origin: '',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,7 +29,10 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.get('/', function (req, res) {
+
+
+app.get('/', cache("seconds", 27), function (req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.send('Rent FLix API');
 });
 
@@ -35,16 +40,16 @@ app.get('/user/authentication', db.checkUser);
 app.get('/user/authentication/google', db.checkGoogleUser);
 app.delete('/user/authentication', db.logoutUser);
 
-app.get('/user/details', db.getUserDetails);
+app.get('/user/details', cache("hours", 24), db.getUserDetails);
 app.post('/user', db.registerUser);
 app.put('/user', db.changeUserDetails);
 app.delete('/user', db.deleteAccount);
 
-app.get('/cart', db.getCart);
+app.get('/cart', cache("hours", 24), db.getCart);
 app.post('/cart', db.addToCart);
 app.delete('/cart/:item_id', db.removeFromCart);
 
-app.get('/orders', db.getUserOrders);
+app.get('/orders', cache("hours", 24), db.getUserOrders);
 app.post('/orders', db.orderCart);
 
 app.get('/user/password', db.requestResetPassword);

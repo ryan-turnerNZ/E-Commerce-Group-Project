@@ -9,8 +9,6 @@ const { Pool } = require('pg');
 
 const verifier = require('google-id-token-verifier')
 const {OAuth2Client} = require('google-auth-library');
-
-
 const conString = process.env.DB_URL;
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -188,6 +186,7 @@ const checkGoogleUser = (request, response) => {
 }
 
 const checkUser = (request, response) => {
+    response.setHeader('Access-Control-Allow-Origin', '*');
     const username = request.get('username');
     const plainTextPass = request.get('plainTextPass');
     pool.query('SELECT user_id, hash FROM users WHERE username = $1 AND google_reg=false', [username], (error, results) => {
@@ -272,6 +271,7 @@ const getCart = (request, response) => {
                 valid: true,
                 message: results.rows,
             })
+            
         })
     });
 };
@@ -360,6 +360,7 @@ const getUserOrders = (request, response) => {
                 valid: true,
                 message: results.rows,
             })
+           
         })
     });
 };
@@ -378,6 +379,7 @@ const getUserDetails = (request, response) => {
                 valid: true,
                 message: results.rows,
             })
+    
         })
     });
 };
