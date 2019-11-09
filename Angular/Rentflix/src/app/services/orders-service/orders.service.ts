@@ -15,7 +15,7 @@ const httpOptions = {
 
 export class OrdersService {
 
-  private serverlink = 'http://rent-flix-api.herokuapp.com';
+  private serverlink = 'https://rent-flix-api.herokuapp.com';
 
 
   constructor(private http: HttpClient) {

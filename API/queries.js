@@ -174,6 +174,7 @@ const checkGoogleUser = (request, response) => {
 }
 
 const checkUser = (request, response) => {
+    response.setHeader('Access-Control-Allow-Origin', '*');
     const username = request.get('username');
     const plainTextPass = request.get('plainTextPass');
     pool.query('SELECT user_id, hash FROM users WHERE username = $1 AND google_reg=false', [username], (error, results) => {

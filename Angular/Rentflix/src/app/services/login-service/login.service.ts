@@ -22,7 +22,7 @@ export class LoginService {
 
   private userToken = '';
   private auth = false;
-  private serverlink = 'http://rent-flix-api.herokuapp.com';
+  private serverlink = 'https://rent-flix-api.herokuapp.com';
   private timerExpired = false;
   private timer;
   private yes = true;

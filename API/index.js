@@ -20,6 +20,7 @@ const corsOptions = {
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(function(req, res, next) {
@@ -32,11 +33,9 @@ app.use(function(req, res, next) {
 
 
 
-app.get('/', function (req, res) {
+app.get('/', cache("seconds", 27), function (req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.send('Rent FLix API');
-    res.cacheControl = {
-        maxAge: 86400
-    };
 });
 
 app.get('/user/authentication', db.checkUser);
