@@ -233,7 +233,7 @@ const removeFromCart = (request, response) => {
             if (rowCount > 0) {
                 response.status(200).json({
                     valid: true,
-                    message: 'Movie successfully rented'
+                    message: 'Movie successfully removed from cart'
                 })
             } else {
                 response.status(403).json({

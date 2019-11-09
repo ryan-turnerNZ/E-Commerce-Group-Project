@@ -11,7 +11,6 @@ const port = process.env.PORT || 8080;
 const bodyParser = require('body-parser');
 const db = require('./queries');
 
-
 var CacheControl = require("express-cache-control");
 var cache = new CacheControl().middleware;
 
@@ -34,7 +33,6 @@ app.use(function(req, res, next) {
 
 
 app.get('/', cache("seconds", 27), function (req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.send('Rent FLix API');
 });
 
